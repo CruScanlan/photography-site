@@ -1,0 +1,13 @@
+/*
+Inverse Triangle Methodology
+A-BEM | Atomaic - Block Element Modifier
+Camel Case
+
+o - objects
+c - components
+p - pages
+*/
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

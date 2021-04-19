@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Link } from "gatsby";
 
-import './NavBar.scss';
+import './NavBar.css';
 
 interface Props {
 
@@ -9,7 +9,7 @@ interface Props {
 
 const NavBar: React.FC<Props> = ({ children }) => {
     return (
-        <nav className="c-navbar">
+        <nav className="c-navbar container max-w-full bg-blue-500">
             <ul className="c-navbar__linkContainer">
                 <li className="c-navbar__link">
                     <Link to="/">Home</Link>
