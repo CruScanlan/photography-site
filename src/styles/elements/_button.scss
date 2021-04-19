@@ -1,0 +1,14 @@
+button {
+    background: $s-color--info;
+    border: none;
+    padding: 0.8em;
+    margin: 0;
+    font-size: inherit;
+    font-weight: inherit;
+    font-family: inherit;
+    color: inherit;
+    &:hover {
+        background: $s-color--info-dark;
+        cursor: pointer;
+    }
+  }
