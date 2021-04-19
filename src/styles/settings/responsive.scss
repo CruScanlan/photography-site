@@ -1,0 +1,45 @@
+/*
+ *  Responsive Settings
+ *    Provides settings for responsive tools
+ *
+ *  Dependencies:
+ *
+ *  Version:
+ *    1.0.1 - 2018/01/31
+ */
+
+//Pixel size definitions
+$s-screen-xsmall: 500px;
+$s-screen-small: 750px;
+$s-screen-medium: 1000px;
+$s-screen-large: 1250px;
+$s-screen-xlarge: 1500px;
+
+$s-screen-boundary: $s-screen-medium;
+
+//Size definitions
+$s-xsmall: 'xsmall';
+$s-small: 'small';
+$s-medium: 'medium';
+$s-large: 'large';
+$s-xlarge: 'xlarge';
+
+//Groups
+$s-xsmall-up: 'xsmall-up';
+$s-small-up: 'small-up';
+$s-medium-up: 'medium-up';
+$s-large-up: 'large-up';
+
+//Breakpoints
+$s-breakpoints: (
+  $s-xsmall     '(max-width: #{$s-screen-small - 1})',
+  $s-small      '(min-width: #{$s-screen-small}) and (max-width: #{$s-screen-medium - 1})',
+  $s-medium     '(min-width: #{$s-screen-medium}) and (max-width: #{$s-screen-large - 1})',
+  $s-large      '(min-width: #{$s-screen-large}) and (max-width: #{$s-screen-xlarge - 1})',
+  $s-xlarge     '(min-width: #{$s-screen-xlarge})',
+
+  $s-xsmall-up  '(min-width: #{$s-screen-xsmall})',
+  $s-small-up   '(min-width: #{$s-screen-small})',
+  $s-medium-up  '(min-width: #{$s-screen-medium})',
+  $s-large-up   '(min-width: #{$s-screen-large})'
+);
