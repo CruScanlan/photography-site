@@ -19,14 +19,14 @@ module.exports = {
             "pages": path.join(__dirname, 'src/pages')
         }
     },
-    {
+    /* {
       resolve: "gatsby-source-shopify",
       options: {
         shopName: "cruscanlan.com",
         accessToken: "",
       },
-    },
-    "gatsby-plugin-sass",
+    }, */
+    "gatsby-plugin-postcss",
     "gatsby-plugin-image",
     /* {
       resolve: "gatsby-plugin-google-analytics",
