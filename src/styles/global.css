@@ -11,3 +11,24 @@ p - pages
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+html, body {
+    padding: 0;
+    margin: 0;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+@layer base {
+    h1 {
+        @apply text-2xl;
+    }
+    h2 {
+        @apply text-xl;
+    }
+    h3 {
+        @apply text-lg;
+    }
+}
