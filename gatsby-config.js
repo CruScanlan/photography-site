@@ -16,7 +16,9 @@ module.exports = {
             "styles": path.join(__dirname, "src/styles"),
             "types": path.join(__dirname, "src/types"),
             "src": path.join(__dirname, 'src'),
-            "pages": path.join(__dirname, 'src/pages')
+            "pages": path.join(__dirname, 'src/pages'),
+            "utils": path.join(__dirname, 'src/utils'),
+            "hooks": path.join(__dirname, 'src/hooks')
         }
     },
     /* {
@@ -28,6 +30,13 @@ module.exports = {
     }, */
     "gatsby-plugin-postcss",
     "gatsby-plugin-image",
+    {
+        resolve: 'gatsby-background-image-es5',
+        options: {
+          // add your own characters to escape, replacing the default ':/'
+          specialChars: '/:',
+        }
+    },
     /* {
       resolve: "gatsby-plugin-google-analytics",
       options: {
@@ -36,12 +45,12 @@ module.exports = {
     }, */
     "gatsby-plugin-react-helmet",
     "gatsby-plugin-sitemap",
-    {
+    /* {
       resolve: "gatsby-plugin-manifest",
       options: {
         icon: "src/images/icon.png",
       },
-    },
+    }, */
     "gatsby-plugin-sharp",
     "gatsby-transformer-sharp",
     {
@@ -51,6 +60,6 @@ module.exports = {
         path: "./src/images/",
       },
       __key: "images",
-    },
+    }
   ],
 };

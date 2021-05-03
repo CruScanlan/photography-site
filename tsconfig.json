@@ -17,7 +17,9 @@
         "pages/*": ["./src/pages/*"],
         "templates/*": ["./src/templates/*"],
         "styles/*": ["./src/styles/*"],
-        "types": ["./src/types"]
+        "types": ["./src/types"],
+        "utils/*": ["./src/utils/*"],
+        "hooks/*": ["./src/hooks/*"]
       }
     },
     "exclude": ["node_modules", "public", ".cache"]

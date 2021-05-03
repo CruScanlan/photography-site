@@ -3,16 +3,17 @@ import { useStaticQuery, graphql } from 'gatsby';
 import { Helmet } from 'react-helmet';
 
 import 'styles/global.css';
-import './layout.css';
 
 import NavBar from 'components/NavBar/NavBar';
+import Footer from 'components/Footer/Footer';
 
 interface Props {
     pageTitle: string;
     pageClass: string;
+    style?: React.CSSProperties;
 }
 
-const Layout: React.FC<Props> = ({ pageTitle, pageClass, children }) => {
+const Layout: React.FC<Props> = ({ pageTitle, pageClass, children, style }) => {
     const { site } = useStaticQuery(
         graphql`
             query {
@@ -35,9 +36,10 @@ const Layout: React.FC<Props> = ({ pageTitle, pageClass, children }) => {
                 <link rel="canonical" href={site.siteMetadata.siteUrl} />
             </Helmet>
             <NavBar />
-            <main className={`c-layout ${pageClass}`}>
+            <main className={`${pageClass}`} >
                 { children }
             </main>
+            <Footer />
         </>
     );
 }
