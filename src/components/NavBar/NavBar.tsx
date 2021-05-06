@@ -3,6 +3,8 @@ import { Link } from "gatsby";
 import { useLocation } from '@reach/router';
 import { StaticImage } from "gatsby-plugin-image";
 import useScrollPosition from '@react-hook/window-scroll';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faInstagram, faFacebook } from '@fortawesome/free-brands-svg-icons';
 import ColorScale from 'color-scales';
 
 import numberMap from 'utils/numberMap';
@@ -40,10 +42,10 @@ const NavBar: React.FC<Props> = ({  }) => {
 
     return (
         <nav style={style} className={`${shadow} bg-gray-900 text-white block text-center flex justify-between fixed top-0 container overflow-hidden min-w-full z-50`}>
-            <a className="ml-10 mt-5">
+            <a className="c-navbar__logo">
                 <StaticImage loading="eager" height={60} src="../../images/logo.png" alt="Logo"/>
             </a>
-            <ul className="text-lg list-none mt-5 p-0 flex items-center mr-5">
+            <ul className="text-lg list-none mt-5 p-0 flex items-center justify-center mr-5">
                 <li className="c-navbar__link">
                     <Link to="/" activeClassName="underline">Home</Link>
                 </li>
@@ -62,6 +64,16 @@ const NavBar: React.FC<Props> = ({  }) => {
                 <li className="c-navbar__link">
                     <Link to="/store" activeClassName="underline">Print Store</Link>
                 </li>
+                <li className="c-navbar__link c-navbar__link--socials">
+                    <a className="text-white hover:text-gray-500 no-underline" href="https://instagram.com/cruscanlan" target="_blank">
+                        <FontAwesomeIcon icon={faInstagram} size="1x"/>
+                    </a>
+                </li>
+                <li className="c-navbar__link c-navbar__link--socials">
+                    <a className="text-white hover:text-gray-500 no-underline" href="https://facebook.com/cruscanlan" target="_blank">
+                        <FontAwesomeIcon icon={faFacebook} size="1x"/>
+                    </a>
+                </li>              
             </ul>
         </nav>
     );
