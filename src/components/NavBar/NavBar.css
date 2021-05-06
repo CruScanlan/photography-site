@@ -1,5 +1,20 @@
-.c-navbar__link {
+.c-navbar {
+    &__logo {
+        min-width: 205px;        
+        @apply ml-10 mr-5 mt-5;
+    }
+
+    &__link {
     text-underline-offset: 3px;
     text-decoration-thickness: 4px;
     @apply inline-block py-2 px-4 no-underline font-medium hover:underline;
+
+        &--socials {
+            @apply px-2;
+
+            & svg {
+                @apply text-xl;
+            }
+        }
+    }
 }
