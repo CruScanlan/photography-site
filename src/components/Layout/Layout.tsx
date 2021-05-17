@@ -11,9 +11,10 @@ interface Props {
     pageTitle: string;
     pageClass: string;
     style?: React.CSSProperties;
+    padTop?: boolean;
 }
 
-const Layout: React.FC<Props> = ({ pageTitle, pageClass, children, style }) => {
+const Layout: React.FC<Props> = ({ pageTitle, pageClass, padTop = false, children, style }) => {
     const { site } = useStaticQuery(
         graphql`
             query {
@@ -26,7 +27,7 @@ const Layout: React.FC<Props> = ({ pageTitle, pageClass, children, style }) => {
                 }
             }
         `,
-    );
+    )
 
     return (
         <>
@@ -36,7 +37,7 @@ const Layout: React.FC<Props> = ({ pageTitle, pageClass, children, style }) => {
                 <link rel="canonical" href={site.siteMetadata.siteUrl} />
             </Helmet>
             <NavBar />
-            <main className={`${pageClass}`} >
+            <main className={`${pageClass}`} style={{paddingTop: padTop ? '87px' : 0}}>
                 { children }
             </main>
             <Footer />
