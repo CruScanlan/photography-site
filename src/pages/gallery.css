@@ -1,0 +1,5 @@
+.galleryImage {
+    & > img { 
+        transition: opacity 2000ms linear 0s !important;
+    }
+}
