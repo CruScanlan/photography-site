@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { graphql, useStaticQuery, Link } from "gatsby";
 import BackgroundImage from "gatsby-background-image-es5";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -41,6 +41,8 @@ const IndexPage = () => {
         }
     });
 
+    const buttonHoverCallback = useCallback(() => setTimeout(heroButtonTrigger, 200), [heroButtonTrigger]);
+
     let opacity: number;
     
     if(windowHeight) {
@@ -54,7 +56,7 @@ const IndexPage = () => {
                 <div style={{opacity}} className="flex flex-col items-center justify-center text-center">
                     <h1 className="text-5xl text-white font-bold max-w-screen-lg">LANDSCAPE PHOTOGRAPHY</h1>
                     <h3 className="text-3xl text-white font-semibold max-w-screen-lg"><i>by Cru Scanlan</i></h3>
-                    <div className={`mt-4 rounded-md shadow`} onMouseEnter={() => setTimeout(heroButtonTrigger, 200)}>
+                    <div className="mt-4 rounded-md shadow" onMouseEnter={buttonHoverCallback}>
                         <Link
                             to="/gallery"
                             className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-lg font-semibold text-white bg-orange-500 hover:bg-orange-700 md:py-4 md:px-10"
