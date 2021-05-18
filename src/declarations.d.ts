@@ -16,3 +16,4 @@ interface IGalleryPhotoData {
     fileFull: any;
     title: string;
 }
+

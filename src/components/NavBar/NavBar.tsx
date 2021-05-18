@@ -53,7 +53,7 @@ const NavBar: React.FC<Props> = ({  }) => {
                     <Link to="/about" activeClassName="underline ">About</Link>
                 </li>
                 <li className="c-navbar__link">
-                    <Link to="/gallery" activeClassName="underline">Gallery</Link>
+                    <Link to="/queensland" activeClassName="underline">Gallery</Link>
                 </li>
                 <li className="c-navbar__link">
                     <Link to="/prints" activeClassName="underline">Prints</Link>

@@ -1,5 +1,0 @@
-.c-modal {
-    @apply relative inline-block bg-white shadow-lg z-50 max-h-screen;
-
-    width: 95vw;
-}
