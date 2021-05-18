@@ -43,7 +43,7 @@ const NavBar: React.FC<Props> = ({  }) => {
     return (
         <nav style={style} className={`${shadow} bg-gray-900 text-white block text-center flex justify-between fixed top-0 container overflow-hidden min-w-full z-50`}>
             <a className="c-navbar__logo">
-                <StaticImage loading="eager" height={60} src="../../images/logo.png" alt="Logo"/>
+                <StaticImage placeholder="none" loading="eager" height={60} src="../../images/logo.png" alt="Logo"/>
             </a>
             <ul className="text-lg list-none mt-5 p-0 flex items-center justify-center mr-5">
                 <li className="c-navbar__link">
