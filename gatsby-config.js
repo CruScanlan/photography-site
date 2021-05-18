@@ -1,6 +1,7 @@
 require("dotenv").config({
     path: `.env.${process.env.NODE_ENV}`,
 })
+process.env.GATSBY_CONCURRENT_DOWNLOAD = 1;
 const path = require('path');
 
 module.exports = {
@@ -34,18 +35,10 @@ module.exports = {
                 spaceId: `x3lv0s4qe48t`,
                 // Learn about environment variables: https://gatsby.dev/env-vars
                 accessToken: process.env.CONTENTFUL_ACCESS_TOKEN,
-                downloadLocal: true
+                downloadLocal: false
             }
         },
         "gatsby-plugin-postcss",
-        "gatsby-plugin-image",
-        {
-            resolve: 'gatsby-background-image-es5',
-            options: {
-                // add your own characters to escape, replacing the default ':/'
-                specialChars: '/:',
-            }
-        },
         /* {
         resolve: "gatsby-plugin-google-analytics",
         options: {
@@ -60,7 +53,30 @@ module.exports = {
             icon: "src/images/icon.png",
         },
         }, */
-        "gatsby-plugin-sharp",
+        "gatsby-plugin-image",
+        {
+            resolve: 'gatsby-background-image-es5',
+            options: {
+                // add your own characters to escape, replacing the default ':/'
+                specialChars: '/:',
+            }
+        },
+        {
+            resolve: "gatsby-plugin-sharp",
+            options: {
+                formats: [`auto`, `webp`],
+                placeholder: `blurred`,
+                quality: 100,
+                breakpoints: [350, 700, 1400, 1800],
+                backgroundColor: `transparent`,
+                tracedSVGOptions: {},
+                blurredOptions: {},
+                jpgOptions: {},
+                pngOptions: {},
+                webpOptions: {},
+                avifOptions: {},
+            }
+        },
         "gatsby-transformer-sharp",
         {
             resolve: "gatsby-source-filesystem",
@@ -70,5 +86,6 @@ module.exports = {
             },
             __key: "images",
         },
+        
     ],
 };

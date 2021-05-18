@@ -6,3 +6,13 @@
 
 // And to shim assets, use (one file extension per `declare`):
 // declare module "*.png"
+
+interface IGalleryPhotoData {
+    key: string;
+    src: string;
+    width: number;
+    height: number;
+    filePreview: any;
+    fileFull: any;
+    title: string;
+}
