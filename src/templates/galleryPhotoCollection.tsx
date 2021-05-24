@@ -24,12 +24,12 @@ const RenderGalleryImage: React.FC<RenderImageProps<IRenderGalleryImageProps> & 
     if(!image) return <div>Error Getting Image</div>;
 
     return (
-        <div className="w-full relative hover:" style={masonry ? {margin, width: photo.width, height: photo.height, top, left} : {}} key={photo.key} onClick={handleClick}>
-            <div className="w-full h-full absolute flex flex-row items-end opacity-0 transition-opacity duration-600 hover:opacity-100">
+        <div className="w-full relative" style={masonry ? {margin, width: photo.width, height: photo.height, top, left} : {}} key={photo.key} onClick={handleClick}>
+            <div className="w-full h-full z-10 absolute flex flex-row items-end opacity-0 transition-opacity duration-600 hover:opacity-100">
                 <div className="c-galleryImage p-2 w-full bg-opacity-80 bg-gray-800">
-                    <h3 className="text-white font">
+                    <h4 className="text-white font">
                         { photo.title }
-                    </h3>
+                    </h4>
                 </div>
             </div>
             <GatsbyImage key={photo.key} className="c-galleryImage__gatsby w-full h-full absolute" image={image} alt="Image" loading={index < 5 ? 'eager' : 'lazy'} />
@@ -70,7 +70,7 @@ const GalleryPhotoCollectionPage: React.FC = (props: any) => {
                 endPositionAbsolute: 120
             }}
         >
-            <div className="w-full h-[60vh] mb-[-10px]">
+            <div className="w-full h-[60vh]">
                 <GatsbyImage className="w-full h-[60vh] fixed" image={props.pageContext.heroImage.gatsbyImageData} alt="Image" loading={'eager'} />   
             </div>
             <div className="w-full relative p-4 text-white bg-gray-900 shadow-xl flex items-center">
@@ -104,7 +104,7 @@ const GalleryPhotoCollectionPage: React.FC = (props: any) => {
                         renderImage={RenderGalleryImage as any}
                         onClick={onPhotoClick}
                         targetRowHeight={500} 
-                        limitNodeSearch={5}
+                        limitNodeSearch={4}
                         margin={4}
                     />
                 }
