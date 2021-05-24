@@ -6,7 +6,7 @@ import useWindowSize from 'hooks/useWindowSize';
 
 import Layout from 'components/Layout/Layout';
 
-import './gallery.css';
+import './galleryPhotoCollection.css';
 
 interface IRenderGalleryImageProps {
     src?: string;
@@ -25,19 +25,19 @@ const RenderGalleryImage: React.FC<RenderImageProps<IRenderGalleryImageProps> & 
 
     return (
         <div className="w-full relative hover:" style={masonry ? {margin, width: photo.width, height: photo.height, top, left} : {}} key={photo.key} onClick={handleClick}>
-            <div className="w-full h-full absolute z-20 flex flex-row items-end opacity-0 transition-opacity duration-600 hover:opacity-100">
-                <div className="galleryImage p-2 w-full bg-opacity-80 bg-gray-800">
+            <div className="w-full h-full absolute flex flex-row items-end opacity-0 transition-opacity duration-600 hover:opacity-100">
+                <div className="c-galleryImage p-2 w-full bg-opacity-80 bg-gray-800">
                     <h3 className="text-white font">
                         { photo.title }
                     </h3>
                 </div>
             </div>
-            <GatsbyImage key={photo.key} className="galleryImage__gatsby w-full h-full absolute" image={image} alt="Image" loading={index < 5 ? 'eager' : 'lazy'} />
+            <GatsbyImage key={photo.key} className="c-galleryImage__gatsby w-full h-full absolute" image={image} alt="Image" loading={index < 5 ? 'eager' : 'lazy'} />
         </div>
     )
 }
 
-const GalleryPage: React.FC = (props: any) => {
+const GalleryPhotoCollectionPage: React.FC = (props: any) => {
 
     const { width: windowWidth } = useWindowSize();
 
@@ -55,19 +55,56 @@ const GalleryPage: React.FC = (props: any) => {
     });
 
     const onPhotoClick = useCallback<renderImageClickHandler>((e, photo) => {
+
     }, [])
 
     return (
-        <Layout pageTitle={'Gallery | Cru Scanlan Photography'} pageClass="p-gallery top" padTop={true}>
-            <div className="bg-gray-800 p-4">
+        <Layout 
+            pageTitle={'Gallery | Cru Scanlan Photography'} 
+            pageClass="p-gallery bg-gray-800" 
+            navbarScrollAnimation={{
+                enabled: true,
+                startPositonRelative: 0.2,
+                startPositionAbsolute: 25,
+                endPositionRelative: 0.4,
+                endPositionAbsolute: 120
+            }}
+        >
+            <div className="w-full h-[60vh] mb-[-10px]">
+                <GatsbyImage className="w-full h-[60vh] fixed" image={props.pageContext.heroImage.gatsbyImageData} alt="Image" loading={'eager'} />   
+            </div>
+            <div className="w-full relative p-4 text-white bg-gray-900 shadow-xl flex items-center">
+                <div className="p-2">
+                    <h3 className="uppercase">
+                        Image Collections
+                    </h3>
+                    <span className="text-xs uppercase text-gray-400">
+                        Cru Scanlan Photography
+                    </span>
+                </div>
+                <div className="relative flex items-baseline pl-4">
+                    {
+                        props.pageContext.collectionNames.map((collectionName: any) => (
+                            <div className="p-2">
+                                <Link className="text-gray-400 hover:text-white" activeClassName="!text-white" to={`/${collectionName.slug}`}>
+                                    <h4>
+                                        {collectionName.name}
+                                    </h4>
+                                </Link>
+                            </div>
+                        ))
+                    }     
+                </div>
+            </div>
+            <div className="relative p-4 bg-gray-800">
                 {
                     !windowWidth || windowWidth >= 600 && //Desktop masonry
                     <ReactPhotoGallery 
                         photos={photos} 
                         renderImage={RenderGalleryImage as any}
                         onClick={onPhotoClick}
-                        targetRowHeight={450} 
-                        limitNodeSearch={4}
+                        targetRowHeight={500} 
+                        limitNodeSearch={5}
                         margin={4}
                     />
                 }
@@ -88,4 +125,4 @@ const GalleryPage: React.FC = (props: any) => {
     )
 };
 
-export default GalleryPage;
+export default GalleryPhotoCollectionPage;

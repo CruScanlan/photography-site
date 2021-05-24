@@ -1,4 +1,4 @@
-.galleryImage {
+.c-galleryImage {
     &__gatsby > img { 
         transition: opacity 1000ms linear 0s !important;
     }
