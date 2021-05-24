@@ -12,8 +12,8 @@ export const createGalleryPhotoCollectionPages = async (createPage: Actions['cre
                         slug
                         heroImage {
                             gatsbyImageData(
-                                quality: 90, 
-                                placeholder: BLURRED, 
+                                quality: 95
+                                placeholder: BLURRED
                                 formats: [AUTO, WEBP]
                             )
                         }
@@ -24,15 +24,17 @@ export const createGalleryPhotoCollectionPages = async (createPage: Actions['cre
                                 file {
                                     details {
                                         image {
-                                        width
-                                        height
+                                            width
+                                            height
                                         }
                                     }
                                 }
                                 gatsbyImageData(
-                                    quality: 90, 
-                                    placeholder: BLURRED, 
+                                    quality: 95
+                                    placeholder: BLURRED
                                     formats: [AUTO, WEBP]
+                                    height: 600
+                                    layout: CONSTRAINED
                                 )
                             }
                         }
