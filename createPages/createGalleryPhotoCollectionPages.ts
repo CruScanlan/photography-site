@@ -12,7 +12,7 @@ export const createGalleryPhotoCollectionPages = async (createPage: Actions['cre
                         slug
                         heroImage {
                             gatsbyImageData(
-                                quality: 95
+                                quality: 100
                                 placeholder: BLURRED
                                 formats: [AUTO, WEBP]
                             )
@@ -30,7 +30,7 @@ export const createGalleryPhotoCollectionPages = async (createPage: Actions['cre
                                     }
                                 }
                                 gatsbyImageData(
-                                    quality: 95
+                                    quality: 100
                                     placeholder: BLURRED
                                     formats: [AUTO, WEBP]
                                     height: 600
