@@ -5,9 +5,9 @@
     }
 
     &__link {
-    text-underline-offset: 3px;
-    text-decoration-thickness: 4px;
-    @apply inline-block py-2 px-4 no-underline font-medium hover:underline;
+        text-underline-offset: 3px;
+        text-decoration-thickness: 4px;
+        @apply inline-block py-2 px-4 no-underline font-medium hover:underline;
 
         &--socials {
             @apply px-2;

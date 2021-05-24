@@ -12,7 +12,7 @@ module.exports = {
     },
     flags: {
         PRESERVE_WEBPACK_CACHE: true,
-        PRESERVE_FILE_DOWNLOAD_CACHE: true,
+        PRESERVE_FILE_DOWNLOAD_CACHE: false,
     },
     plugins: [
         {
@@ -61,22 +61,7 @@ module.exports = {
                 specialChars: '/:',
             }
         },
-        {
-            resolve: "gatsby-plugin-sharp",
-            options: {
-                formats: [`auto`, `webp`],
-                placeholder: `blurred`,
-                quality: 100,
-                breakpoints: [350, 700, 1400, 1800],
-                backgroundColor: `transparent`,
-                tracedSVGOptions: {},
-                blurredOptions: {},
-                jpgOptions: {},
-                pngOptions: {},
-                webpOptions: {},
-                avifOptions: {},
-            }
-        },
+        "gatsby-plugin-sharp",
         "gatsby-transformer-sharp",
         {
             resolve: "gatsby-source-filesystem",

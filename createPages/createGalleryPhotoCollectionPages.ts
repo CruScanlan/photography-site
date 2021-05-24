@@ -1,12 +1,7 @@
-import { GatsbyNode } from "gatsby"
-import * as path from "path"
+import { Actions, CreatePagesArgs } from 'gatsby';
+import * as path from "path";
 
-export const createPages: GatsbyNode["createPages"] = async ({
-    graphql,
-    actions,
-  }) => {
-    const { createPage } = actions;
-  
+export const createGalleryPhotoCollectionPages = async (createPage: Actions['createPage'], graphql: CreatePagesArgs['graphql']) => {
     const { data } = await graphql(`
         query {
             photoCollections: allContentfulPhotoCollection {
@@ -15,6 +10,13 @@ export const createPages: GatsbyNode["createPages"] = async ({
                         name
                         id
                         slug
+                        heroImage {
+                            gatsbyImageData(
+                                quality: 90, 
+                                placeholder: BLURRED, 
+                                formats: [AUTO, WEBP]
+                            )
+                        }
                         images {
                             id
                             title
@@ -29,7 +31,7 @@ export const createPages: GatsbyNode["createPages"] = async ({
                                 }
                                 gatsbyImageData(
                                     quality: 90, 
-                                    placeholder: TRACED_SVG, 
+                                    placeholder: BLURRED, 
                                     formats: [AUTO, WEBP]
                                 )
                             }
@@ -40,16 +42,24 @@ export const createPages: GatsbyNode["createPages"] = async ({
         }
     `) as any
 
+    const collectionNames = data.photoCollections.edges.map((edge: any) => {
+        return {
+            name: edge.node.name,
+            slug: edge.node.slug
+        }
+    })
+
     data.photoCollections.edges.forEach((edge: any) => {
         const slug = edge.node.slug;
         if(!slug) return console.error(`Could not find slug for Gallery Node`);
     
         createPage({
             path: slug,
-            component: path.resolve('./src/templates/gallery.tsx'),
+            component: path.resolve('./src/templates/galleryPhotoCollection.tsx'),
             context: {
+                collectionNames,
                 ...edge.node
             }
         });
     });
-  }
+}

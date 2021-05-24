@@ -1,6 +1,5 @@
 import * as React from "react";
 import { Link } from "gatsby";
-import { useLocation } from '@reach/router';
 import { StaticImage } from "gatsby-plugin-image";
 import useScrollPosition from '@react-hook/window-scroll';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -12,36 +11,65 @@ import useWindowSize from 'hooks/useWindowSize';
 
 import './NavBar.css';
 
-interface Props {
-    
+export interface INavbarScrollAnimation {
+    enabled: boolean;
+    startPositonRelative?: number;
+    endPositionRelative?: number;
+    startPositionAbsolute?: number;
+    endPositionAbsolute?: number;
 };
+
+interface Props {
+    navbarScrollAnimation?: INavbarScrollAnimation;
+};
+
+const defaultOptions: Props['navbarScrollAnimation'] = {
+    enabled: false,
+    startPositonRelative: 0.3,
+    endPositionRelative: 0.5,
+    startPositionAbsolute: 50,
+    endPositionAbsolute: 200
+}
 
 //const colorScale = new ColorScale(0, 100, ['#111827', '#ffffff']);
 
-const NavBar: React.FC<Props> = ({  }) => {
-    const location = useLocation();
+const NavBar: React.FC<Props> = ({ navbarScrollAnimation }) => {
+    if(!navbarScrollAnimation || navbarScrollAnimation.enabled) { //Make sure it has all properties
+        navbarScrollAnimation = {...defaultOptions, ...navbarScrollAnimation};
+    }
+
     const scrollPosition = useScrollPosition(60);
     const { height: windowHeight } = useWindowSize();
+    let style: React.CSSProperties = {};
+    let shadow = '';
 
-    let opacity: number;
+    if(navbarScrollAnimation.enabled && navbarScrollAnimation.startPositonRelative && navbarScrollAnimation.endPositionRelative && navbarScrollAnimation.startPositionAbsolute && navbarScrollAnimation.endPositionAbsolute ) {
+        let opacity: number;
     
-    if(windowHeight) {
-        const [startHeight, endHeight] = [windowHeight*0.3, windowHeight*0.5]
-        opacity = scrollPosition < startHeight ? 0 : scrollPosition <  endHeight ? numberMap(scrollPosition, startHeight, endHeight, 0, 1) : 1;
+        if(windowHeight) {
+            const [startHeight, endHeight] = [windowHeight*navbarScrollAnimation.startPositonRelative, windowHeight*navbarScrollAnimation.endPositionRelative]
+            opacity = scrollPosition < startHeight ? 0 : scrollPosition <  endHeight ? numberMap(scrollPosition, startHeight, endHeight, 0, 1) : 1;
+        }
+        else opacity = scrollPosition < navbarScrollAnimation.startPositionAbsolute ? 0 : scrollPosition < navbarScrollAnimation.endPositionAbsolute ? numberMap(scrollPosition, navbarScrollAnimation.startPositionAbsolute, navbarScrollAnimation.endPositionAbsolute, 0, 1) : 1;
+
+        const padding1 = 50*(1-opacity);
+        const padding2 = 25*(1-opacity);
+
+        //const newColor = colorScale.getColor(opacity*100);
+        //color: `rgba(${newColor.r}, ${newColor.g}, ${newColor.b}, ${newColor.a})
+
+        style = {
+            backgroundColor: `rgba(23, 23, 23, ${opacity})`, 
+            paddingTop: padding1, 
+            paddingLeft: padding1, 
+            paddingRight: padding1, 
+            paddingBottom: padding2
+        };
+        shadow = opacity === 1 ? 'shadow-lg' : '';
     }
-    else opacity = scrollPosition < 50 ? 0 : scrollPosition < 200 ? numberMap(scrollPosition, 50, 200, 0, 1) : 1;
-
-    const padding1 = 50*(1-opacity);
-    const padding2 = 25*(1-opacity);
-
-    //const newColor = colorScale.getColor(opacity*100);
-    //color: `rgba(${newColor.r}, ${newColor.g}, ${newColor.b}, ${newColor.a})
-
-    const style: React.CSSProperties = location.pathname !== '/' ? {} : {backgroundColor: `rgba(23, 23, 23, ${opacity})`, paddingTop: padding1, paddingLeft: padding1, paddingRight: padding1, paddingBottom: padding2};
-    const shadow = opacity === 1 || location.pathname !== '/' ? 'shadow-lg' : '';
 
     return (
-        <nav style={style} className={`${shadow} bg-gray-900 text-white block text-center flex justify-between fixed top-0 container overflow-hidden min-w-full z-50`}>
+        <nav style={style} className={`${shadow} bg-gray-900 text-white text-center flex justify-between fixed top-0 container overflow-hidden min-w-full z-50`}>
             <a className="c-navbar__logo">
                 <StaticImage placeholder="none" loading="eager" height={60} src="../../images/logo.png" alt="Logo"/>
             </a>
@@ -53,7 +81,7 @@ const NavBar: React.FC<Props> = ({  }) => {
                     <Link to="/about" activeClassName="underline ">About</Link>
                 </li>
                 <li className="c-navbar__link">
-                    <Link to="/queensland" activeClassName="underline">Gallery</Link>
+                    <Link to="/favourite-images" activeClassName="underline">Gallery</Link>
                 </li>
                 <li className="c-navbar__link">
                     <Link to="/prints" activeClassName="underline">Prints</Link>
