@@ -12,7 +12,7 @@ module.exports = {
     },
     flags: {
         PRESERVE_WEBPACK_CACHE: true,
-        PRESERVE_FILE_DOWNLOAD_CACHE: false,
+        PRESERVE_FILE_DOWNLOAD_CACHE: true,
     },
     plugins: [
         {
@@ -71,6 +71,16 @@ module.exports = {
             },
             __key: "images",
         },
-        
+        `gatsby-plugin-transition-link`,
+        `gatsby-plugin-use-query-params`,
+        {
+            resolve: `gatsby-plugin-modal-routing`,
+            options: {
+                modalComponentPath: path.join(
+                  __dirname,
+                  './src/components/GalleryPhotoModal/GalleryPhotoModal.tsx'
+                )
+            }
+        }
     ],
 };

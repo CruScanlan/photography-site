@@ -9,8 +9,6 @@ import numberMap from 'utils/numberMap';
 import useScrollPosition from '@react-hook/window-scroll';
 import useWindowSize from 'hooks/useWindowSize';
 
-import './index.css';
-
 import Layout from 'components/Layout/Layout';
 import Button from 'components/Button/Button';
 
@@ -54,12 +52,12 @@ const IndexPage = () => {
         <Layout pageTitle={'Cru Scanlan Photography'} pageClass="p-home top" navbarScrollAnimation={{enabled: true}}>
             <BackgroundImage critical={true} fluid={heroImage.childImageSharp.fluid} Tag="section" className="font-sans h-screen w-full bg-cover bg-fixed flex flex-col items-center justify-center">
                 <div style={{opacity}} className="flex flex-col items-center justify-center text-center">
-                    <h1 className="text-5xl text-white max-w-screen-lg">LANDSCAPE PHOTOGRAPHY</h1>
-                    <h3 className="text-3xl text-white max-w-screen-lg"><i>by Cru Scanlan</i></h3>
+                    <h1 className="text-5xl text-textPrimary max-w-screen-lg">LANDSCAPE PHOTOGRAPHY</h1>
+                    <h3 className="text-3xl text-textPrimary max-w-screen-lg"><i>by Cru Scanlan</i></h3>
                     <div className="mt-4 rounded-md shadow" onMouseEnter={buttonHoverCallback}>
                         <Link
-                            to="/favourite-images"
-                            className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-lg font-semibold text-white bg-orange-500 hover:bg-orange-700 md:py-4 md:px-10"
+                            to="/gallery"
+                            className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-lg font-semibold text-textPrimary bg-orange-500 hover:bg-orange-700 md:py-4 md:px-10"
                         >
                             See Gallery
                             <animated.span style={heroButtonIconStyle}>

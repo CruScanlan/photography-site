@@ -12,6 +12,8 @@ interface IRenderGalleryImageProps {
     src?: string;
     file: any;
     title: string;
+    imageSlug: string;
+    collectionSlug: string;
 }
 
 const RenderGalleryImage: React.FC<RenderImageProps<IRenderGalleryImageProps> & {masonry: boolean}> = ({ photo, margin, top, left, index, onClick, masonry = true }) => {
@@ -25,13 +27,15 @@ const RenderGalleryImage: React.FC<RenderImageProps<IRenderGalleryImageProps> & 
 
     return (
         <div className="w-full relative" style={masonry ? {margin, width: photo.width, height: photo.height, top, left} : {}} key={photo.key} onClick={handleClick}>
-            <div className="w-full h-full z-10 absolute flex flex-row items-end opacity-0 transition-opacity duration-600 hover:opacity-100">
-                <div className="c-galleryImage p-2 w-full bg-opacity-80 bg-gray-800">
-                    <h4 className="text-white font">
-                        { photo.title }
-                    </h4>
+            <Link to={`/${photo.imageSlug}?collection=${photo.collectionSlug}`}>
+                <div className="w-full h-full z-10 absolute flex flex-row items-end opacity-0 transition-opacity duration-600 hover:opacity-100">
+                    <div className="c-galleryImage p-2 w-full bg-opacity-80 bg-bg2">
+                        <h4 className="text-textPrimary font">
+                            { photo.title }
+                        </h4>
+                    </div>
                 </div>
-            </div>
+            </Link>
             <GatsbyImage key={photo.key} className="c-galleryImage__gatsby w-full h-full absolute" image={image} alt="Image" loading={index < 5 ? 'eager' : 'lazy'} />
         </div>
     )
@@ -50,18 +54,20 @@ const GalleryPhotoCollectionPage: React.FC = (props: any) => {
             width: fullImage.file.details.image.width,
             height: fullImage.file.details.image.height,
             file: fullImage.gatsbyImageData,
-            title: image.title
+            title: image.title,
+            imageSlug: image.slug,
+            collectionSlug: props.pageContext.slug
         }
     });
 
     const onPhotoClick = useCallback<renderImageClickHandler>((e, photo) => {
-
+        
     }, [])
 
     return (
         <Layout 
             pageTitle={'Gallery | Cru Scanlan Photography'} 
-            pageClass="p-gallery bg-gray-800" 
+            pageClass="p-gallery bg-bg2" 
             navbarScrollAnimation={{
                 enabled: true,
                 startPositonRelative: 0.2,
@@ -73,12 +79,12 @@ const GalleryPhotoCollectionPage: React.FC = (props: any) => {
             <div className="w-full h-[60vh]">
                 <GatsbyImage className="w-full h-[60vh] fixed" image={props.pageContext.heroImage.gatsbyImageData} alt="Image" loading={'eager'} />   
             </div>
-            <div className="w-full relative p-4 text-white bg-gray-900 shadow-xl flex items-center">
+            <div className="w-full relative p-4 text-textPrimary bg-bg1 shadow-xl flex items-center">
                 <div className="p-2">
                     <h3 className="uppercase">
                         Image Collections
                     </h3>
-                    <span className="text-xs uppercase text-gray-400">
+                    <span className="text-xs uppercase text-textSecondary">
                         Cru Scanlan Photography
                     </span>
                 </div>
@@ -86,7 +92,7 @@ const GalleryPhotoCollectionPage: React.FC = (props: any) => {
                     {
                         props.pageContext.collectionNames.map((collectionName: any) => (
                             <div className="p-2">
-                                <Link className="text-gray-400 hover:text-white" activeClassName="!text-white" to={`/${collectionName.slug}`}>
+                                <Link className="text-textSecondary hover:text-textPrimary" activeClassName="!text-textPrimary" to={`/${collectionName.slug}`}>
                                     <h4>
                                         {collectionName.name}
                                     </h4>
@@ -96,7 +102,7 @@ const GalleryPhotoCollectionPage: React.FC = (props: any) => {
                     }     
                 </div>
             </div>
-            <div className="relative p-4 bg-gray-800">
+            <div className="relative p-4 bg-bg2">
                 {
                     !windowWidth || windowWidth >= 600 && //Desktop masonry
                     <ReactPhotoGallery 
@@ -104,7 +110,7 @@ const GalleryPhotoCollectionPage: React.FC = (props: any) => {
                         renderImage={RenderGalleryImage as any}
                         onClick={onPhotoClick}
                         targetRowHeight={500} 
-                        limitNodeSearch={4}
+                        limitNodeSearch={windowWidth < 800 ? 2 : windowWidth < 1500 ? 3 : 4}
                         margin={4}
                     />
                 }
@@ -117,6 +123,7 @@ const GalleryPhotoCollectionPage: React.FC = (props: any) => {
                             index={index} 
                             direction="row"
                             masonry={false}
+                            key={photo.key}
                         />
                     )
                 }

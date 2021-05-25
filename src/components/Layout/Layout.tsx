@@ -13,9 +13,10 @@ interface Props {
     style?: React.CSSProperties;
     padTop?: boolean;
     navbarScrollAnimation?: INavbarScrollAnimation;
+    fullPage?: boolean; //No navbar or footer
 }
 
-const Layout: React.FC<Props> = ({ pageTitle, pageClass, padTop = false, navbarScrollAnimation, children, style }) => {
+const Layout: React.FC<Props> = ({ pageTitle, pageClass, padTop = false, navbarScrollAnimation, fullPage = false, children, style }) => {
     const { site } = useStaticQuery(
         graphql`
             query {
@@ -37,11 +38,15 @@ const Layout: React.FC<Props> = ({ pageTitle, pageClass, padTop = false, navbarS
                 <title>{ pageTitle }</title>
                 <link rel="canonical" href={site.siteMetadata.siteUrl} />
             </Helmet>
-            <NavBar navbarScrollAnimation={navbarScrollAnimation} />
-            <main className={`${pageClass}`} style={{paddingTop: padTop ? '87px' : 0}}>
+            {
+                !fullPage && <NavBar navbarScrollAnimation={navbarScrollAnimation} />
+            }
+            <main className={`${pageClass} z-10`} style={{paddingTop: padTop ? '87px' : 0}}>
                 { children }
             </main>
-            <Footer />
+            {
+                !fullPage && <Footer />
+            }
         </>
     );
 }

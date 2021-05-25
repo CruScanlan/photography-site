@@ -12,6 +12,13 @@ module.exports = {
             sans: ['sofia-pro', 'sans-serif']
         },
         colors: {
+            textPrimary: colors.white,
+            textSecondary: colors.trueGray['400'],
+            textTertiary: colors.trueGray['700'],
+            bg1: colors.trueGray['900'],
+            bg2: colors.trueGray['800'],
+            bg3: colors.trueGray['700'],
+
             transparent: 'transparent',
             current: 'currentColor',
             white: colors.white,
@@ -21,7 +28,9 @@ module.exports = {
             yellow: colors.amber,
             orange: colors.orange
         },
-        extend: {},
+        extend: {
+
+        },
     },
     variants: {
         extend: {},
