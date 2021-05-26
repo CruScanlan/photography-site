@@ -67,24 +67,24 @@ const GalleryPhotoPage: React.FC = (props: any) => {
             pageClass="bg-bg1 relative"
             fullPage={true}
         >
-            <div className="absolute h-screen p-4 flex items-center">
+            <div className="absolute h-screen p-1 md:p-4 2xl:p-8 flex items-center">
                 <Link to={`/${previousImageSlug}?collection=${collectionSlug}`}>
                     <FontAwesomeIcon className="text-textTertiary hover:text-textPrimary" icon={faChevronLeft} size="2x" />
                 </Link>
             </div>
-            <div className="absolute h-screen p-4 flex items-center right-0">
+            <div className="absolute h-screen p-1 md:p-4 2xl:p-8 flex items-center right-0">
                 <Link to={`/${nextImageSlug}?collection=${collectionSlug}`}>
                     <FontAwesomeIcon className="text-textTertiary hover:text-textPrimary" icon={faChevronRight} size="2x" />
                 </Link>
             </div>
-            <div className="absolute w-screen p-4 flex justify-end">
+            <div className="absolute w-screen p-1 md:p-4 2xl:p-8 flex justify-end">
                 <Link to={`/${collectionSlug}`}>
                     <FontAwesomeIcon className="text-textTertiary hover:text-textPrimary" icon={faTimes} size="2x" />
                 </Link>
             </div>
             <div className="w-screen h-screen flex justify-center items-center">
                 {
-                    image && <GatsbyImage className="max-w-[90vw] max-h-[90vh]" loading="eager" image={image} objectFit="contain" alt="Image" />
+                    image && <GatsbyImage className="max-w-[90vw] max-h-[90vh] 2xl:max-w-[85vw] 2xl:max-h-[85vh]" loading="eager" image={image} objectFit="contain" alt="Image" />
                 }
                 {
                     !image && <div className="text-textPrimary">Could not find Image</div>
