@@ -2,6 +2,9 @@ import React, { useCallback } from 'react';
 import { Link } from "gatsby";
 import { GatsbyImage, getImage } from "gatsby-plugin-image";
 import { useQueryParam, StringParam } from "use-query-params";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faChevronRight, faChevronLeft, faTimes } from '@fortawesome/free-solid-svg-icons';
+
 
 import Layout from 'components/Layout/Layout';
 
@@ -16,8 +19,6 @@ type IPhotoCollectionsSlugsArray = IPhotoCollectionSlugs[];
 
 const GalleryPhotoPage: React.FC = (props: any) => {
     const image = getImage(props.pageContext.fullResImage.gatsbyImageData);
-
-    console.log(image)
 
     const [collectionQueryParam] = useQueryParam("collection", StringParam);
     let collectionSlug: string = '';
@@ -63,9 +64,24 @@ const GalleryPhotoPage: React.FC = (props: any) => {
     return (
         <Layout
             pageTitle={`${props.pageContext.title} | Cru Scanlan Photography`} 
-            pageClass="bg-bg1"
+            pageClass="bg-bg1 relative"
             fullPage={true}
         >
+            <div className="absolute h-screen p-4 flex items-center">
+                <Link to={`/${previousImageSlug}?collection=${collectionSlug}`}>
+                    <FontAwesomeIcon className="text-textTertiary hover:text-textPrimary" icon={faChevronLeft} size="2x" />
+                </Link>
+            </div>
+            <div className="absolute h-screen p-4 flex items-center right-0">
+                <Link to={`/${nextImageSlug}?collection=${collectionSlug}`}>
+                    <FontAwesomeIcon className="text-textTertiary hover:text-textPrimary" icon={faChevronRight} size="2x" />
+                </Link>
+            </div>
+            <div className="absolute w-screen p-4 flex justify-end">
+                <Link to={`/${collectionSlug}`}>
+                    <FontAwesomeIcon className="text-textTertiary hover:text-textPrimary" icon={faTimes} size="2x" />
+                </Link>
+            </div>
             <div className="w-screen h-screen flex justify-center items-center">
                 {
                     image && <GatsbyImage className="max-w-[90vw] max-h-[90vh]" loading="eager" image={image} objectFit="contain" alt="Image" />
@@ -73,19 +89,6 @@ const GalleryPhotoPage: React.FC = (props: any) => {
                 {
                     !image && <div className="text-textPrimary">Could not find Image</div>
                 }
-            </div>
-            <div className="text-textPrimary">
-                <Link to={`/${nextImageSlug}?collection=${collectionSlug}`}>
-                    Next Image
-                </Link>
-                <br />
-                <Link to={`/${previousImageSlug}?collection=${collectionSlug}`}>
-                    Previous Image
-                </Link>
-                <br />
-                <Link to={`/${collectionSlug}`}>
-                    Back
-                </Link>
             </div>
         </Layout>
     )
