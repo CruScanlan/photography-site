@@ -87,7 +87,7 @@ const GalleryPhotoCollectionPage: React.FC = (props: any) => {
             }}
         >
             <div className="w-full h-[60vh]">
-                <GatsbyImage className="w-full h-[60vh] fixed" image={props.pageContext.heroImage.gatsbyImageData} alt="Image" loading={'eager'} />   
+                <GatsbyImage className="w-full h-[60vh] !fixed" image={props.pageContext.heroImage.gatsbyImageData} alt="Image" loading={'eager'} />   
             </div>
             <div className="w-full relative p-4 text-textPrimary bg-bg1 shadow-xl flex items-center">
                 <div className="p-2">

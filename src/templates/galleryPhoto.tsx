@@ -58,7 +58,7 @@ const GalleryPhotoPage: React.FC = (props: any) => {
             }
         }
         //Didnt find anything
-        console.error(`ERROR: Didnt find a collection this image belongs to`);
+        console.error(`ERROR: Didnt find a collection this image belongs to for ${props.pageContext.slug}`);
     }
 
     return (
