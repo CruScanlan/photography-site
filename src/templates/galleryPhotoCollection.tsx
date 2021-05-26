@@ -41,6 +41,16 @@ const RenderGalleryImage: React.FC<RenderImageProps<IRenderGalleryImageProps> & 
     )
 }
 
+/* const round = (value: number, decimals?: number) => {
+    if (!decimals) decimals = 0;
+    return Number(Math.round(Number(value + 'e' + decimals)) + 'e-' + decimals);
+};
+
+const findIdealNodeSearch = ({ targetRowHeight, containerWidth }: {targetRowHeight: number, containerWidth: number}) => {
+    const rowAR = containerWidth / targetRowHeight;
+    return round(rowAR / 1.5)+8;
+}; */
+
 const GalleryPhotoCollectionPage: React.FC = (props: any) => {
 
     const { width: windowWidth } = useWindowSize();
@@ -109,8 +119,7 @@ const GalleryPhotoCollectionPage: React.FC = (props: any) => {
                         photos={photos} 
                         renderImage={RenderGalleryImage as any}
                         onClick={onPhotoClick}
-                        targetRowHeight={500} 
-                        limitNodeSearch={windowWidth < 800 ? 2 : windowWidth < 1500 ? 3 : 4}
+                        targetRowHeight={600} 
                         margin={4}
                     />
                 }

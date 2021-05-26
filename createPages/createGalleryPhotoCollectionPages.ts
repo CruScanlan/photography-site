@@ -34,7 +34,7 @@ export const createGalleryPhotoCollectionPages = async (createPage: Actions['cre
                                 quality: 100
                                 placeholder: BLURRED
                                 formats: [AUTO, WEBP]
-                                height: 600
+                                height: 700
                                 layout: CONSTRAINED
                             )
                         }
