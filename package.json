@@ -47,6 +47,7 @@
     "gatsby-plugin-use-query-params": "^1.0.1",
     "gatsby-source-contentful": "^5.5.0",
     "gatsby-source-filesystem": "^3.5.0",
+    "gatsby-source-instagram": "^0.9.0",
     "gatsby-source-shopify": "^4.2.0",
     "gatsby-source-stripe": "^3.2.2",
     "gatsby-transformer-sharp": "^3.5.0",

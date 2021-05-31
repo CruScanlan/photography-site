@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 import { graphql, useStaticQuery, Link } from "gatsby";
+import { GatsbyImage, getImage } from "gatsby-plugin-image";
 import BackgroundImage from "gatsby-background-image-es5";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowCircleRight } from '@fortawesome/free-solid-svg-icons';
@@ -13,13 +14,29 @@ import Layout from 'components/Layout/Layout';
 import Button from 'components/Button/Button';
 
 const IndexPage = () => {
-    const { heroImage } = useStaticQuery(
+    const { heroImage, instaPosts } = useStaticQuery(
         graphql`
             query {
                 heroImage: file(relativePath: { eq: "homePageHero2.jpg" }) {
                     childImageSharp {
                         fluid(quality: 100, maxWidth: 2000) {
                             ...GatsbyImageSharpFluid_withWebp
+                        }
+                    }
+                }
+                instaPosts: allInstaNode(limit: 4) {
+                    edges {
+                        node {
+                            localFile {
+                                childImageSharp {
+                                    gatsbyImageData (
+                                        quality: 100
+                                        placeholder: BLURRED
+                                        formats: [AUTO, WEBP]
+                                        height: 500
+                                    )
+                                }
+                            }
                         }
                     }
                 }
@@ -52,8 +69,8 @@ const IndexPage = () => {
         <Layout pageTitle={'Cru Scanlan Photography'} pageClass="p-home top" navbarScrollAnimation={{enabled: true}}>
             <BackgroundImage critical={true} fluid={heroImage.childImageSharp.fluid} Tag="section" className="font-sans h-screen w-full bg-cover bg-fixed flex flex-col items-center justify-center">
                 <div style={{opacity}} className="flex flex-col items-center justify-center text-center">
-                    <h1 className="text-5xl text-textPrimary max-w-screen-lg">LANDSCAPE PHOTOGRAPHY</h1>
-                    <h3 className="text-3xl text-textPrimary max-w-screen-lg"><i>by Cru Scanlan</i></h3>
+                    <h1 className="text-5xl text-lightPrimary max-w-screen-lg">LANDSCAPE PHOTOGRAPHY</h1>
+                    <h3 className="text-3xl text-lightPrimary max-w-screen-lg"><i>by Cru Scanlan</i></h3>
                     <Button classes="mt-4" to="/gallery" type="transparent" size="lg" onMouseEnter={buttonHoverCallback}>
                         See Gallery
                         <animated.span style={heroButtonIconStyle}>
@@ -62,9 +79,26 @@ const IndexPage = () => {
                     </Button>
                 </div>
             </BackgroundImage>
-            <div style={{height: 900}} className="bg-gray-100">
+            <section className="mb-8 flex flex-col justify-center items-center">
+                <h1 className="mt-8 uppercase text-center">Instagram</h1>
+                <div className="flex flex-wrap justify-center items-center mt-8">
+                    {
+                        instaPosts.edges.map((edge: any) => {
+                            const image = getImage(edge.node.localFile.childImageSharp.gatsbyImageData);
+                            if(!image) return <div>Error: Could not get image</div>;
 
-            </div>
+                            return (
+                                <div className="m-2 max-w-xs">
+                                    <GatsbyImage image={image} alt="Image" />
+                                </div>
+                            )
+                        })
+                    }
+                </div>
+                <a href="https://instagram.com/cruscanlan" target="_blank">
+                    <Button size="lg" type="filled">View More</Button>
+                </a>
+            </section>
         </Layout>
     )
 };

@@ -12,7 +12,7 @@ const GalleryPhotoModal: React.FC<Props>  = ({ isOpen, onRequestClose, children 
             isOpen={isOpen}
             onRequestClose={onRequestClose}
             portalClassName=""
-            overlayClassName="z-[100] bg-bg2 w-full h-full fixed inset-0 flex justify-center items-center"
+            overlayClassName="z-[100] bg-darkSecondary w-full h-full fixed inset-0 flex justify-center items-center"
             className="p-8"
         >
             { children }
