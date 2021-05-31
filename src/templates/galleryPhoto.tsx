@@ -1,12 +1,15 @@
-import React, { useCallback } from 'react';
+import React, { useRef } from 'react';
 import { Link } from "gatsby";
 import { GatsbyImage, getImage } from "gatsby-plugin-image";
 import { useQueryParam, StringParam } from "use-query-params";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronRight, faChevronLeft, faTimes } from '@fortawesome/free-solid-svg-icons';
+import useWindowSize from 'hooks/useWindowSize';
+import useComponentSize from '@rehooks/component-size'
 
 
 import Layout from 'components/Layout/Layout';
+import Button from 'components/Button/Button';
 
 type IPhotoCollectionSlugs = {
     slug: string;
@@ -18,7 +21,15 @@ type IPhotoCollectionSlugs = {
 type IPhotoCollectionsSlugsArray = IPhotoCollectionSlugs[];
 
 const GalleryPhotoPage: React.FC = (props: any) => {
+    const slug: string = props.pageContext.slug;
+
     const image = getImage(props.pageContext.fullResImage.gatsbyImageData);
+    const imageDimensions: {width: number; height: number} = props.pageContext.fullResImage.file.details.image;
+
+
+    const { width: windowWidth, height: windowHeight } = useWindowSize();
+    const imageInfoSizeRef = useRef(null);
+    const imageInfoSize = useComponentSize(imageInfoSizeRef)
 
     const [collectionQueryParam] = useQueryParam("collection", StringParam);
     let collectionSlug: string = '';
@@ -48,18 +59,35 @@ const GalleryPhotoPage: React.FC = (props: any) => {
     }
 
     if(collectionSlug === '') {
+        let found = false;
         for(let i=0; i<photoCollectionsSlugs.length; i++) {
             const collection = photoCollectionsSlugs[i];
             const hasImage = collection.images.findIndex(({ slug }) => slug === props.pageContext.slug) !== -1;
 
             if(hasImage) { //Found set and break loop
                 [collectionSlug, nextImageSlug, previousImageSlug] = getOtherImagesFromCollection(collection);
+                found = true;
                 break;
             }
         }
-        //Didnt find anything
-        console.error(`ERROR: Didnt find a collection this image belongs to for ${props.pageContext.slug}`);
+        if(!found) {
+            //Didnt find anything
+            console.error(`ERROR: Didnt find a collection this image belongs to for ${props.pageContext.slug}`);
+        }
     }
+
+    if(!windowWidth || !windowHeight) return <div>Error: Could not get window dimensions</div>
+    let wScalingFactor = 0.87;
+    let hScalingFactor = 0.92;
+
+    if(windowWidth > 1024) wScalingFactor = 0.92; //Breakpoint
+
+    const wRatio = (windowWidth / imageDimensions.width) * wScalingFactor;
+    const hRatio =  ((windowHeight - imageInfoSize.height) / imageDimensions.height) * hScalingFactor;
+    const ratio  = Math.min(hRatio, wRatio);
+
+    const width = imageDimensions.width * ratio;
+    const height = imageDimensions.height * ratio;
 
     return (
         <Layout
@@ -82,13 +110,23 @@ const GalleryPhotoPage: React.FC = (props: any) => {
                     <FontAwesomeIcon className="text-textTertiary hover:text-textPrimary" icon={faTimes} size="2x" />
                 </Link>
             </div>
-            <div className="w-screen h-screen flex justify-center items-center">
-                {
-                    image && <GatsbyImage className="max-w-[90vw] max-h-[90vh] 2xl:max-w-[85vw] 2xl:max-h-[85vh]" loading="eager" image={image} objectFit="contain" alt="Image" />
-                }
-                {
-                    !image && <div className="text-textPrimary">Could not find Image</div>
-                }
+            <div className="w-screen h-screen flex flex-col justify-center items-center">
+                <div style={{width, height}} className="flex flex-col items-center">
+                    {
+                        image && <GatsbyImage loading="eager" image={image} alt="Image" />
+                    }
+                    {
+                        !image && <div className="text-textPrimary">Could not find Image</div>
+                    }
+                    
+                </div>
+                <div style={{width}} className="mt-2 flex flex-col justify-between items-center md:flex-row" ref={imageInfoSizeRef}>
+                    <div className="flex flex-col items-center md:items-start">
+                        <h3 className="text-textPrimary">{props.pageContext.title}</h3>
+                        <span className="text-sm text-textSecondary">{props.pageContext.location}</span>
+                    </div>
+                    <Button size="md" classes="mt-2 md:m-0 md:ml-2" to={`/store/prints/${slug}`}>BUY PRINT</Button>
+                </div>
             </div>
         </Layout>
     )

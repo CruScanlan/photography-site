@@ -54,17 +54,12 @@ const IndexPage = () => {
                 <div style={{opacity}} className="flex flex-col items-center justify-center text-center">
                     <h1 className="text-5xl text-textPrimary max-w-screen-lg">LANDSCAPE PHOTOGRAPHY</h1>
                     <h3 className="text-3xl text-textPrimary max-w-screen-lg"><i>by Cru Scanlan</i></h3>
-                    <div className="mt-4 rounded-md shadow" onMouseEnter={buttonHoverCallback}>
-                        <Link
-                            to="/gallery"
-                            className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-lg font-semibold text-textPrimary bg-orange-500 hover:bg-orange-700 md:py-4 md:px-10"
-                        >
-                            See Gallery
-                            <animated.span style={heroButtonIconStyle}>
-                                <FontAwesomeIcon className="ml-2 mt-1" icon={faArrowCircleRight} size="lg" />
-                            </animated.span>
-                        </Link>
-                    </div>
+                    <Button classes="mt-4" to="/gallery" type="transparent" size="lg" onMouseEnter={buttonHoverCallback}>
+                        See Gallery
+                        <animated.span style={heroButtonIconStyle}>
+                            <FontAwesomeIcon className="ml-2 mt-1" icon={faArrowCircleRight} size="lg" />
+                        </animated.span>
+                    </Button>
                 </div>
             </BackgroundImage>
             <div style={{height: 900}} className="bg-gray-100">

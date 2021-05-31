@@ -10,6 +10,10 @@ export const createGalleryPhotoPages = async (createPage: Actions['createPage'],
                         id
                         slug
                         title
+                        location
+                        description {
+                            description
+                        }
                         fullResImage {
                             gatsbyImageData(
                                 quality: 100
@@ -19,6 +23,14 @@ export const createGalleryPhotoPages = async (createPage: Actions['createPage'],
                                 height: 2200
                                 outputPixelDensities: [0.25, 0.5, 0.75, 1, 2]
                             )
+                            file {
+                                details {
+                                    image {
+                                        height
+                                        width
+                                    }
+                                }
+                            }
                         }
                     }
                 }
