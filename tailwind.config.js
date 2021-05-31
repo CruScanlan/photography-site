@@ -12,12 +12,13 @@ module.exports = {
             sans: ['sofia-pro', 'sans-serif']
         },
         colors: {
-            textPrimary: colors.white,
-            textSecondary: colors.trueGray['400'],
-            textTertiary: colors.trueGray['700'],
-            bg1: colors.trueGray['900'],
-            bg2: colors.trueGray['800'],
-            bg3: colors.trueGray['700'],
+            lightPrimary: colors.white,
+            lightSecondary: colors.trueGray['400'],
+            lightTertiary: colors.trueGray['700'],
+            
+            darkPrimary: colors.trueGray['900'],
+            darkSecondary: colors.trueGray['800'],
+            darkTertiary: colors.trueGray['700'],
 
             transparent: 'transparent',
             current: 'currentColor',

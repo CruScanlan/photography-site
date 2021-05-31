@@ -18,7 +18,7 @@ const ButtonSizeClasses = {
 }
 
 const ButtonTypeClasses = {
-    'transparent': 'border border-textSecondary hover:border-textPrimary',
+    'transparent': 'border border-lightSecondary hover:border-lightPrimary',
     'filled': 'border border-transparent bg-orange-500 hover:bg-orange-700'
 }
 
@@ -26,7 +26,7 @@ const Button: React.FC<Props>  = ({ classes, to, size = 'sm', type = 'transparen
     const innerClasses = `w-full flex items-center justify-center ${clickable ? 'hover:cursor-pointer' : ''} ${ButtonTypeClasses[type]} ${ButtonSizeClasses[size]}`;
 
     return (
-        <div className={`text-base text-center font-semibold text-textPrimary rounded-md shadow ${classes}`} {...props}>
+        <div className={`text-base text-center font-semibold text-lightPrimary rounded-md shadow ${classes}`} {...props}>
             {
                 to && ( //Add link
                     <Link

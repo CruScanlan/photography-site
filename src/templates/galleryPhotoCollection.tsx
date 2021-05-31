@@ -29,8 +29,8 @@ const RenderGalleryImage: React.FC<RenderImageProps<IRenderGalleryImageProps> & 
         <div className="w-full relative" style={masonry ? {margin, width: photo.width, height: photo.height, top, left} : {}} key={photo.key} onClick={handleClick}>
             <Link to={`/${photo.imageSlug}?collection=${photo.collectionSlug}`}>
                 <div className="w-full h-full z-10 absolute flex flex-row items-end opacity-0 transition-opacity duration-600 hover:opacity-100">
-                    <div className="c-galleryImage p-2 w-full bg-opacity-80 bg-bg2">
-                        <h4 className="text-textPrimary font">
+                    <div className="c-galleryImage p-2 w-full bg-opacity-80 bg-darkSecondary">
+                        <h4 className="text-lightPrimary font">
                             { photo.title }
                         </h4>
                     </div>
@@ -77,7 +77,7 @@ const GalleryPhotoCollectionPage: React.FC = (props: any) => {
     return (
         <Layout 
             pageTitle={'Gallery | Cru Scanlan Photography'} 
-            pageClass="p-gallery bg-bg2" 
+            pageClass="p-gallery bg-darkSecondary" 
             navbarScrollAnimation={{
                 enabled: true,
                 startPositonRelative: 0.2,
@@ -89,12 +89,12 @@ const GalleryPhotoCollectionPage: React.FC = (props: any) => {
             <div className="w-full h-[60vh]">
                 <GatsbyImage className="w-full h-[60vh] !fixed" image={props.pageContext.heroImage.gatsbyImageData} alt="Image" loading={'eager'} />   
             </div>
-            <div className="w-full relative p-4 text-textPrimary bg-bg1 shadow-xl flex items-center">
+            <div className="w-full relative p-4 text-lightPrimary bg-darkPrimary shadow-xl flex items-center">
                 <div className="p-2">
                     <h3 className="uppercase">
                         Image Collections
                     </h3>
-                    <span className="text-xs uppercase text-textSecondary">
+                    <span className="text-xs uppercase text-lightSecondary">
                         Cru Scanlan Photography
                     </span>
                 </div>
@@ -102,7 +102,7 @@ const GalleryPhotoCollectionPage: React.FC = (props: any) => {
                     {
                         props.pageContext.collectionNames.map((collectionName: any) => (
                             <div className="p-2">
-                                <Link className="text-textSecondary hover:text-textPrimary" activeClassName="!text-textPrimary" to={`/${collectionName.slug}`}>
+                                <Link className="text-lightSecondary hover:text-lightPrimary" activeClassName="!text-lightPrimary" to={`/${collectionName.slug}`}>
                                     <h4>
                                         {collectionName.name}
                                     </h4>
@@ -112,7 +112,7 @@ const GalleryPhotoCollectionPage: React.FC = (props: any) => {
                     }     
                 </div>
             </div>
-            <div className="relative p-4 bg-bg2">
+            <div className="relative p-4 bg-darkSecondary">
                 {
                     !windowWidth || windowWidth >= 600 && //Desktop masonry
                     <ReactPhotoGallery 

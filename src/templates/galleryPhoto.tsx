@@ -92,22 +92,22 @@ const GalleryPhotoPage: React.FC = (props: any) => {
     return (
         <Layout
             pageTitle={`${props.pageContext.title} | Cru Scanlan Photography`} 
-            pageClass="bg-bg1 relative"
+            pageClass="bg-darkPrimary relative"
             fullPage={true}
         >
             <div className="absolute h-screen p-1 md:p-4 2xl:p-8 flex items-center">
                 <Link to={`/${previousImageSlug}?collection=${collectionSlug}`}>
-                    <FontAwesomeIcon className="text-textTertiary hover:text-textPrimary" icon={faChevronLeft} size="2x" />
+                    <FontAwesomeIcon className="text-lightTertiary hover:text-lightPrimary" icon={faChevronLeft} size="2x" />
                 </Link>
             </div>
             <div className="absolute h-screen p-1 md:p-4 2xl:p-8 flex items-center right-0">
                 <Link to={`/${nextImageSlug}?collection=${collectionSlug}`}>
-                    <FontAwesomeIcon className="text-textTertiary hover:text-textPrimary" icon={faChevronRight} size="2x" />
+                    <FontAwesomeIcon className="text-lightTertiary hover:text-lightPrimary" icon={faChevronRight} size="2x" />
                 </Link>
             </div>
             <div className="absolute w-screen p-1 md:p-4 2xl:p-8 flex justify-end">
                 <Link to={`/${collectionSlug}`}>
-                    <FontAwesomeIcon className="text-textTertiary hover:text-textPrimary" icon={faTimes} size="2x" />
+                    <FontAwesomeIcon className="text-lightTertiary hover:text-lightPrimary" icon={faTimes} size="2x" />
                 </Link>
             </div>
             <div className="w-screen h-screen flex flex-col justify-center items-center">
@@ -116,14 +116,14 @@ const GalleryPhotoPage: React.FC = (props: any) => {
                         image && <GatsbyImage loading="eager" image={image} alt="Image" />
                     }
                     {
-                        !image && <div className="text-textPrimary">Could not find Image</div>
+                        !image && <div className="text-lightPrimary">Could not find Image</div>
                     }
                     
                 </div>
                 <div style={{width}} className="mt-2 flex flex-col justify-between items-center md:flex-row" ref={imageInfoSizeRef}>
                     <div className="flex flex-col items-center md:items-start">
-                        <h3 className="text-textPrimary">{props.pageContext.title}</h3>
-                        <span className="text-sm text-textSecondary">{props.pageContext.location}</span>
+                        <h3 className="text-lightPrimary">{props.pageContext.title}</h3>
+                        <span className="text-sm text-lightSecondary">{props.pageContext.location}</span>
                     </div>
                     <Button size="md" classes="mt-2 md:m-0 md:ml-2" to={`/store/prints/${slug}`}>BUY PRINT</Button>
                 </div>

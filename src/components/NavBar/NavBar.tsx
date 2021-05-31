@@ -69,7 +69,7 @@ const NavBar: React.FC<Props> = ({ navbarScrollAnimation }) => {
     }
 
     return (
-        <nav style={style} className={`${shadow} bg-bg1 text-textPrimary text-center flex justify-between fixed top-0 container overflow-hidden min-w-full z-50`}>
+        <nav style={style} className={`${shadow} bg-darkPrimary text-lightPrimary text-center flex justify-between fixed top-0 container overflow-hidden min-w-full z-50`}>
             <a className="c-navbar__logo">
                 <StaticImage placeholder="none" loading="eager" height={60} src="../../images/logo.png" alt="Logo"/>
             </a>
@@ -93,12 +93,12 @@ const NavBar: React.FC<Props> = ({ navbarScrollAnimation }) => {
                     <Link to="/store" activeClassName="underline">Print Store</Link>
                 </li>
                 <li className="c-navbar__link c-navbar__link--socials">
-                    <a className="text-textPrimary hover:text-textSecondary no-underline" href="https://instagram.com/cruscanlan" target="_blank">
+                    <a className="text-lightPrimary hover:text-lightSecondary no-underline" href="https://instagram.com/cruscanlan" target="_blank">
                         <FontAwesomeIcon icon={faInstagram} size="1x"/>
                     </a>
                 </li>
                 <li className="c-navbar__link c-navbar__link--socials">
-                    <a className="text-textPrimary hover:text-textSecondary no-underline" href="https://facebook.com/cruscanlan" target="_blank">
+                    <a className="text-lightPrimary hover:text-lightSecondary no-underline" href="https://facebook.com/cruscanlan" target="_blank">
                         <FontAwesomeIcon icon={faFacebook} size="1x"/>
                     </a>
                 </li>              
