@@ -1,18 +1,50 @@
 import React from 'react';
+import { Link } from 'gatsby';
 
 interface Props {
-    classes: React.HTMLAttributes<HTMLDivElement>['className'];
+    classes?: React.HTMLAttributes<HTMLDivElement>['className'];
+    to?: string;
+    size?: 'sm' | 'md' | 'lg';
+    type?: 'transparent' | 'filled';
+    clickable?: boolean;
+    onClick?: (e:  React.MouseEvent) => any;
+    onMouseEnter?: (e: React.MouseEvent) => any;
 };
 
-const Button: React.FC<Props>  = ({ classes, children }) => {
+const ButtonSizeClasses = {
+    'lg': 'px-8 py-3 md:px-10 md:py-4 md:text-lg',
+    'md': 'px-4 py-2 md:px-6 md:py-2 md:text-lg',
+    'sm': 'px-2 py-1 md:px-4 md:py-2 md:text-lg',
+}
+
+const ButtonTypeClasses = {
+    'transparent': 'border border-textSecondary hover:border-textPrimary',
+    'filled': 'border border-transparent bg-orange-500 hover:bg-orange-700'
+}
+
+const Button: React.FC<Props>  = ({ classes, to, size = 'sm', type = 'transparent', clickable = false, children, ...props }) => {
+    const innerClasses = `w-full flex items-center justify-center ${clickable ? 'hover:cursor-pointer' : ''} ${ButtonTypeClasses[type]} ${ButtonSizeClasses[size]}`;
+
     return (
-        <div className={`${classes} rounded-md shadow`}>
-            <a
-                href="#"
-                className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-semibold rounded-sm text-textPrimary bg-orange-500 hover:bg-orange-700 md:py-4 md:text-lg md:px-10"
-            >
-                {children}
-            </a>
+        <div className={`text-base text-center font-semibold text-textPrimary rounded-md shadow ${classes}`} {...props}>
+            {
+                to && ( //Add link
+                    <Link
+                        to={to}
+                    >
+                        <div className={innerClasses}>
+                            {children}
+                        </div>
+                    </Link>
+                )
+            }
+            {
+                !to && ( //No link
+                    <div className={innerClasses}>
+                        {children}
+                    </div>
+                )
+            }
         </div>
     )
 };
