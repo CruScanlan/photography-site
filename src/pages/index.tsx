@@ -3,6 +3,7 @@ import { graphql, useStaticQuery, Link } from "gatsby";
 import { GatsbyImage, getImage } from "gatsby-plugin-image";
 import BackgroundImage from "gatsby-background-image-es5";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faInstagram } from '@fortawesome/free-brands-svg-icons';
 import { faArrowCircleRight } from '@fortawesome/free-solid-svg-icons';
 import { animated } from 'react-spring';
 import useBoop from 'hooks/useBoop';
@@ -24,9 +25,10 @@ const IndexPage = () => {
                         }
                     }
                 }
-                instaPosts: allInstaNode(limit: 4) {
+                instaPosts: allInstaNode(limit: 6, sort: {order: DESC, fields: timestamp}) {
                     edges {
                         node {
+                            id
                             localFile {
                                 childImageSharp {
                                     gatsbyImageData (
@@ -45,7 +47,7 @@ const IndexPage = () => {
     );
 
     const scrollPosition = useScrollPosition(60);
-    const { height: windowHeight } = useWindowSize();
+    const { width: windowWidth, height: windowHeight } = useWindowSize();
 
     const [heroButtonIconStyle, heroButtonTrigger] = useBoop({
         x: 5,
@@ -80,23 +82,26 @@ const IndexPage = () => {
                 </div>
             </BackgroundImage>
             <section className="mb-8 flex flex-col justify-center items-center">
-                <h1 className="mt-8 uppercase text-center">Instagram</h1>
-                <div className="flex flex-wrap justify-center items-center mt-8">
+                <h2 className="mt-8 text-center">Latest Instagram Posts</h2>
+                <div className="w-full flex flex-wrap justify-center items-center mt-8">
                     {
-                        instaPosts.edges.map((edge: any) => {
+                        instaPosts.edges.map((edge: any, index: number) => {
                             const image = getImage(edge.node.localFile.childImageSharp.gatsbyImageData);
                             if(!image) return <div>Error: Could not get image</div>;
+                            if(windowWidth && windowWidth < 1024 && index >= 4) return <></>; //Do not show more than 4 on less than lg screen  
 
                             return (
-                                <div className="m-2 max-w-xs">
-                                    <GatsbyImage image={image} alt="Image" />
+                                <div className="m-2 w-1/3 max-w-[16rem] max-h-30 flex-grow drop-shadow-lg">
+                                    <a href={`https://instagram.com/p/${edge.node.id}`} target="_blank">
+                                        <GatsbyImage image={image} alt="Image" />
+                                    </a>
                                 </div>
                             )
                         })
                     }
                 </div>
                 <a href="https://instagram.com/cruscanlan" target="_blank">
-                    <Button size="lg" type="filled">View More</Button>
+                    <Button size="lg" type="filled">View More <FontAwesomeIcon className="ml-2" icon={faInstagram} size="lg"/></Button>
                 </a>
             </section>
         </Layout>
