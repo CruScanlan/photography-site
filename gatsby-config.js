@@ -38,13 +38,13 @@ module.exports = {
                 downloadLocal: false
             }
         },
-        {
+        /* {
             resolve: `gatsby-source-instagram`,
             options: {
                 username: `4753511911`,
                 maxPosts: 6
             },
-        },
+        }, */
         "gatsby-plugin-postcss",
         /* {
         resolve: "gatsby-plugin-google-analytics",
