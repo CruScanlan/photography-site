@@ -14,6 +14,24 @@ import useWindowSize from 'hooks/useWindowSize';
 import Layout from 'components/Layout/Layout';
 import Button from 'components/Button/Button';
 
+/* instaPosts: allInstaNode(limit: 6, sort: {order: DESC, fields: timestamp}) {
+    edges {
+        node {
+            id
+            localFile {
+                childImageSharp {
+                    gatsbyImageData (
+                        quality: 100
+                        placeholder: BLURRED
+                        formats: [AUTO, WEBP]
+                        height: 500
+                    )
+                }
+            }
+        }
+    }
+} */
+
 const IndexPage = () => {
     const { heroImage, instaPosts } = useStaticQuery(
         graphql`
@@ -25,26 +43,11 @@ const IndexPage = () => {
                         }
                     }
                 }
-                instaPosts: allInstaNode(limit: 6, sort: {order: DESC, fields: timestamp}) {
-                    edges {
-                        node {
-                            id
-                            localFile {
-                                childImageSharp {
-                                    gatsbyImageData (
-                                        quality: 100
-                                        placeholder: BLURRED
-                                        formats: [AUTO, WEBP]
-                                        height: 500
-                                    )
-                                }
-                            }
-                        }
-                    }
-                }
             }
         `
     );
+
+
 
     const scrollPosition = useScrollPosition(60);
     const { width: windowWidth, height: windowHeight } = useWindowSize();
@@ -81,7 +84,7 @@ const IndexPage = () => {
                     </Button>
                 </div>
             </BackgroundImage>
-            <section className="mb-8 flex flex-col justify-center items-center">
+            {/* <section className="mb-8 flex flex-col justify-center items-center">
                 <h2 className="mt-8 text-center">Latest Instagram Posts</h2>
                 <div className="w-full flex flex-wrap justify-center items-center mt-8">
                     {
@@ -103,7 +106,7 @@ const IndexPage = () => {
                 <a href="https://instagram.com/cruscanlan" target="_blank">
                     <Button size="lg" type="filled">View More <FontAwesomeIcon className="ml-2" icon={faInstagram} size="lg"/></Button>
                 </a>
-            </section>
+            </section> */}
         </Layout>
     )
 };
