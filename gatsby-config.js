@@ -38,6 +38,14 @@ module.exports = {
                 downloadLocal: false
             }
         },
+        {
+            resolve: `gatsby-source-stripe`,
+            options: {
+              objects: ['Product'],
+              secretKey: process.env.STRIPE_KEY,
+              downloadFiles: true,
+            }
+        },
         /* {
             resolve: `gatsby-source-instagram`,
             options: {

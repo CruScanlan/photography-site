@@ -74,8 +74,8 @@ const IndexPage = () => {
         <Layout pageTitle={'Cru Scanlan Photography'} pageClass="p-home top" navbarScrollAnimation={{enabled: true}}>
             <BackgroundImage critical={true} fluid={heroImage.childImageSharp.fluid} Tag="section" className="font-sans h-screen w-full bg-cover bg-fixed flex flex-col items-center justify-center">
                 <div style={{opacity}} className="flex flex-col items-center justify-center text-center">
-                    <h1 className="text-5xl text-lightPrimary max-w-screen-lg">LANDSCAPE PHOTOGRAPHY</h1>
-                    <h3 className="text-3xl text-lightPrimary max-w-screen-lg"><i>by Cru Scanlan</i></h3>
+                    {/* <h1 className="text-5xl text-lightPrimary max-w-screen-lg">LANDSCAPE PHOTOGRAPHY</h1>
+                    <h3 className="text-3xl text-lightPrimary max-w-screen-lg"><i>by Cru Scanlan</i></h3> */}
                     <Button classes="mt-4" to="/gallery" type="transparent" size="lg" onMouseEnter={buttonHoverCallback}>
                         See Gallery
                         <animated.span style={heroButtonIconStyle}>

@@ -20,7 +20,7 @@ export const createGalleryPhotoPages = async (createPage: Actions['createPage'],
                                 placeholder: BLURRED
                                 formats: [AUTO, WEBP]
                                 layout: CONSTRAINED
-                                height: 2200
+                                height: 2048
                                 outputPixelDensities: [0.25, 0.5, 0.75, 1, 2]
                             )
                             file {
