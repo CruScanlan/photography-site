@@ -1,31 +1,29 @@
 const colors = require('tailwindcss/colors')
 
 module.exports = {
-    mode: 'jit',
-    purge: [
+    content: [
         './public/**/*.html',
         './src/**/*.{js,jsx,ts,tsx}'
     ],
-    darkMode: false, // or 'media' or 'class'
     theme: {
         fontFamily: {
             sans: ['sofia-pro', 'sans-serif']
         },
         colors: {
             lightPrimary: colors.white,
-            lightSecondary: colors.trueGray['400'],
-            lightTertiary: colors.trueGray['700'],
+            lightSecondary: colors.neutral['400'],
+            lightTertiary: colors.neutral['700'],
             
-            darkPrimary: colors.trueGray['900'],
-            darkSecondary: colors.trueGray['800'],
-            darkTertiary: colors.trueGray['700'],
+            darkPrimary: colors.neutral['900'],
+            darkSecondary: colors.neutral['800'],
+            darkTertiary: colors.neutral['700'],
 
             transparent: 'transparent',
             current: 'currentColor',
             white: colors.white,
-            gray: colors.trueGray,
+            gray: colors.neutral,
             red: colors.red,
-            blue: colors.lightBlue,
+            blue: colors.sky,
             yellow: colors.amber,
             orange: colors.orange
         },
