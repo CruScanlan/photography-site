@@ -4,7 +4,7 @@ import Layout from 'components/Layout/Layout';
 
 const AboutPage = () => {
   return (
-    <Layout pageTitle={'About | Cru Scanlan Photography'} pageClass="p-about bg-darkSecondary text-lightPrimary flex justify-center" padTop={true}>
+    <Layout pageTitle={'About | Cru Scanlan Photography'} pageClass="bg-darkSecondary text-lightPrimary flex justify-center" padTop={true}>
         <div className="max-w-4xl p-8">
             <h1 className="text-center p-8">
                 About

@@ -7,7 +7,7 @@ o - objects
 c - components
 p - pages
 */
-
+@import './NavBar.module.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -38,3 +38,4 @@ html, body {
         @apply text-base font-medium;
     }
 }
+

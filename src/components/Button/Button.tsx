@@ -1,9 +1,9 @@
 import React from 'react';
-import { Link } from 'gatsby';
+import Link from 'next/link';
 
 interface Props {
     classes?: React.HTMLAttributes<HTMLDivElement>['className'];
-    to?: string;
+    href?: string;
     size?: 'sm' | 'md' | 'lg';
     type?: 'transparent' | 'filled';
     clickable?: boolean;
@@ -22,15 +22,15 @@ const ButtonTypeClasses = {
     'filled': 'border border-transparent bg-orange-500 hover:bg-orange-700'
 }
 
-const Button: React.FC<Props>  = ({ classes, to, size = 'sm', type = 'transparent', clickable = false, children, ...props }) => {
+const Button: React.FC<Props>  = ({ classes, href, size = 'sm', type = 'transparent', clickable = false, children, ...props }) => {
     const innerClasses = `w-full flex items-center justify-center ${clickable ? 'hover:cursor-pointer' : ''} ${ButtonTypeClasses[type]} ${ButtonSizeClasses[size]}`;
 
     return (
         <div className={`text-base text-center font-semibold text-lightPrimary rounded-md shadow ${classes}`} {...props}>
             {
-                to && ( //Add link
+                href && ( //Add link
                     <Link
-                        to={to}
+                        href={href}
                     >
                         <div className={innerClasses}>
                             {children}
@@ -39,7 +39,7 @@ const Button: React.FC<Props>  = ({ classes, to, size = 'sm', type = 'transparen
                 )
             }
             {
-                !to && ( //No link
+                !href && ( //No link
                     <div className={innerClasses}>
                         {children}
                     </div>
