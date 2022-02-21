@@ -1,6 +1,7 @@
 import * as React from "react";
-import { Link } from "gatsby";
-import { StaticImage } from "gatsby-plugin-image";
+import Link from 'next/link';
+import Image from 'next/image';
+import NavLink from 'components/NavLink/NavLink';
 import useScrollPosition from '@react-hook/window-scroll';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faInstagram, faFacebook } from '@fortawesome/free-brands-svg-icons';
@@ -8,8 +9,6 @@ import ColorScale from 'color-scales';
 
 import numberMap from 'utils/numberMap';
 import useWindowSize from 'hooks/useWindowSize';
-
-import './NavBar.css';
 
 export interface INavbarScrollAnimation {
     enabled: boolean;
@@ -43,7 +42,7 @@ const NavBar: React.FC<Props> = ({ navbarScrollAnimation }) => {
     let style: React.CSSProperties = {};
     let shadow = '';
 
-    if(navbarScrollAnimation.enabled && navbarScrollAnimation.startPositonRelative && navbarScrollAnimation.endPositionRelative && navbarScrollAnimation.startPositionAbsolute && navbarScrollAnimation.endPositionAbsolute ) {
+    if(navbarScrollAnimation.enabled && navbarScrollAnimation.startPositonRelative && navbarScrollAnimation.endPositionRelative && navbarScrollAnimation.startPositionAbsolute && navbarScrollAnimation.endPositionAbsolute ) { //All defined
         let opacity: number;
     
         if(windowHeight) {
@@ -68,29 +67,37 @@ const NavBar: React.FC<Props> = ({ navbarScrollAnimation }) => {
         shadow = opacity === 1 ? 'shadow-lg' : '';
     }
 
+    //<StaticImage placeholder="none" loading="eager" height={60} src="../../images/logo.png" alt="Logo"/>
     return (
         <nav style={style} className={`${shadow} bg-darkPrimary text-lightPrimary text-center flex justify-between fixed top-0 container overflow-hidden min-w-full z-50`}>
-            <Link className="c-navbar__logo" to="/">
-                <StaticImage placeholder="none" loading="eager" height={60} src="../../images/logo.png" alt="Logo"/>
+            <Link href="/">
+                <a className="c-navbar__logo h-[64px] relative">
+                    <Image
+                        src="/logo.png"
+                        layout="fill"
+                        objectFit="contain"
+                        unoptimized
+                    />
+                </a>
             </Link>
             <ul className="text-lg list-none mt-5 p-0 flex items-center justify-center mr-5">
                 <li className="c-navbar__link">
-                    <Link to="/" activeClassName="underline">Home</Link>
+                    <NavLink href="/" activeClassName="underline"><a>Home</a></NavLink>
                 </li>
                 <li className="c-navbar__link">
-                    <Link to="/about" activeClassName="underline ">About</Link>
+                    <NavLink href="/about" activeClassName="underline "><a>About</a></NavLink>
                 </li>
                 <li className="c-navbar__link">
-                    <Link to="/gallery" activeClassName="underline">Gallery</Link>
+                    <NavLink href="/gallery" activeClassName="underline"><a>Gallery</a></NavLink>
                 </li>
                 <li className="c-navbar__link">
-                    <Link to="/prints" activeClassName="underline">Prints</Link>
+                    <NavLink href="/prints" activeClassName="underline"><a>Prints</a></NavLink>
                 </li>
                 <li className="c-navbar__link">
-                    <Link to="/contact" activeClassName="underline">Contact</Link>
+                    <NavLink href="/contact" activeClassName="underline"><a>Contact</a></NavLink>
                 </li>
                 <li className="c-navbar__link">
-                    <Link to="/store" activeClassName="underline">Print Store</Link>
+                    <NavLink href="/store" activeClassName="underline"><a>Print Store</a></NavLink>
                 </li>
                 <li className="c-navbar__link c-navbar__link--socials">
                     <a className="text-lightPrimary hover:text-lightSecondary no-underline" href="https://instagram.com/cruscanlan" target="_blank">
