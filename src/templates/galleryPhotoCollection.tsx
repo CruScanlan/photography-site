@@ -16,6 +16,8 @@ interface IRenderGalleryImageProps {
     collectionSlug: string;
 }
 
+const rowHeight = 700;
+
 const RenderGalleryImage: React.FC<RenderImageProps<IRenderGalleryImageProps> & {masonry: boolean}> = ({ photo, margin, top, left, index, onClick, masonry = true }) => {
     let image = getImage(photo.file);
 
@@ -48,11 +50,10 @@ const RenderGalleryImage: React.FC<RenderImageProps<IRenderGalleryImageProps> & 
 
 const findIdealNodeSearch = ({ targetRowHeight, containerWidth }: {targetRowHeight: number, containerWidth: number}) => {
     const rowAR = containerWidth / targetRowHeight;
-    return round(rowAR / 1.5)+8;
+    return round(rowAR / 1.5)+8; //default 8
 }; */
 
 const GalleryPhotoCollectionPage: React.FC = (props: any) => {
-
     const { width: windowWidth } = useWindowSize();
 
     const photos: IGalleryPhotoData[] = props.pageContext.images.map((image: any) => {
@@ -114,17 +115,18 @@ const GalleryPhotoCollectionPage: React.FC = (props: any) => {
             </div>
             <div className="relative p-4 bg-darkSecondary">
                 {
-                    !windowWidth || windowWidth >= 600 && //Desktop masonry
+                    !windowWidth || windowWidth >= rowHeight && //Desktop masonry
                     <ReactPhotoGallery 
                         photos={photos} 
                         renderImage={RenderGalleryImage as any}
                         onClick={onPhotoClick}
-                        targetRowHeight={600} 
+                        targetRowHeight={rowHeight} 
                         margin={4}
+                        //limitNodeSearch={findIdealNodeSearch({targetRowHeight: rowHeight, containerWidth: windowWidth})}
                     />
                 }
                 {
-                    windowWidth && windowWidth < 600 && //Mobile list
+                    windowWidth && windowWidth < rowHeight && //Mobile list
                     photos.map((photo: any, index) => 
                         <RenderGalleryImage 
                             photo={photo} 

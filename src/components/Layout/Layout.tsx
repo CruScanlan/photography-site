@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useStaticQuery, graphql } from 'gatsby';
 import { Helmet } from 'react-helmet';
+import { CartProvider } from 'use-shopping-cart/react';
 
 import 'styles/global.css';
 
@@ -28,7 +29,7 @@ const Layout: React.FC<Props> = ({ pageTitle, pageClass, padTop = false, navbarS
                     }
                 }
             }
-        `,
+        `
     )
 
     return (
@@ -41,9 +42,20 @@ const Layout: React.FC<Props> = ({ pageTitle, pageClass, padTop = false, navbarS
             {
                 !fullPage && <NavBar navbarScrollAnimation={navbarScrollAnimation} />
             }
-            <main className={`${pageClass} z-10`} style={{paddingTop: padTop ? '87px' : 0}}>
-                { children }
-            </main>
+            <CartProvider
+                mode="payment"
+                cartMode="client-only"
+                stripe={process.env.STRIPE_KEY || ''}
+                successUrl="stripe.com"
+                cancelUrl="google.com"
+                currency="AUD"
+                allowedCountries={['AU']}
+                billingAddressCollection={true}
+            >
+                <main className={`${pageClass} z-10`} style={{paddingTop: padTop ? '87px' : 0}}>
+                    { children }
+                </main>
+            </CartProvider>    
             {
                 !fullPage && <Footer />
             }

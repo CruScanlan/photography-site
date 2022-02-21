@@ -97,17 +97,17 @@ const GalleryPhotoPage: React.FC = (props: any) => {
         >
             <div className="absolute h-screen p-1 md:p-4 2xl:p-8 flex items-center">
                 <Link to={`/${previousImageSlug}?collection=${collectionSlug}`}>
-                    <FontAwesomeIcon className="text-lightTertiary hover:text-lightPrimary" icon={faChevronLeft} size="2x" />
+                    <FontAwesomeIcon className="text-lightSecondary hover:text-lightPrimary" icon={faChevronLeft} size="2x" />
                 </Link>
             </div>
             <div className="absolute h-screen p-1 md:p-4 2xl:p-8 flex items-center right-0">
                 <Link to={`/${nextImageSlug}?collection=${collectionSlug}`}>
-                    <FontAwesomeIcon className="text-lightTertiary hover:text-lightPrimary" icon={faChevronRight} size="2x" />
+                    <FontAwesomeIcon className="text-lightSecondary hover:text-lightPrimary" icon={faChevronRight} size="2x" />
                 </Link>
             </div>
             <div className="absolute w-screen p-1 md:p-4 2xl:p-8 flex justify-end">
                 <Link to={`/${collectionSlug}`}>
-                    <FontAwesomeIcon className="text-lightTertiary hover:text-lightPrimary" icon={faTimes} size="2x" />
+                    <FontAwesomeIcon className="text-lightSecondary hover:text-lightPrimary" icon={faTimes} size="2x" />
                 </Link>
             </div>
             <div className="w-screen h-screen flex flex-col justify-center items-center">
@@ -118,7 +118,6 @@ const GalleryPhotoPage: React.FC = (props: any) => {
                     {
                         !image && <div className="text-lightPrimary">Could not find Image</div>
                     }
-                    
                 </div>
                 <div style={{width}} className="mt-2 flex flex-col justify-between items-center md:flex-row" ref={imageInfoSizeRef}>
                     <div className="flex flex-col items-center md:items-start">
