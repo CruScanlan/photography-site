@@ -1,6 +1,6 @@
 .c-navbar {
     &__logo {
-        min-width: 205px;        
+        min-width: 205px;      
         @apply ml-10 mr-5 mt-5;
     }
 

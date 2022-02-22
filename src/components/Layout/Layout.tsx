@@ -1,9 +1,6 @@
 import * as React from 'react';
-import { useStaticQuery, graphql } from 'gatsby';
 import { Helmet } from 'react-helmet';
 import { CartProvider } from 'use-shopping-cart/react';
-
-import 'styles/global.css';
 
 import NavBar, { INavbarScrollAnimation } from 'components/NavBar/NavBar';
 import Footer from 'components/Footer/Footer';
@@ -18,31 +15,32 @@ interface Props {
 }
 
 const Layout: React.FC<Props> = ({ pageTitle, pageClass, padTop = false, navbarScrollAnimation, fullPage = false, children, style }) => {
-    const { site } = useStaticQuery(
-        graphql`
-            query {
-                site {
-                    siteMetadata {
-                        title
-                        description
-                        siteUrl
-                    }
-                }
-            }
-        `
-    )
-
     return (
         <>
             <Helmet>
                 <meta charSet="utf-8" />
                 <title>{ pageTitle }</title>
-                <link rel="canonical" href={site.siteMetadata.siteUrl} />
+                <link rel="canonical" href="https://google.com" />
+                <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+                <meta http-equiv="content-language" content="en"></meta>
             </Helmet>
             {
                 !fullPage && <NavBar navbarScrollAnimation={navbarScrollAnimation} />
             }
-            <CartProvider
+            <main className={`${pageClass} z-10`} style={{paddingTop: padTop ? '87px' : 0}}>
+                { children }
+            </main>
+            {
+                !fullPage && <Footer />
+            }
+        </>
+    );
+}
+
+export default Layout;
+
+/* 
+<CartProvider
                 mode="payment"
                 cartMode="client-only"
                 stripe={process.env.STRIPE_KEY || ''}
@@ -52,15 +50,5 @@ const Layout: React.FC<Props> = ({ pageTitle, pageClass, padTop = false, navbarS
                 allowedCountries={['AU']}
                 billingAddressCollection={true}
             >
-                <main className={`${pageClass} z-10`} style={{paddingTop: padTop ? '87px' : 0}}>
-                    { children }
-                </main>
-            </CartProvider>    
-            {
-                !fullPage && <Footer />
-            }
-        </>
-    );
-}
-
-export default Layout;
+                
+            </CartProvider>  */

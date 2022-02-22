@@ -1,9 +1,7 @@
 import React, { useCallback } from 'react';
-import { graphql, useStaticQuery, Link } from "gatsby";
-import { GatsbyImage, getImage } from "gatsby-plugin-image";
-import BackgroundImage from "gatsby-background-image-es5";
+import Image from 'next/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faInstagram } from '@fortawesome/free-brands-svg-icons';
+//import { faInstagram } from '@fortawesome/free-brands-svg-icons';
 import { faArrowCircleRight } from '@fortawesome/free-solid-svg-icons';
 import { animated } from 'react-spring';
 import useBoop from 'hooks/useBoop';
@@ -14,41 +12,7 @@ import useWindowSize from 'hooks/useWindowSize';
 import Layout from 'components/Layout/Layout';
 import Button from 'components/Button/Button';
 
-/* instaPosts: allInstaNode(limit: 6, sort: {order: DESC, fields: timestamp}) {
-    edges {
-        node {
-            id
-            localFile {
-                childImageSharp {
-                    gatsbyImageData (
-                        quality: 100
-                        placeholder: BLURRED
-                        formats: [AUTO, WEBP]
-                        height: 500
-                    )
-                }
-            }
-        }
-    }
-} */
-
 const IndexPage = () => {
-    const { heroImage, instaPosts } = useStaticQuery(
-        graphql`
-            query {
-                heroImage: file(relativePath: { eq: "homePageHero2.jpg" }) {
-                    childImageSharp {
-                        fluid(quality: 100, maxWidth: 2000) {
-                            ...GatsbyImageSharpFluid_withWebp
-                        }
-                    }
-                }
-            }
-        `
-    );
-
-
-
     const scrollPosition = useScrollPosition(60);
     const { width: windowWidth, height: windowHeight } = useWindowSize();
 
@@ -71,19 +35,28 @@ const IndexPage = () => {
     } else opacity = scrollPosition < 150 ? 1 : scrollPosition < 300 ? 1-numberMap(scrollPosition, 150, 300, 0, 1) : 0;
 
     return (
-        <Layout pageTitle={'Cru Scanlan Photography'} pageClass="p-home top" navbarScrollAnimation={{enabled: true}}>
-            <BackgroundImage critical={true} fluid={heroImage.childImageSharp.fluid} Tag="section" className="font-sans h-screen w-full bg-cover bg-fixed flex flex-col items-center justify-center">
-                <div style={{opacity}} className="flex flex-col items-center justify-center text-center">
-                    {/* <h1 className="text-5xl text-lightPrimary max-w-screen-lg">LANDSCAPE PHOTOGRAPHY</h1>
-                    <h3 className="text-3xl text-lightPrimary max-w-screen-lg"><i>by Cru Scanlan</i></h3> */}
-                    <Button classes="mt-4" to="/gallery" type="transparent" size="lg" onMouseEnter={buttonHoverCallback}>
-                        See Gallery
-                        <animated.span style={heroButtonIconStyle}>
-                            <FontAwesomeIcon className="ml-2 mt-1" icon={faArrowCircleRight} size="lg" />
-                        </animated.span>
-                    </Button>
-                </div>
-            </BackgroundImage>
+        <Layout pageTitle={'Cru Scanlan Photography'} pageClass="top min-h-screen" navbarScrollAnimation={{enabled: true}}>
+            <div className="fixed h-[100vh] w-[100vw] overflow-hidden z-[-1]">
+                <Image
+                    src="/homePageHero2.jpg"
+                    layout="fill"
+                    objectFit="cover"
+                    quality={98}
+                />
+            </div>
+            <div style={{opacity}} className="flex flex-col items-center justify-center text-center z-10 h-screen">
+                {/* <h1 className="text-5xl text-lightPrimary max-w-screen-lg">LANDSCAPE PHOTOGRAPHY</h1>
+                <h3 className="text-3xl text-lightPrimary max-w-screen-lg"><i>by Cru Scanlan</i></h3> */}
+                <Button classes="mt-4" href="/gallery" type="transparent" size="lg" onMouseEnter={buttonHoverCallback} clickable={true}>
+                    See Gallery
+                    <animated.span style={heroButtonIconStyle}>
+                        <FontAwesomeIcon className="ml-2 mt-1" icon={faArrowCircleRight} size="lg" />
+                    </animated.span>
+                </Button>
+            </div>
+            {/* <BackgroundImage critical={true} fluid={heroImage.childImageSharp.fluid} Tag="section" className="font-sans h-screen w-full bg-cover bg-fixed flex flex-col items-center justify-center">
+                
+            </BackgroundImage> */}
             {/* <section className="mb-8 flex flex-col justify-center items-center">
                 <h2 className="mt-8 text-center">Latest Instagram Posts</h2>
                 <div className="w-full flex flex-wrap justify-center items-center mt-8">
@@ -109,6 +82,6 @@ const IndexPage = () => {
             </section> */}
         </Layout>
     )
-};
+}
 
-export default IndexPage;
+export default IndexPage

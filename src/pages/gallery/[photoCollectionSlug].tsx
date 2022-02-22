@@ -1,35 +1,36 @@
 import React, { useCallback } from 'react';
-import { Link } from "gatsby";
-import { GatsbyImage, getImage } from "gatsby-plugin-image";
+import Link from 'next/link';
+import Image from 'next/image';
 import ReactPhotoGallery, { RenderImageProps, renderImageClickHandler } from "react-photo-gallery";
 import useWindowSize from 'hooks/useWindowSize';
+import contentful from 'utils/contentful';
 
 import Layout from 'components/Layout/Layout';
-
-import './galleryPhotoCollection.css';
+import NavLink from 'components/NavLink/NavLink';
+import { faPhotoFilm } from '@fortawesome/free-solid-svg-icons';
 
 interface IRenderGalleryImageProps {
-    src?: string;
-    file: any;
+    key: string;
+    url: string;
     title: string;
+    width: string;
+    height: string;
     imageSlug: string;
     collectionSlug: string;
 }
 
-const rowHeight = 700;
+const rowHeight = 600;
 
 const RenderGalleryImage: React.FC<RenderImageProps<IRenderGalleryImageProps> & {masonry: boolean}> = ({ photo, margin, top, left, index, onClick, masonry = true }) => {
-    let image = getImage(photo.file);
-
     const handleClick = (e: React.MouseEvent) => {
         if(onClick) onClick(e, {...photo, index});
     }
 
-    if(!image) return <div>Error Getting Image</div>;
+    if(!photo) return <div>Error Getting Image</div>;
 
     return (
         <div className="w-full relative" style={masonry ? {margin, width: photo.width, height: photo.height, top, left} : {}} key={photo.key} onClick={handleClick}>
-            <Link to={`/${photo.imageSlug}?collection=${photo.collectionSlug}`}>
+            <Link href={`/${photo.imageSlug}?collection=${photo.collectionSlug}`}>
                 <div className="w-full h-full z-10 absolute flex flex-row items-end opacity-0 transition-opacity duration-600 hover:opacity-100">
                     <div className="c-galleryImage p-2 w-full bg-opacity-80 bg-darkSecondary">
                         <h4 className="text-lightPrimary font">
@@ -38,36 +39,25 @@ const RenderGalleryImage: React.FC<RenderImageProps<IRenderGalleryImageProps> & 
                     </div>
                 </div>
             </Link>
-            <GatsbyImage key={photo.key} className="c-galleryImage__gatsby w-full h-full absolute" image={image} alt="Image" loading={index < 5 ? 'eager' : 'lazy'} />
+            <Image className="c-galleryImage__gatsby w-full h-full absolute" quality={98} src={photo.url} width={photo.width} height={photo.height} layout="responsive" alt="Image" loading={index < 5 ? 'eager' : 'lazy'} />
         </div>
     )
 }
 
-/* const round = (value: number, decimals?: number) => {
-    if (!decimals) decimals = 0;
-    return Number(Math.round(Number(value + 'e' + decimals)) + 'e-' + decimals);
-};
-
-const findIdealNodeSearch = ({ targetRowHeight, containerWidth }: {targetRowHeight: number, containerWidth: number}) => {
-    const rowAR = containerWidth / targetRowHeight;
-    return round(rowAR / 1.5)+8; //default 8
-}; */
-
-const GalleryPhotoCollectionPage: React.FC = (props: any) => {
+const Gallery = (props) => {
     const { width: windowWidth } = useWindowSize();
 
-    const photos: IGalleryPhotoData[] = props.pageContext.images.map((image: any) => {
-        const fullImage = image.fullResImage;
+    const photos: IGalleryPhotoData[] = props.landscapeImages.map((landscapeImage: any) => {
+        const image = landscapeImage.fullResImage.fields;
 
         return {
-            key: image.id,
-            src: '',
-            width: fullImage.file.details.image.width,
-            height: fullImage.file.details.image.height,
-            file: fullImage.gatsbyImageData,
-            title: image.title,
-            imageSlug: image.slug,
-            collectionSlug: props.pageContext.slug
+            key: landscapeImage.slug,
+            url: `https:${image.file.url}`,
+            width: image.file.details.image.width,
+            height: image.file.details.image.height,
+            title: landscapeImage.title,
+            imageSlug: landscapeImage.slug,
+            collectionSlug: props.slug
         }
     });
 
@@ -88,7 +78,17 @@ const GalleryPhotoCollectionPage: React.FC = (props: any) => {
             }}
         >
             <div className="w-full h-[60vh]">
-                <GatsbyImage className="w-full h-[60vh] !fixed" image={props.pageContext.heroImage.gatsbyImageData} alt="Image" loading={'eager'} />   
+                <Image 
+                    className="w-full h-[60vh] !fixed z-[0] overflow-hidden"
+                    alt="Image" 
+                    loading="eager"
+                    quality={98}
+                    layout="responsive"
+                    objectFit="cover"
+                    src={`https:${props.heroImage.file.url}`} 
+                    width={props.heroImage.file.details.image.width} 
+                    height={props.heroImage.file.details.image.height}
+                />
             </div>
             <div className="w-full relative p-4 text-lightPrimary bg-darkPrimary shadow-xl flex items-center">
                 <div className="p-2">
@@ -101,13 +101,15 @@ const GalleryPhotoCollectionPage: React.FC = (props: any) => {
                 </div>
                 <div className="relative flex items-baseline pl-4">
                     {
-                        props.pageContext.collectionNames.map((collectionName: any) => (
-                            <div className="p-2">
-                                <Link className="text-lightSecondary hover:text-lightPrimary" activeClassName="!text-lightPrimary" to={`/${collectionName.slug}`}>
-                                    <h4>
-                                        {collectionName.name}
-                                    </h4>
-                                </Link>
+                        props.collections.map((collection: any) => (
+                            <div className="p-2 text-lightSecondary hover:text-lightPrimary" key={collection.slug}>
+                                <NavLink activeClassName="!text-lightPrimary" href={`/gallery/${collection.slug}`}>
+                                    <a>
+                                        <h4>
+                                            {collection.name}
+                                        </h4>
+                                    </a>
+                                </NavLink>
                             </div>
                         ))
                     }     
@@ -143,4 +145,37 @@ const GalleryPhotoCollectionPage: React.FC = (props: any) => {
     )
 };
 
-export default GalleryPhotoCollectionPage;
+export default Gallery;
+ 
+export async function getStaticProps({ params }) {
+    const photoCollectionSlug = params.photoCollectionSlug;
+    //{include: 2, content_type: ''}
+
+    const photoCollectionOrderContentful = await contentful.getEntry<any>('5MUgow4FEnQHKNRQI5p7Cr', {include: 2}); //{include: 2} will make sure it retreieves linked assets 2 deep
+
+    const collections = photoCollectionOrderContentful.fields.photoCollections.map(item => ({name: item.fields.name, slug: item.fields.slug})) //Name and slug
+
+    const collection = photoCollectionOrderContentful.fields.photoCollections.find(photoCollection => photoCollection.fields.slug === photoCollectionSlug).fields;
+    const heroImage = collection.heroImage.fields;
+    const landscapeImages = collection.images.map(image => image.fields);
+
+    return {
+        props: {
+            slug: photoCollectionSlug,
+            heroImage,
+            collections,
+            landscapeImages
+        }
+    };
+}
+
+export async function getStaticPaths() {
+    const photoCollectionOrderContentful = await contentful.getEntry<any>('5MUgow4FEnQHKNRQI5p7Cr', {include: 2});
+
+    const collectionSlugs = photoCollectionOrderContentful.fields.photoCollections.map(item => item.fields.slug) //Name and slug
+
+    return {
+        paths: collectionSlugs.map(collectionSlug => ({ params: { photoCollectionSlug: collectionSlug }})),
+        fallback: true // false or 'blocking'
+    };
+}
