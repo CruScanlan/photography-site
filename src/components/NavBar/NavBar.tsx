@@ -82,7 +82,7 @@ const NavBar: React.FC<Props> = ({ navbarScrollAnimation }) => {
             </Link>
             <ul className="text-lg list-none mt-5 p-0 flex items-center justify-center mr-5">
                 <li className="c-navbar__link">
-                    <NavLink href="/" activeClassName="underline"><a>Home</a></NavLink>
+                    <NavLink href="/" activeClassName="underline" exact><a>Home</a></NavLink>
                 </li>
                 <li className="c-navbar__link">
                     <NavLink href="/about" activeClassName="underline "><a>About</a></NavLink>

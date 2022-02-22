@@ -11,7 +11,7 @@ interface Props extends LinkProps {
 
 const NavLink: React.FC<Props> = ({ href, as, exact = false, activeClassName, children, ...props }) => {
     const { asPath } = useRouter();
-    const isActive = pathToRegexp(as || href, [], { sensitive: true, end: !!exact }).test(asPath);
+    let isActive = pathToRegexp(as || href, [], { sensitive: true, end: !!exact }).test(asPath);
 
     const child: any = React.Children.only(children);
     const className = ((child.props.className || '') + ' ' + (isActive ? activeClassName : '')).trim();
