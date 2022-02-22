@@ -36,3 +36,5 @@ yarn-error.log*
 old/
 
 .env.development
+
+.env.production
