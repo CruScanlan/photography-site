@@ -8,6 +8,11 @@ module.exports = {
           source: '/gallery',
           destination: '/gallery/personal-favourites',
           permanent: true
+        },
+        {
+            source: '/image',
+            destination: '/gallery/personal-favourites',
+            permanent: true
         }
       ]
     }

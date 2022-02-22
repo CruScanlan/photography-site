@@ -77,6 +77,7 @@ const NavBar: React.FC<Props> = ({ navbarScrollAnimation }) => {
                         layout="fill"
                         objectFit="contain"
                         unoptimized
+                        priority
                     />
                 </a>
             </Link>

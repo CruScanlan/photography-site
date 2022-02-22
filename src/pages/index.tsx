@@ -42,6 +42,7 @@ const IndexPage = () => {
                     layout="fill"
                     objectFit="cover"
                     quality={98}
+                    priority
                 />
             </div>
             <div style={{opacity}} className="flex flex-col items-center justify-center text-center z-10 h-screen">

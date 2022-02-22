@@ -28,8 +28,8 @@ const RenderGalleryImage: React.FC<RenderImageProps<IRenderGalleryImageProps> & 
     if(!photo) return <div>Error Getting Image</div>;
 
     return (
-        <div className="w-full relative" style={masonry ? {margin, width: photo.width, height: photo.height, top, left} : {}} key={photo.key} onClick={handleClick}>
-            <Link href={`/${photo.imageSlug}?collection=${photo.collectionSlug}`}>
+        <div className="w-full relative hover:cursor-pointer" style={masonry ? {margin, width: photo.width, height: photo.height, top, left} : {}} key={photo.key} onClick={handleClick}>
+            <Link href={`/image/${photo.imageSlug}?collection=${photo.collectionSlug}`}>
                 <div className="w-full h-full z-10 absolute flex flex-row items-end opacity-0 transition-opacity duration-600 hover:opacity-100">
                     <div className="c-galleryImage p-2 w-full bg-opacity-80 bg-darkSecondary">
                         <h4 className="text-lightPrimary font">
@@ -38,7 +38,15 @@ const RenderGalleryImage: React.FC<RenderImageProps<IRenderGalleryImageProps> & 
                     </div>
                 </div>
             </Link>
-            <Image className="c-galleryImage__gatsby w-full h-full absolute" quality={98} src={photo.url} width={photo.width} height={photo.height} layout="responsive" alt="Image" loading={index < 5 ? 'eager' : 'lazy'} />
+            <Image 
+                className="c-galleryImage__gatsby w-full h-full absolute" 
+                quality={95} 
+                src={photo.url} 
+                width={photo.width} 
+                height={photo.height} 
+                layout="responsive" 
+                alt="Image" loading={index < 5 ? 'eager' : 'lazy'} 
+            />
         </div>
     )
 }
@@ -84,6 +92,7 @@ const Gallery = (props) => {
                     quality={98}
                     layout="responsive"
                     objectFit="cover"
+                    priority
                     src={`https:${props.heroImage.file.url}`} 
                     width={props.heroImage.file.details.image.width} 
                     height={props.heroImage.file.details.image.height}
