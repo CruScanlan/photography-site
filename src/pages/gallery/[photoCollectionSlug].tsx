@@ -7,7 +7,6 @@ import contentful from 'utils/contentful';
 
 import Layout from 'components/Layout/Layout';
 import NavLink from 'components/NavLink/NavLink';
-import { faPhotoFilm } from '@fortawesome/free-solid-svg-icons';
 
 interface IRenderGalleryImageProps {
     key: string;
@@ -47,7 +46,7 @@ const RenderGalleryImage: React.FC<RenderImageProps<IRenderGalleryImageProps> & 
 const Gallery = (props) => {
     const { width: windowWidth } = useWindowSize();
 
-    const photos: IGalleryPhotoData[] = props.landscapeImages.map((landscapeImage: any) => {
+    const photos = props.landscapeImages.map((landscapeImage: any) => {
         const image = landscapeImage.fullResImage.fields;
 
         return {
