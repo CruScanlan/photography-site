@@ -175,6 +175,6 @@ export async function getStaticPaths() {
 
     return {
         paths: collectionSlugs.map(collectionSlug => ({ params: { photoCollectionSlug: collectionSlug }})),
-        fallback: true // false or 'blocking'
+        fallback: false // false or 'blocking'
     };
 }
