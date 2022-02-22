@@ -116,10 +116,9 @@ const GalleryPhotoPage = (props) => {
                 </Link>
             </div>
             <div className="w-screen h-screen flex flex-col justify-center items-center">
-                <div style={{width, height}} className="flex flex-col items-center block">
+                <div style={{width, height}} className="block">
                     {
-                        image && <Image 
-                            className="w-full h-full" 
+                        image && <Image
                             priority 
                             loading="eager"
                             layout="responsive"

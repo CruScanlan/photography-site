@@ -29,7 +29,6 @@
     "react-spring": "^9.4.3",
     "sass": "^1.49.8",
     "tailwindcss": "^3.0.23",
-    "use-query-params": "^1.2.3",
     "use-shopping-cart": "^3.0.5"
   },
   "devDependencies": {
