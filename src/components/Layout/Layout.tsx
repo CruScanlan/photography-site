@@ -30,7 +30,6 @@ const Layout: React.FC<Props> = ({ pageTitle, pageClass, padTop = false, navbarS
             <main className={`${pageClass} z-10`} style={{paddingTop: padTop ? '87px' : 0}}>
                 { children }
             </main>
-              
             {
                 !fullPage && <Footer />
             }
