@@ -1046,6 +1046,11 @@ prop-types@~15.7.2:
     object-assign "^4.1.1"
     react-is "^16.8.1"
 
+qs-props@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/qs-props/-/qs-props-2.0.1.tgz#c6253c19f2a97ee029dc646f5025b3ac7410c512"
+  integrity sha512-VKYopCkeknea+q1mS7G+qIEYomWtB9szAzcrh6x4rARrbd5dtD7lAV6ePgR8/60+inMMXPGx2siLaLmLPFH6lA==
+
 qs@^6.9.4:
   version "6.10.3"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.10.3.tgz#d6cde1b2ffca87b5aa57889816c5f81535e22e8e"
