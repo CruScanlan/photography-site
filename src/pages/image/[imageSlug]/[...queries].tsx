@@ -1,12 +1,14 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
+import { GetStaticPaths, GetStaticProps } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronRight, faChevronLeft, faTimes } from '@fortawesome/free-solid-svg-icons';
 import useComponentSize from '@rehooks/component-size';
 import useWindowSize from 'hooks/useWindowSize';
 import contentful from 'utils/contentful';
+import { qs } from 'qs-props';
 
 
 import Layout from 'components/Layout/Layout';
@@ -14,38 +16,33 @@ import Button from 'components/Button/Button';
 
 type IPhotoCollectionSlugs = {
     slug: string;
-    images: {
-        slug: string
-    }[]
+    images: string[]
 };
 
 type IPhotoCollectionsSlugsArray = IPhotoCollectionSlugs[];
 
 const GalleryPhotoPage = (props) => {
-    const imageSlug: string = props.imageSlug;
+    const imageSlug: string = props.image.slug;
+    const collectionQueryParam: string = props.collectionQueryParam;
     const image = props.image;
-    const router = useRouter();
-    const collectionQueryParam = router.query.collection;
 
     const imageDimensions: {width: number; height: number} = image.fullResImage.fields.file.details.image;
 
-
     const { width: windowWidth, height: windowHeight } = useWindowSize();
     const imageInfoSizeRef = useRef(null);
-    const imageInfoSize = useComponentSize(imageInfoSizeRef)
-
+    const imageInfoSize = useComponentSize(imageInfoSizeRef);
     
     let collectionSlug: string = '';
     let nextImageSlug: string = '';
     let previousImageSlug: string = '';
 
     const getOtherImagesFromCollection = (collection: IPhotoCollectionSlugs) => {
-        const imageIndex = collection.images.findIndex(({ slug }) => slug === slug);
+        const imageIndex = collection.images.findIndex((slug) => slug === imageSlug);
         if(imageIndex === -1) return ['', '', '']; //Didnt find image in collection
 
         const collectionSlug = collection.slug;
-        const nextImageSlug = collection.images[imageIndex+1 !== collection.images.length ? imageIndex+1 : 0].slug;
-        const previousImageSlug = collection.images[imageIndex !== 0 ? imageIndex-1 : collection.images.length-1].slug;
+        const nextImageSlug = collection.images[imageIndex+1 !== collection.images.length ? imageIndex+1 : 0];
+        const previousImageSlug = collection.images[imageIndex !== 0 ? imageIndex-1 : collection.images.length-1];
 
         return [collectionSlug, nextImageSlug, previousImageSlug];
     }
@@ -57,6 +54,7 @@ const GalleryPhotoPage = (props) => {
 
             if(collectionQueryParam === collection.slug) { //Found collection
                 [collectionSlug, nextImageSlug, previousImageSlug] = getOtherImagesFromCollection(collection);
+                break;
             }
         }
     }
@@ -65,7 +63,7 @@ const GalleryPhotoPage = (props) => {
         let found = false;
         for(let i=0; i<photoCollectionSlugs.length; i++) {
             const collection = photoCollectionSlugs[i];
-            const hasImage = collection.images.findIndex(({ slug }) => slug === imageSlug) !== -1;
+            const hasImage = collection.images.findIndex((slug) => slug === imageSlug) !== -1;
 
             if(hasImage) { //Found set and break loop
                 [collectionSlug, nextImageSlug, previousImageSlug] = getOtherImagesFromCollection(collection);
@@ -122,7 +120,7 @@ const GalleryPhotoPage = (props) => {
                             priority 
                             loading="eager"
                             layout="responsive"
-                            quality={99}
+                            quality={100}
                             src={`https:${imageFile.url}`} 
                             width={imageFile.details.image.width} 
                             height={imageFile.details.image.height} 
@@ -147,8 +145,14 @@ const GalleryPhotoPage = (props) => {
 
 export default GalleryPhotoPage;
 
-export async function getStaticProps({ params }) {
-    const imageSlug = params.imageSlug;
+const { getQueryStringProps, makeQuery } = qs(
+    ['collection'] as const,
+    'queries'
+);
+
+export const getStaticProps: GetStaticProps = async (ctx) => {
+    const imageSlug = ctx.params.imageSlug;
+    const queryParams = getQueryStringProps(ctx);
 
     const photoCollectionOrderContentful = await contentful.getEntry<any>('5MUgow4FEnQHKNRQI5p7Cr', {include: 2}); //{include: 2} will make sure it retreieves linked assets 2 deep
     
@@ -163,16 +167,33 @@ export async function getStaticProps({ params }) {
     return {
         props: {
             photoCollectionSlugs,
-            image
+            image,
+            collectionQueryParam: queryParams.collection
         }
     };
 }
 
-export async function getStaticPaths() {
-    const landscapeImages = (await contentful.getEntries<any>({include: 2, content_type: 'landscapeImage'})).items;
+
+
+export const getStaticPaths: GetStaticPaths = async () => {
+    const landscapeImageSlugs = (await contentful.getEntries<any>({include: 2, content_type: 'landscapeImage'})).items.map(landscapeImage => landscapeImage.fields.slug);
+    const photoCollections = (await contentful.getEntries<any>({include: 1, content_type: 'photoCollection'})).items;
+
+    //Get image slugs and collection slugs for every existence of the image in a collection
+    const pathData = landscapeImageSlugs.reduce((prev, imageSlug) => {
+        const slugs = photoCollections.filter(photoCollection => 
+                photoCollection.fields.images.find(image => image.fields.slug === imageSlug) //Only get collections that include the image
+            ).map(photoCollection => ({imageSlug, collectionSlug: photoCollection.fields.slug})) //Get the image slug and collection slug for every collection
+        return  [...prev, ...slugs]; //Concat new array to old
+    }, []);
 
     return {
-        paths: landscapeImages.map(landscapeImage => ({ params: { imageSlug: landscapeImage.fields.slug }})),
-        fallback: false // false or 'blocking'
+        paths: pathData.map(path => ({
+            params: {
+                imageSlug: path.imageSlug,
+                ...makeQuery({collection: path.collectionSlug})
+            }
+        })),
+        fallback: 'blocking' // false or 'blocking'
     };
 }
