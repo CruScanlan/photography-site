@@ -1,5 +1,6 @@
 module.exports = {
     images: {
+        formats: ['image/webp'],
         domains: ['images.ctfassets.net', 'downloads.ctfassets.net'],
     },
     async redirects() {
