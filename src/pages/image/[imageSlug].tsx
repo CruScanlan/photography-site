@@ -122,7 +122,6 @@ const GalleryPhotoPage = (props) => {
                             priority 
                             loading="eager"
                             layout="responsive"
-                            quality={99}
                             src={`https:${imageFile.url}`} 
                             width={imageFile.details.image.width} 
                             height={imageFile.details.image.height} 
