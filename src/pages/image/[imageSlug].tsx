@@ -19,8 +19,7 @@ type IPhotoCollectionSlugs = {
 
 type IPhotoCollectionsSlugsArray = IPhotoCollectionSlugs[];
 
-//TODO: Implement pre fetching for these pages to reduce load times 300ms or so
-
+//TODO: Implement pre fetching for these pages to reduce load times at least 300m
 //TODO: Possibly prefetch next image too
 
 const GalleryPhotoPage = (props) => {
@@ -122,6 +121,7 @@ const GalleryPhotoPage = (props) => {
                             priority 
                             loading="eager"
                             layout="responsive"
+                            quality={100}
                             src={`https:${imageFile.url}`} 
                             width={imageFile.details.image.width} 
                             height={imageFile.details.image.height} 
