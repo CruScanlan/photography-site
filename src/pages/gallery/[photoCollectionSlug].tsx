@@ -12,13 +12,12 @@ type IRenderGalleryImageProps  = PhotoProps<{
     width: number;
     height: number;
     key: string;
-    index: number;
     imageSlug: string;
     collectionSlug: string;
 }> & { wrapperProps?: React.HTMLAttributes<HTMLDivElement>; };
 
 const RenderGalleryImage: React.FC<IRenderGalleryImageProps> = ({ photo, imageProps, wrapperProps }) => {
-    const { width, height, key, index, imageSlug, collectionSlug } = photo;
+    const { width, height, key, imageSlug, collectionSlug } = photo;
     const { src, alt, title, style, sizes, className } = imageProps;
     const { style: wrapperStyle, ...restWrapperProps } = wrapperProps ?? {};
 
@@ -52,14 +51,13 @@ const RenderGalleryImage: React.FC<IRenderGalleryImageProps> = ({ photo, imagePr
                 height={height} 
                 layout="responsive" 
                 alt={alt}
-                loading={index < 5 ? 'eager' : 'lazy'} 
             />
         </div>
     )
 }
 
 const Gallery = (props) => {
-    const photos = props.landscapeImages.map((landscapeImage: any, index: number) => {
+    const photos = props.landscapeImages.map((landscapeImage: any) => {
         const image = landscapeImage.fullResImage.fields;
 
         return {
@@ -69,7 +67,6 @@ const Gallery = (props) => {
             height: image.file.details.image.height,
             alt: landscapeImage.title,
             title: landscapeImage.title,
-            index,
             imageSlug: landscapeImage.slug,
             collectionSlug: props.slug
         }
