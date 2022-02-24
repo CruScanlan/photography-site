@@ -130,7 +130,7 @@ const Gallery = (props) => {
                     renderPhoto={RenderGalleryImage}
                     spacing={6}
                     targetRowHeight={600}
-                    breakpoints={[320, 640, 768, 1024, 1280, 1536]}
+                    breakpoints={[320, 640, 768, 1024, 1280, 1536, 1800, 2100, 2400, 2700, 3000, 3300, 3600, 3900]}
                 />
             </div>
         </Layout>
