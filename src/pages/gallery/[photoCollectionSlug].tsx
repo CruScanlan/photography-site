@@ -1,39 +1,45 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import ReactPhotoGallery, { RenderImageProps, renderImageClickHandler } from "react-photo-gallery";
-import useWindowSize from 'hooks/useWindowSize';
+import PhotoAlbum, { PhotoProps } from "react-photo-album";
 import contentful from 'utils/contentful';
 
 import Layout from 'components/Layout/Layout';
 import NavLink from 'components/NavLink/NavLink';
 
-interface IRenderGalleryImageProps {
+type IRenderGalleryImageProps  = PhotoProps<{
+    src: string;
+    width: number;
+    height: number;
     key: string;
-    url: string;
-    title: string;
-    width: string;
-    height: string;
+    index: number;
     imageSlug: string;
     collectionSlug: string;
-}
+}> & { wrapperProps?: React.HTMLAttributes<HTMLDivElement>; };
 
-const rowHeight = 600;
-
-const RenderGalleryImage: React.FC<RenderImageProps<IRenderGalleryImageProps> & {masonry: boolean}> = ({ photo, margin, top, left, index, onClick, masonry = true }) => {
-    const handleClick = (e: React.MouseEvent) => {
-        if(onClick) onClick(e, {...photo, index});
-    }
+const RenderGalleryImage: React.FC<IRenderGalleryImageProps> = ({ photo, imageProps, wrapperProps }) => {
+    const { width, height, key, index, imageSlug, collectionSlug } = photo;
+    const { src, alt, title, style, sizes, className } = imageProps;
+    const { style: wrapperStyle, ...restWrapperProps } = wrapperProps ?? {};
 
     if(!photo) return <div>Error Getting Image</div>;
 
     return (
-        <div className="w-full relative hover:cursor-pointer" style={masonry ? {margin, width: photo.width, height: photo.height, top, left} : {}} key={photo.key} onClick={handleClick}>
-            <Link href={`/image/${photo.imageSlug}?collection=${photo.collectionSlug}`}>
+        <div className="w-full relative hover:cursor-pointer" 
+            style={{
+                width: style.width,
+                padding: style.padding,
+                marginBottom: style.marginBottom,
+                ...wrapperStyle
+            }}
+            {...restWrapperProps} 
+            key={key}
+        >
+            <Link href={`/image/${imageSlug}?collection=${collectionSlug}`}>
                 <div className="w-full h-full z-10 absolute flex flex-row items-end opacity-0 transition-opacity duration-600 hover:opacity-100">
                     <div className="c-galleryImage p-2 w-full bg-opacity-80 bg-darkSecondary">
                         <h4 className="text-lightPrimary font">
-                            { photo.title }
+                            { title }
                         </h4>
                     </div>
                 </div>
@@ -41,36 +47,33 @@ const RenderGalleryImage: React.FC<RenderImageProps<IRenderGalleryImageProps> & 
             <Image 
                 className="c-galleryImage__gatsby w-full h-full absolute" 
                 quality={95} 
-                src={photo.url} 
-                width={photo.width} 
-                height={photo.height} 
+                src={src} 
+                width={width} 
+                height={height} 
                 layout="responsive" 
-                alt="Image" loading={index < 5 ? 'eager' : 'lazy'} 
+                alt={alt}
+                loading={index < 5 ? 'eager' : 'lazy'} 
             />
         </div>
     )
 }
 
 const Gallery = (props) => {
-    const { width: windowWidth } = useWindowSize();
-
-    const photos = props.landscapeImages.map((landscapeImage: any) => {
+    const photos = props.landscapeImages.map((landscapeImage: any, index: number) => {
         const image = landscapeImage.fullResImage.fields;
 
         return {
             key: landscapeImage.slug,
-            url: `https:${image.file.url}`,
+            src: `https:${image.file.url}`,
             width: image.file.details.image.width,
             height: image.file.details.image.height,
+            alt: landscapeImage.title,
             title: landscapeImage.title,
+            index,
             imageSlug: landscapeImage.slug,
             collectionSlug: props.slug
         }
     });
-
-    const onPhotoClick = useCallback<renderImageClickHandler>((e, photo) => {
-        
-    }, [])
 
     return (
         <Layout 
@@ -124,30 +127,14 @@ const Gallery = (props) => {
                 </div>
             </div>
             <div className="relative p-4 bg-darkSecondary">
-                {
-                    !windowWidth || windowWidth >= rowHeight && //Desktop masonry
-                    <ReactPhotoGallery 
-                        photos={photos} 
-                        renderImage={RenderGalleryImage as any}
-                        onClick={onPhotoClick}
-                        targetRowHeight={rowHeight} 
-                        margin={4}
-                        //limitNodeSearch={findIdealNodeSearch({targetRowHeight: rowHeight, containerWidth: windowWidth})}
-                    />
-                }
-                {
-                    windowWidth && windowWidth < rowHeight && //Mobile list
-                    photos.map((photo: any, index) => 
-                        <RenderGalleryImage 
-                            photo={photo} 
-                            onClick={onPhotoClick} 
-                            index={index} 
-                            direction="row"
-                            masonry={false}
-                            key={photo.key}
-                        />
-                    )
-                }
+                <PhotoAlbum 
+                    layout="rows"
+                    photos={photos}
+                    renderPhoto={RenderGalleryImage}
+                    spacing={6}
+                    targetRowHeight={600}
+                    breakpoints={[320, 640, 768, 1024, 1280, 1536]}
+                />
             </div>
         </Layout>
     )

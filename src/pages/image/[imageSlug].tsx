@@ -19,6 +19,10 @@ type IPhotoCollectionSlugs = {
 
 type IPhotoCollectionsSlugsArray = IPhotoCollectionSlugs[];
 
+//TODO: Implement pre fetching for these pages to reduce load times 300ms or so
+
+//TODO: Possibly prefetch next image too
+
 const GalleryPhotoPage = (props) => {
     const imageSlug: string = props.image.slug;
     const collectionQueryParam: string = props.collectionQueryParam;
@@ -102,7 +106,7 @@ const GalleryPhotoPage = (props) => {
                 </Link>
             </div>
             <div className="absolute h-screen p-1 md:p-4 2xl:p-8 flex items-center right-0">
-                <Link href={`/image/${nextImageSlug}?collection=${collectionSlug}`} prefetch={false}>
+                <Link href={`/image/${nextImageSlug}?collection=${collectionSlug}`}>
                     <a><FontAwesomeIcon className="text-lightSecondary hover:text-lightPrimary" icon={faChevronRight} size="2x" /></a>
                 </Link>
             </div>

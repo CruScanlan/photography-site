@@ -25,7 +25,7 @@
     "react-dom": "^17.0.2",
     "react-helmet": "^6.1.0",
     "react-modal": "^3.14.4",
-    "react-photo-gallery": "^8.0.0",
+    "react-photo-album": "^1.7.0",
     "react-spring": "^9.4.3",
     "sass": "^1.49.8",
     "tailwindcss": "^3.0.23",
