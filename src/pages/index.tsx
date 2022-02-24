@@ -42,6 +42,7 @@ const IndexPage = () => {
                     layout="fill"
                     objectFit="cover"
                     quality={98}
+                    loading="eager"
                     priority
                 />
             </div>
