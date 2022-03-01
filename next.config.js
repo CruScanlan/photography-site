@@ -1,4 +1,6 @@
-module.exports = {
+const { withPlaiceholder } = require("@plaiceholder/next");
+
+module.exports = withPlaiceholder({
     images: {
         formats: ['image/webp'],
         domains: ['images.ctfassets.net', 'downloads.ctfassets.net'],
@@ -17,4 +19,4 @@ module.exports = {
         }
       ]
     }
-}
+});
