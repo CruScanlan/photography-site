@@ -12,14 +12,13 @@ type IRenderGalleryImageProps  = PhotoProps<{
     src: string;
     width: number;
     height: number;
-    key: string;
     imageSlug: string;
     collectionSlug: string;
     base64: string;
 }> & { wrapperProps?: React.HTMLAttributes<HTMLDivElement>; };
 
 const RenderGalleryImage: React.FC<IRenderGalleryImageProps> = ({ photo, imageProps, wrapperProps }) => {
-    const { width, height, key, imageSlug, collectionSlug, base64 } = photo;
+    const { width, height, imageSlug, collectionSlug, base64 } = photo;
     const { src, alt, title, style} = imageProps;
     const { style: wrapperStyle, ...restWrapperProps } = wrapperProps ?? {};
 
@@ -33,8 +32,7 @@ const RenderGalleryImage: React.FC<IRenderGalleryImageProps> = ({ photo, imagePr
                 marginBottom: style.marginBottom,
                 ...wrapperStyle
             }}
-            {...restWrapperProps} 
-            key={key}
+            {...restWrapperProps}
         >
             <Link href={`/image/${imageSlug}?collection=${collectionSlug}`}>
                 <div className="w-full h-full z-10 absolute flex flex-row items-end opacity-0 transition-opacity duration-600 hover:opacity-100">
@@ -65,7 +63,6 @@ const Gallery = (props) => {
         const image = landscapeImage.fullResImage.fields;
 
         return {
-            key: landscapeImage.slug,
             src: `https:${image.file.url}`,
             base64: image.file.base64,
             width: image.file.details.image.width,
@@ -98,6 +95,8 @@ const Gallery = (props) => {
                     layout="responsive"
                     objectFit="cover"
                     priority
+                    placeholder='blur'
+                    blurDataURL={props.heroImage.file.base64}
                     src={`https:${props.heroImage.file.url}`} 
                     width={props.heroImage.file.details.image.width} 
                     height={props.heroImage.file.details.image.height}
@@ -146,18 +145,21 @@ export default Gallery;
  
 export async function getStaticProps({ params }) {
     const photoCollectionSlug = params.photoCollectionSlug;
-    //{include: 2, content_type: ''}
 
     const photoCollectionOrderContentful = await contentful.getEntry<any>('5MUgow4FEnQHKNRQI5p7Cr', {include: 2}); //{include: 2} will make sure it retreieves linked assets 2 deep
 
     const collections = photoCollectionOrderContentful.fields.photoCollections.map(item => ({name: item.fields.name, slug: item.fields.slug})) //Name and slug
 
     const collection = photoCollectionOrderContentful.fields.photoCollections.find(photoCollection => photoCollection.fields.slug === photoCollectionSlug).fields;
-    const heroImage = collection.heroImage.fields;
+    let heroImage = collection.heroImage.fields;
+
+    heroImage.file = {
+        ...heroImage.file,
+        base64: (await getPlaiceholder(`https:${heroImage.file.url}`)).base64
+    }
+
     let landscapeImagesContentful = collection.images.map(image => image.fields);
-
     let landscapeImages = [];
-
     for(let i=0; i<landscapeImagesContentful.length; i++) {
 
         landscapeImagesContentful[i].fullResImage.fields.file = {

@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import Image from 'next/image';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { getPlaiceholder } from "plaiceholder";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { animated } from 'react-spring';
 import useBoop from 'hooks/useBoop';
 import numberMap from 'utils/numberMap';
@@ -10,7 +11,7 @@ import useWindowSize from 'hooks/useWindowSize';
 import Layout from 'components/Layout/Layout';
 import Button from 'components/Button/Button';
 
-const IndexPage = () => {
+const IndexPage = ({ homePageHero }) => {
     const scrollPosition = useScrollPosition(60);
     const { width: windowWidth, height: windowHeight } = useWindowSize();
 
@@ -36,12 +37,14 @@ const IndexPage = () => {
         <Layout pageTitle={'Cru Scanlan Photography'} pageClass="top min-h-screen" navbarScrollAnimation={{enabled: true}}>
             <div className="fixed h-[100vh] w-[100vw] overflow-hidden z-[-1]">
                 <Image
-                    src="/homePageHero2.jpg"
+                    src={homePageHero.img}
                     layout="fill"
                     objectFit="cover"
                     quality={98}
                     loading="eager"
                     priority
+                    placeholder="blur"
+                    blurDataURL={homePageHero.base64}
                 />
             </div>
             <div style={{opacity}} className="flex flex-col items-center justify-center text-center z-10 h-screen">
@@ -82,6 +85,19 @@ const IndexPage = () => {
             </section> */}
         </Layout>
     )
+}
+
+export const getStaticProps = async () => {
+    const { base64, img } = await getPlaiceholder("/homePageHero2.jpg");
+
+    return {
+        props: {
+            homePageHero: {
+                base64,
+                img
+            }
+        }
+    }
 }
 
 export default IndexPage
