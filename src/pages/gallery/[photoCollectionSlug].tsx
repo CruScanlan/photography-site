@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import PhotoAlbum, { PhotoProps } from "react-photo-album";
+import { getPlaiceholder } from "plaiceholder";
 import contentful from 'utils/contentful';
 
 import Layout from 'components/Layout/Layout';
@@ -14,11 +15,12 @@ type IRenderGalleryImageProps  = PhotoProps<{
     key: string;
     imageSlug: string;
     collectionSlug: string;
+    base64: string;
 }> & { wrapperProps?: React.HTMLAttributes<HTMLDivElement>; };
 
 const RenderGalleryImage: React.FC<IRenderGalleryImageProps> = ({ photo, imageProps, wrapperProps }) => {
-    const { width, height, key, imageSlug, collectionSlug } = photo;
-    const { src, alt, title, style, sizes, className } = imageProps;
+    const { width, height, key, imageSlug, collectionSlug, base64 } = photo;
+    const { src, alt, title, style} = imageProps;
     const { style: wrapperStyle, ...restWrapperProps } = wrapperProps ?? {};
 
     if(!photo) return <div>Error Getting Image</div>;
@@ -51,6 +53,8 @@ const RenderGalleryImage: React.FC<IRenderGalleryImageProps> = ({ photo, imagePr
                 height={height} 
                 layout="responsive" 
                 alt={alt}
+                placeholder="blur"
+                blurDataURL={base64}
             />
         </div>
     )
@@ -63,6 +67,7 @@ const Gallery = (props) => {
         return {
             key: landscapeImage.slug,
             src: `https:${image.file.url}`,
+            base64: image.file.base64,
             width: image.file.details.image.width,
             height: image.file.details.image.height,
             alt: landscapeImage.title,
@@ -149,7 +154,19 @@ export async function getStaticProps({ params }) {
 
     const collection = photoCollectionOrderContentful.fields.photoCollections.find(photoCollection => photoCollection.fields.slug === photoCollectionSlug).fields;
     const heroImage = collection.heroImage.fields;
-    const landscapeImages = collection.images.map(image => image.fields);
+    let landscapeImagesContentful = collection.images.map(image => image.fields);
+
+    let landscapeImages = [];
+
+    for(let i=0; i<landscapeImagesContentful.length; i++) {
+
+        landscapeImagesContentful[i].fullResImage.fields.file = {
+            ...landscapeImagesContentful[i].fullResImage.fields.file,
+            base64: (await getPlaiceholder(`https:${landscapeImagesContentful[i].fullResImage.fields.file.url}`)).base64
+        };
+
+        landscapeImages.push(landscapeImagesContentful[i]);
+    }
 
     return {
         props: {

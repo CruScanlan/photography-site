@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useRouter } from 'next/router'
+import { getPlaiceholder } from "plaiceholder";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronRight, faChevronLeft, faTimes } from '@fortawesome/free-solid-svg-icons';
 import useComponentSize from '@rehooks/component-size';
@@ -125,7 +125,9 @@ const GalleryPhotoPage = (props) => {
                             src={`https:${imageFile.url}`} 
                             width={imageFile.details.image.width} 
                             height={imageFile.details.image.height} 
-                            alt={`${image.title} | ${image.location}`} 
+                            alt={`${image.title} | ${image.location}`}
+                            placeholder="blur"
+                            blurDataURL={imageFile.base64}
                         />
                     }
                     {
@@ -157,7 +159,12 @@ export async function getServerSideProps(ctx) {
     }));
 
     const landscapeImages = (await contentful.getEntries<any>({include: 2, content_type: 'landscapeImage'})).items;
-    const image = landscapeImages.find(landscapeImage => landscapeImage.fields.slug === imageSlug).fields;
+    let image = landscapeImages.find(landscapeImage => landscapeImage.fields.slug === imageSlug).fields;
+
+    image.fullResImage.fields.file = {
+        ...image.fullResImage.fields.file,
+        base64: (await getPlaiceholder(`https:${image.fullResImage.fields.file.url}`)).base64
+    }
 
     return {
         props: {
