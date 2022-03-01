@@ -1,13 +1,11 @@
 import * as React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faInstagram, faFacebook } from '@fortawesome/free-brands-svg-icons';
 
 interface Props {
 
 }
 
-const Footer: React.FC<Props> = ({  }) => {
-
+const Footer: React.FC<Props> = () => {
     return (
         <footer className="relative bg-darkPrimary text-lightPrimary py-8 px-4 z-10">
             <div className="mx-auto container overflow-hidden flex flex-col lg:flex-row justify-between">
@@ -38,8 +36,8 @@ const Footer: React.FC<Props> = ({  }) => {
                             Follow Me
                         </div>
                         <div className="flex pl-4 justify-start">
-                            <a className="flex items-center text-lightPrimary hover:text-lightSecondary no-underline" href="https://instagram.com/cruscanlan" target="_blank"><FontAwesomeIcon icon={faInstagram} size="2x"/></a>
-                            <a className="flex items-center text-lightPrimary hover:text-lightSecondary no-underline ml-3" href="https://facebook.com/cruscanlan" target="_blank"><FontAwesomeIcon icon={faFacebook} size="2x"/></a>
+                            <a className="flex items-center text-lightPrimary hover:text-lightSecondary no-underline" href="https://instagram.com/cruscanlan" target="_blank"><FontAwesomeIcon icon={['fab', 'instagram']} size="2x"/></a>
+                            <a className="flex items-center text-lightPrimary hover:text-lightSecondary no-underline ml-3" href="https://facebook.com/cruscanlan" target="_blank"><FontAwesomeIcon icon={['fab', 'facebook']} size="2x"/></a>
                         </div>
                     </div>
                 </div>

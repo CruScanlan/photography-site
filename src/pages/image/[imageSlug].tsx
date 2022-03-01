@@ -3,7 +3,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { getPlaiceholder } from "plaiceholder";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChevronRight, faChevronLeft, faTimes } from '@fortawesome/free-solid-svg-icons';
 import useComponentSize from '@rehooks/component-size';
 import useWindowSize from 'hooks/useWindowSize';
 import contentful from 'utils/contentful';
@@ -101,17 +100,17 @@ const GalleryPhotoPage = (props) => {
         >
             <div className="absolute h-screen p-1 md:p-4 2xl:p-8 flex items-center">
                 <Link href={`/image/${previousImageSlug}?collection=${collectionSlug}`}>
-                    <a><FontAwesomeIcon className="text-lightSecondary hover:text-lightPrimary" icon={faChevronLeft} size="2x" /></a>
+                    <a><FontAwesomeIcon className="text-lightSecondary hover:text-lightPrimary" icon={['fas', 'chevron-left']} size="2x" /></a>
                 </Link>
             </div>
             <div className="absolute h-screen p-1 md:p-4 2xl:p-8 flex items-center right-0">
                 <Link href={`/image/${nextImageSlug}?collection=${collectionSlug}`}>
-                    <a><FontAwesomeIcon className="text-lightSecondary hover:text-lightPrimary" icon={faChevronRight} size="2x" /></a>
+                    <a><FontAwesomeIcon className="text-lightSecondary hover:text-lightPrimary" icon={['fas', 'chevron-right']} size="2x" /></a>
                 </Link>
             </div>
             <div className="absolute w-screen p-1 md:p-4 2xl:p-8 flex justify-end">
                 <Link href={`/gallery/${collectionSlug}`}>
-                    <a><FontAwesomeIcon className="text-lightSecondary hover:text-lightPrimary" icon={faTimes} size="2x" /></a>
+                    <a><FontAwesomeIcon className="text-lightSecondary hover:text-lightPrimary" icon={['fas', 'times']} size="2x" /></a>
                 </Link>
             </div>
             <div className="w-screen h-screen flex flex-col justify-center items-center">

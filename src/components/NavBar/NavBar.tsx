@@ -4,7 +4,6 @@ import Image from 'next/image';
 import NavLink from 'components/NavLink/NavLink';
 import useScrollPosition from '@react-hook/window-scroll';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faInstagram, faFacebook } from '@fortawesome/free-brands-svg-icons';
 import ColorScale from 'color-scales';
 
 import numberMap from 'utils/numberMap';
@@ -102,12 +101,12 @@ const NavBar: React.FC<Props> = ({ navbarScrollAnimation }) => {
                 </li>
                 <li className="c-navbar__link c-navbar__link--socials">
                     <a className="text-lightPrimary hover:text-lightSecondary no-underline" href="https://instagram.com/cruscanlan" target="_blank">
-                        <FontAwesomeIcon icon={faInstagram} size="1x"/>
+                        <FontAwesomeIcon icon={['fab', 'instagram']} size="1x"/>
                     </a>
                 </li>
                 <li className="c-navbar__link c-navbar__link--socials">
                     <a className="text-lightPrimary hover:text-lightSecondary no-underline" href="https://facebook.com/cruscanlan" target="_blank">
-                        <FontAwesomeIcon icon={faFacebook} size="1x"/>
+                        <FontAwesomeIcon icon={['fab', 'facebook']} size="1x"/>
                     </a>
                 </li>              
             </ul>
