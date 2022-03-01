@@ -1,8 +1,6 @@
 import React, { useCallback } from 'react';
 import Image from 'next/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-//import { faInstagram } from '@fortawesome/free-brands-svg-icons';
-import { faArrowCircleRight } from '@fortawesome/free-solid-svg-icons';
 import { animated } from 'react-spring';
 import useBoop from 'hooks/useBoop';
 import numberMap from 'utils/numberMap';
@@ -52,7 +50,7 @@ const IndexPage = () => {
                 <Button classes="mt-4" href="/gallery" type="transparent" size="lg" onMouseEnter={buttonHoverCallback} clickable={true}>
                     See Gallery
                     <animated.span style={heroButtonIconStyle}>
-                        <FontAwesomeIcon className="ml-2 mt-1" icon={faArrowCircleRight} size="lg" />
+                        <FontAwesomeIcon className="ml-2 mt-1" icon={['fas', 'arrow-circle-right']} size="lg" />
                     </animated.span>
                 </Button>
             </div>
