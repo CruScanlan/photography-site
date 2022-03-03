@@ -30,7 +30,7 @@ const StorePage = (props) => {
                                         src={landscapeImage.productImage.publicFile}
                                         width={landscapeImage.productImage.width}
                                         height={landscapeImage.productImage.height}
-                                        quality={90}
+                                        quality={85}
                                     />
                                 </div>
                                 <h4 className="hover:cursor-pointer">{landscapeImage.title}</h4>
