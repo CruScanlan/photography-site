@@ -38,3 +38,5 @@ old/
 .env.development
 
 .env.production
+
+public/productImages/
