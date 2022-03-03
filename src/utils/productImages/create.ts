@@ -11,11 +11,10 @@ const createProductImage = async (remotePath: string, fileName: string) => {
     const productFileName = `${fileName.replace('.jpg', '')}-productImage.jpg`; //File name
     const productPublicFile = `/productImages/${productFileName}`; //Path from public to file
     const productFilePath = productImageDirectory + productFileName; //Full path to productImage
-    
+
+    if(!fs.existsSync(productImageDirectory)) fs.mkdirSync(productImageDirectory); //Make sure cache folder exists
 
     if(process.env.NODE_ENV === 'development') { //Check cache for development
-        if(!fs.existsSync(productImageDirectory)) fs.mkdirSync(productImageDirectory); //Make sure cache folder exists
-
         const productImageCached = await loadImage(productFilePath);
 
         if(productImageCached) return {
@@ -26,7 +25,7 @@ const createProductImage = async (remotePath: string, fileName: string) => {
     }
 
     const photoImage = await loadImage(remotePath);
-    const baseImage = await loadImage(productImageDirectory + 'print-room1.jpg'); //Get base image
+    const baseImage = await loadImage(publicDirectory + 'print-room1.jpg'); //Get base image
     const resizedPhoto = await sharp(photoImage.file).resize(400).toBuffer();; //Get photo
 
     const productImage = sharp(baseImage.file)
