@@ -156,7 +156,7 @@ export async function getStaticProps({ params }) {
     heroImage.file = {
         ...heroImage.file,
         base64: (await getPlaiceholder(`https:${heroImage.file.url}`)).base64
-    };
+    }; //Get base64 blurred placeholder
 
     let landscapeImagesContentful = collection.images.map(image => image.fields);
     let landscapeImages = [];
@@ -165,7 +165,7 @@ export async function getStaticProps({ params }) {
         landscapeImagesContentful[i].fullResImage.fields.file = {
             ...landscapeImagesContentful[i].fullResImage.fields.file,
             base64: (await getPlaiceholder(`https:${landscapeImagesContentful[i].fullResImage.fields.file.url}`)).base64
-        };
+        }; //Get base64 blurred placeholder
 
         landscapeImages.push(landscapeImagesContentful[i]);
     }

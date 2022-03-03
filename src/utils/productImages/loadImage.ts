@@ -47,13 +47,13 @@ const getImageSize: IGetImageSize = (file) => {
 };
 
 const loadRemoteImage: ILoadRemoteImage = async (srcUrl) => {
-    const cachedImage = remoteImageCache.get(srcUrl);
+    const cachedImage = remoteImageCache.get(srcUrl); //Keep remote image cache
   
     if(typeof cachedImage === "undefined") {
       const response = await fetch(srcUrl);
-      const buffer = await response.buffer();
+      const buffer = await response.buffer(); //Get image
   
-      remoteImageCache.set(srcUrl, buffer);
+      remoteImageCache.set(srcUrl, buffer); //Cache
   
       return buffer;
     }
@@ -68,7 +68,7 @@ const loadImage: ILoadImage = async (imagePath) => {
     if(Buffer.isBuffer(imagePath)) { //Buffer
         const imageSize = getImageSize(imagePath);
     
-        return {
+        return { //Return buffer image
             file: imagePath,
             img: {
                 src: null,
@@ -82,7 +82,7 @@ const loadImage: ILoadImage = async (imagePath) => {
 
         const imageSize = getImageSize(imagePath);
         
-        return {
+        return { //Return local image
             file: imagePath,
             img: {
                 src: imagePath,
@@ -95,7 +95,7 @@ const loadImage: ILoadImage = async (imagePath) => {
     const buffer = await loadRemoteImage(imagePath);
     const imageSize = getImageSize(buffer);
 
-    return {
+    return { //Return remote image
         file: buffer,
         img: {
             src: imagePath,
