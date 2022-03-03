@@ -4,7 +4,7 @@ import Image from 'next/image';
 import NavLink from 'components/NavLink/NavLink';
 import useScrollPosition from '@react-hook/window-scroll';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import ColorScale from 'color-scales';
+//import ColorScale from 'color-scales';
 
 import numberMap from 'utils/numberMap';
 import useWindowSize from 'hooks/useWindowSize';

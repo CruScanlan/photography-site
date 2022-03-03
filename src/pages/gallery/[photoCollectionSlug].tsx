@@ -156,7 +156,7 @@ export async function getStaticProps({ params }) {
     heroImage.file = {
         ...heroImage.file,
         base64: (await getPlaiceholder(`https:${heroImage.file.url}`)).base64
-    }
+    };
 
     let landscapeImagesContentful = collection.images.map(image => image.fields);
     let landscapeImages = [];
