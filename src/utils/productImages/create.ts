@@ -38,12 +38,12 @@ const createProductImage = async (remotePath: string, fileName: string) => {
     
             const setImageSharp = await sharp(setImage.file).toBuffer(); //Get photo
             const productImageBase = await sharp(photoImage.file)
-                .resize(573, 862)
+                .resize(401, 603)
                 .extend({
-                    top: 370,
-                    bottom: 1665,
-                    left: 1048,
-                    right: 1179,
+                    top: 259,
+                    bottom: 1166,
+                    left: 734,
+                    right: 825,
                     background: { r: 0, g: 0, b: 0, alpha: 0 }
                 })
                 .composite([
