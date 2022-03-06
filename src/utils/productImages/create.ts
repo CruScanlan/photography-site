@@ -25,28 +25,57 @@ const createProductImage = async (remotePath: string, fileName: string) => {
     }
 
     const photoImage = await loadImage(remotePath);
-    const baseImage = await loadImage(publicDirectory + 'print-room1.jpg'); //Get base image
-    const resizedPhoto = await sharp(photoImage.file).resize(400).toBuffer();; //Get photo
+    const ratio = (photoImage.img.width / photoImage.img.height).toFixed(2);
 
-    const productImage = sharp(baseImage.file)
-        .resize(1100)
-        .composite([
-            {
-                input: resizedPhoto,
-                gravity: 'center'
-            }
-        ]).jpeg({ quality: 100 }); //Composite image
+    let productImage: sharp.Sharp | undefined;
+    let imageInfoMessage = '';
 
+    try {
+        if(ratio === '0.67') { //2x3 Vertical
+            imageInfoMessage = `Created Set Image 2x3 Vertical - ${fileName}`;
+    
+            const setImage = await loadImage(publicDirectory + 'Product Image Template 1 2x3.png'); //Get base image
+    
+            const setImageSharp = await sharp(setImage.file).toBuffer(); //Get photo
+            const productImageBase = await sharp(photoImage.file)
+                .resize(573, 862)
+                .extend({
+                    top: 370,
+                    bottom: 1665,
+                    left: 1048,
+                    right: 1179,
+                    background: { r: 0, g: 0, b: 0, alpha: 0 }
+                })
+                .composite([
+                    {
+                        input: setImageSharp,
+                        top: 0,
+                        left: 0
+                    }
+                ])
+                .jpeg({ quality: 100 })
+                .toBuffer(); //Composite image
+            
+            productImage = sharp(productImageBase).resize(1800);
+        } else { //Default
+            productImage = sharp(photoImage.file).resize(1800);
+        }
+    
+        
+        await productImage.toFile(productFilePath); //Save to cache
+        const { width, height } = (await loadImage((await productImage.toBuffer()))).img; //Get width height
 
-    await productImage.toFile(productFilePath); //Save to cache
+        console.log(`Created Set Image: ${imageInfoMessage}`);
 
-    const { width, height } = (await loadImage((await productImage.toBuffer()))).img; //Get width height
-
-    return {
-        publicFile: productPublicFile,
-        width,
-        height
-    };
+        return {
+            publicFile: productPublicFile,
+            width,
+            height
+        };
+    } catch(e) {
+        console.error(e);
+        throw new Error(`Failed Creating Set Image Failed: ${imageInfoMessage}`);
+    }
 }
 
 export default createProductImage;
