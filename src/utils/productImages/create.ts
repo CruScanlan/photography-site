@@ -30,6 +30,7 @@ const createProductImage = async (remotePath: string, fileName: string) => {
     let productImage: sharp.Sharp | undefined;
     let imageInfoMessage = '';
 
+    console.log(ratio, fileName)
     try {
         if(ratio === '0.67') { //2x3 Vertical
             imageInfoMessage = `Created Set Image 2x3 Vertical - ${fileName}`;
@@ -57,6 +58,33 @@ const createProductImage = async (remotePath: string, fileName: string) => {
                 .toBuffer(); //Composite image
             
             productImage = sharp(productImageBase).resize(1800);
+        } else if(ratio === '0.80') { //4x5 Vertical
+            imageInfoMessage = `Created Set Image 4x5 Vertical - ${fileName}`;
+    
+            const setImage = await loadImage(publicDirectory + 'Product Image Template 1 4x5.png'); //Get base image
+    
+            const setImageSharp = await sharp(setImage.file).toBuffer(); //Get photo
+            const productImageBase = await sharp(photoImage.file)
+                .resize(401, 501)
+                .extend({
+                    top: 362,
+                    bottom: 1166,
+                    left: 734,
+                    right: 825,
+                    background: { r: 0, g: 0, b: 0, alpha: 0 }
+                })
+                .composite([
+                    {
+                        input: setImageSharp,
+                        top: 0,
+                        left: 0
+                    }
+                ])
+                .jpeg({ quality: 100 })
+                .toBuffer(); //Composite image
+            
+            productImage = sharp(productImageBase).resize(1800);
+
         } else { //Default
             productImage = sharp(photoImage.file).resize(1800);
         }
