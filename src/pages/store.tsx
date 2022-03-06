@@ -49,7 +49,7 @@ export async function getStaticProps() {
     const landscapeImagesContentful = (await contentful.getEntries<any>({include: 2, content_type: 'landscapeImage'})).items.map(image => image.fields);
 
     const productImagesPromises = [];
-    for(let i=0; i<landscapeImagesContentful.length; i++) {
+    for(let i=0; i<landscapeImagesContentful.length; i++) { //landscapeImagesContentful.length
         const landscapeImage = landscapeImagesContentful[i];
         const file = landscapeImage.fullResImage.fields.file;
 
