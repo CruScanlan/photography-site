@@ -43,7 +43,7 @@ const Footer: React.FC<Props> = () => {
                 </div>
             </div>
             <div className="pt-4 mt-4 text-lightTertiary border-t-2 border-darkPrimary text-center"> 
-                All Content &copy; {new Date().getFullYear()} Cru Scanlan. All rights reserved.
+                All Content Copyright &copy; {new Date().getFullYear()} Cru Scanlan. All rights reserved.
             </div>
         </footer>
     );

@@ -1,9 +1,4 @@
 .c-navbar {
-    &__logo {
-        min-width: 205px;      
-        @apply ml-10 mr-5 mt-5;
-    }
-
     &__link {
         text-underline-offset: 3px;
         text-decoration-thickness: 4px;

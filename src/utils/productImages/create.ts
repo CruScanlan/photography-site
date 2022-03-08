@@ -1,10 +1,10 @@
 import sharp from "sharp";
 import fs from 'fs';
-import path from 'path';
+import appRoot from 'app-root-path';
 
 import loadImage from './loadImage';
 
-const publicDirectory = path.join(__dirname, "../../../public/"); //Full path to public
+const publicDirectory = appRoot.resolve('/public/').split('\\').join('/'); //Full path to public
 const productImageDirectory = publicDirectory + 'productImages/'; //Full path to productImages
 
 const createProductImage = async (remotePath: string, fileName: string) => {
