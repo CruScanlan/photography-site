@@ -54,7 +54,7 @@ const Store = (props) => {
                     <ShopSections storeDetails={props.storeDetails} photoCollectionOrder={props.photoCollectionOrder} locations={props.locations} />
                 </div>
                 <div className="flex-grow flex justify-center">
-                    <div className="max-w-7xl p-8 pt-2">
+                    <div className="max-w-7xl p-8 pt-2 3xl:max-w-[95rem]">
                         <div className="flex flex-col justify-center pt-4 w-full md:hidden">
                             <Button fullWidth clickable size="lg" type="filled" onClick={onStoreSectionsClick}>
                                 <h3>Store Sections</h3>
@@ -99,7 +99,7 @@ const Store = (props) => {
                                 <span className="text-lightSecondary">Showing {props.landscapeImages.length} results</span>
                             </div>
                         </div>
-                        <div className="grid gap-8 auto-rows-min grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+                        <div className="grid gap-8 auto-rows-min grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 3xl:grid-cols-5">
                             {
                                 props.landscapeImages.map(landscapeImage => (
                                     <div key={landscapeImage.slug}>
