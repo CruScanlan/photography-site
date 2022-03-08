@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import contentful from 'utils/contentful';
 import { getPlaiceholder } from "plaiceholder";
 import Image from 'next/image';
 import Link from 'next/link';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 
 import createProductImage from 'utils/productImages/create';
@@ -12,8 +13,20 @@ import createProductImage from 'utils/productImages/create';
 //import { formatAmountForDisplay } from 'utils/stripe-helpers';
 
 import Layout from 'components/Layout/Layout';
+import NavLink from 'components/NavLink/NavLink';
+import Button from 'components/Button/Button';
 
 const StorePage = (props) => {
+    const [storeSectionsOpen, setStoreSectionsOpen] = useState(false);
+
+    const onStoreSectionsClick = () => {
+        setStoreSectionsOpen(!storeSectionsOpen);
+    }
+
+    const handleCloseStoreSections = () => {
+        setStoreSectionsOpen(false);
+    }
+
     return (
         <Layout 
             pageTitle={'Store | Cru Scanlan Photography'} 
@@ -41,11 +54,22 @@ const StorePage = (props) => {
                 />
             </div>
             <div className="relative text-lightPrimary flex bg-darkSecondary">
-                <div className="p-4 pt-12">
-                    Test
+                <div className="hidden md:block p-4 pl-2 pt-8 min-w-[14rem] lg:pl-8 lg:min-w-[16rem] border-r-[1px] border-solid border-lightTertiary">
+                    <ShopSections photoCollectionOrder={props.photoCollectionOrder} locations={props.locations} />
                 </div>
                 <div className="flex-grow flex justify-center">
                     <div className="max-w-7xl p-8 pt-2">
+                        <div className="flex flex-col justify-center pt-4 w-full md:hidden">
+                            <Button fullWidth clickable size="lg" type="filled" onClick={onStoreSectionsClick}>
+                                <h3>Store Sections</h3>
+                                <FontAwesomeIcon className={`ml-8 transition-transform ease-in-out duration-100 ${!storeSectionsOpen ? 'rotate-180' : ''}`} icon={['fas', 'chevron-down']} />
+                            </Button>
+                            <div onClick={handleCloseStoreSections} className={`pt-2 border-solid border-lightSecondary shadow-lg overflow-hidden transition-[max-height] ease-in-out duration-400 ${!storeSectionsOpen ? 'max-h-0 border-0' : 'border-2 border-t-0 max-h-[1000px]'}`}>
+                                <div className="px-4">
+                                    <ShopSections photoCollectionOrder={props.photoCollectionOrder} locations={props.locations} />
+                                </div>
+                            </div>
+                        </div>
                         <h2 className="text-center p-8">
                             {props.photoCollection.name} Collection
                         </h2>
@@ -54,7 +78,7 @@ const StorePage = (props) => {
                                 {documentToReactComponents(props.photoCollection.description)}
                             </div>
                         </div>
-                        <div className="flex flex-row justify-between mb-4 text-sm">
+                        <div className="flex flex-row-wrap justify-between mb-4 text-sm">
                             <div>
                                 <span className="text-lightSecondary">
                                     <Link href="/store">
@@ -72,7 +96,7 @@ const StorePage = (props) => {
                         </div>
                         <div className="grid gap-8 auto-rows-min grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
                             {
-                                props.landscapeImages.map(landscapeImage => ( //min-w-[16rem] max-w-[24rem]
+                                props.landscapeImages.map(landscapeImage => (
                                     <div key={landscapeImage.slug}>
                                         <div className="w-full hover:cursor-pointer">
                                             <Image
@@ -95,11 +119,48 @@ const StorePage = (props) => {
     )
 };
 
+const ShopSections = (props) => {
+    return (
+        <>
+            <h3>Shop Collections</h3>
+            <div className="w-full mt-1 border-solid border-t-[1px] border-lightSecondary" />
+            <div>
+                {
+                    props.photoCollectionOrder.map(photoCollection => (
+                        <div className="block py-2 pl-2 text-lightSecondary no-underline font-medium hover:underline hover:text-lightPrimary" key={photoCollection.slug}>
+                            <NavLink href={`/store/collection/${photoCollection.slug}`} activeClassName="underline text-lightPrimary">
+                                <a>{photoCollection.name}</a>
+                            </NavLink>
+                        </div>
+                    ))
+                }
+            </div>
+            <h3 className="mt-6">Shop Locations</h3>
+            <div className="w-full mb-2 border-solid border-t-[1px] border-lightSecondary" />
+            <div>
+                {
+                    props.locations.map(location => (
+                        <div className="block py-2 pl-2 text-lightSecondary no-underline font-medium hover:underline hover:text-lightPrimary" key={location.slug}>
+                            <NavLink href={`/store/location/${location.slug}`} activeClassName="underline text-lightPrimary">
+                                <a>{location.name}</a>
+                            </NavLink>
+                        </div>
+                    ))
+                }
+            </div>
+        </>
+    )
+}
+
 export default StorePage;
 
 export async function getStaticProps({ params }) {
     const photoCollectionSlug: string = params.photoCollectionSlug;
     
+    const photoCollectionOrder = (await contentful.getEntry<any>('5MUgow4FEnQHKNRQI5p7Cr', {include: 1})).fields.photoCollections.map(photoCollections => photoCollections.fields);
+
+    const locations = (await contentful.getEntries<any>({include: 1, content_type: 'location'})).items.map(location => location.fields);
+
     const photoCollection = (await contentful.getEntries<any>({include: 2, content_type: 'photoCollection', 'fields.slug': photoCollectionSlug})).items[0].fields
     const landscapeImagesContentful = photoCollection.images.map(image => image.fields);
 
@@ -134,8 +195,10 @@ export async function getStaticProps({ params }) {
 
     return {
         props: {
+            photoCollectionOrder,
             photoCollection,
             landscapeImages,
+            locations,
             banner: {
                 img: banner.img,
                 base64: banner.base64
