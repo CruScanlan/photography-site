@@ -49,7 +49,7 @@ export async function getStaticProps({ params }) {
             photoCollectionOrder,
             storeDetails: {
                 name: `${photoCollection.name} Collection Prints`,
-                description: photoCollection.description,
+                description: photoCollection.description || null,
                 type: 'collection'
             },
             landscapeImages,
