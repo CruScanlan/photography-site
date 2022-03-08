@@ -51,7 +51,7 @@ const Store = (props) => {
             </div>
             <div className="relative text-lightPrimary flex bg-darkSecondary">
                 <div className="hidden md:block p-4 pl-2 pt-8 min-w-[14rem] lg:pl-8 lg:min-w-[16rem] border-r-[1px] border-solid border-lightTertiary">
-                    <ShopSections photoCollectionOrder={props.photoCollectionOrder} locations={props.locations} />
+                    <ShopSections storeDetails={props.storeDetails} photoCollectionOrder={props.photoCollectionOrder} locations={props.locations} />
                 </div>
                 <div className="flex-grow flex justify-center">
                     <div className="max-w-7xl p-8 pt-2">
@@ -62,7 +62,7 @@ const Store = (props) => {
                             </Button>
                             <div onClick={handleCloseStoreSections} className={`pt-2 border-solid border-lightSecondary shadow-lg overflow-hidden transition-[max-height] ease-in-out duration-400 ${!storeSectionsOpen ? 'max-h-0 border-0' : 'border-2 border-t-0 max-h-[1000px]'}`}>
                                 <div className="px-4">
-                                    <ShopSections photoCollectionOrder={props.photoCollectionOrder} locations={props.locations} />
+                                    <ShopSections storeDetails={props.storeDetails} photoCollectionOrder={props.photoCollectionOrder} locations={props.locations} />
                                 </div>
                             </div>
                         </div>
@@ -78,9 +78,18 @@ const Store = (props) => {
                             <div>
                                 <span className="text-lightSecondary">
                                     <Link href="/store">
-                                        <a>Store</a>
+                                        <a className="hover:underline">Store</a>
                                     </Link>
-                                    <span> / {props.storeDetails.type === 'location' ? 'Location' : 'Collection'} / </span>
+                                    {
+                                        props.storeDetails.type !== 'root' && (
+                                            <span> / {props.storeDetails.type === 'location' ? 'Location' : 'Collection'} / </span>
+                                        )
+                                    }
+                                    {
+                                        props.storeDetails.type === 'root' && (
+                                            <span> / </span>
+                                        )
+                                    }
                                 </span>
                                 <span>
                                     {props.storeDetails.name}
@@ -122,6 +131,11 @@ const Store = (props) => {
 const ShopSections = (props) => {
     return (
         <>
+            <div className="block py-2 pl-2 mb-2 text-lightSecondary no-underline font-semibold hover:underline hover:text-lightPrimary">
+                <NavLink href={`/store`} activeClassName="underline text-lightPrimary" exact>
+                    <a>All Prints</a>
+                </NavLink>
+            </div>
             <h3>Shop Collections</h3>
             <div className="w-full mt-1 border-solid border-t-[1px] border-lightSecondary" />
             <div>
