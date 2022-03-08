@@ -8,8 +8,8 @@ import numberMap from 'utils/numberMap';
 import useScrollPosition from '@react-hook/window-scroll';
 import useWindowSize from 'hooks/useWindowSize';
 
-import Layout from 'components/Layout/Layout';
-import Button from 'components/Button/Button';
+import Layout from 'components/Layout';
+import Button from 'components/Button';
 
 const IndexPage = ({ homePageHero }) => {
     const scrollPosition = useScrollPosition(60);

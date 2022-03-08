@@ -8,8 +8,8 @@ import useWindowSize from 'hooks/useWindowSize';
 import contentful from 'utils/contentful';
 
 
-import Layout from 'components/Layout/Layout';
-import Button from 'components/Button/Button';
+import Layout from 'components/Layout';
+import Button from 'components/Button';
 
 type IPhotoCollectionSlugs = {
     slug: string;

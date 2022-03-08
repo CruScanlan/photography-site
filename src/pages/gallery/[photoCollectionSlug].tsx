@@ -5,8 +5,8 @@ import PhotoAlbum, { PhotoProps } from "react-photo-album";
 import { getPlaiceholder } from "plaiceholder";
 import contentful from 'utils/contentful';
 
-import Layout from 'components/Layout/Layout';
-import NavLink from 'components/NavLink/NavLink';
+import Layout from 'components/Layout';
+import NavLink from 'components/NavLink';
 
 type IRenderGalleryImageProps  = PhotoProps<{
     src: string;
@@ -102,19 +102,20 @@ const Gallery = (props) => {
                     height={props.heroImage.file.details.image.height}
                 />
             </div>
-            <div className="w-full relative p-4 text-lightPrimary bg-darkPrimary shadow-xl flex items-center">
+            <div className="w-full relative p-4 text-lightPrimary bg-darkPrimary shadow-xl flex items-center flex-col text-center md:flex-row md:text-left">
                 <div className="p-2">
-                    <h3 className="uppercase">
+                    <h3 className="uppercase min-w-max">
                         Image Collections
                     </h3>
                     <span className="text-xs uppercase text-lightSecondary">
                         Cru Scanlan Photography
                     </span>
                 </div>
-                <div className="relative flex items-baseline pl-4">
+                <div className="w-full border-[1px] border-solid border-lightSecondary md:hidden" />
+                <div className="relative flex flex-col flex-wrap items-baseline md:flex-row md:pl-4">
                     {
                         props.collections.map((collection: any) => (
-                            <div className="p-2 text-lightSecondary hover:text-lightPrimary" key={collection.slug}>
+                            <div className="p-2 w-full text-center text-lightSecondary hover:text-lightPrimary md:text-left md:w-auto" key={collection.slug}>
                                 <NavLink activeClassName="!text-lightPrimary" href={`/gallery/${collection.slug}`}>
                                     <a>
                                         <h4>
