@@ -7,7 +7,7 @@ interface Props {
 
 const Footer: React.FC<Props> = () => {
     return (
-        <footer className="relative bg-darkPrimary text-lightPrimary py-8 px-4 z-10">
+        <footer className="relative bg-darkPrimary text-lightPrimary py-8 px-4 z-10" style={{boxShadow: '0 50vh 0 50vh #171717'}}>
             <div className="mx-auto container overflow-hidden flex flex-col lg:flex-row justify-between">
                 <div className="flex container justify-center text-sm mt-6 lg:mt-0">
                     {/* <ul className="text-lightSecondary list-none p-0 font-thin flex flex-col text-left">
