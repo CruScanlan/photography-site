@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Link from 'next/link';
 import Image from 'next/image';
-import NavLink from 'components/NavLink/NavLink';
+import NavLink from 'components/NavLink';
 import useScrollPosition from '@react-hook/window-scroll';
 import { FontAwesomeIcon, FontAwesomeIconProps } from '@fortawesome/react-fontawesome';
 import ColorScale from 'color-scales';
@@ -128,7 +128,7 @@ const NavBar: React.FC<Props> = ({ navbarScrollAnimation }) => {
     return (
         <>
             <nav style={style} className={`${shadow} ${hambugerOpen ? 'hidden' : ''} bg-darkPrimary text-lightPrimary text-center fixed top-0 container overflow-hidden min-w-full z-50`}>
-                <div className="flex lg:hidden justify-between min-w-full">
+                <div className="flex lg:hidden justify-between min-w-full mb-2"> {/* Hamburger NavBar */}
                     <Link href="/">
                         <a className="min-w-[205px] mx-2 mt-5 h-[64px] relative">
                             <Image
@@ -144,7 +144,7 @@ const NavBar: React.FC<Props> = ({ navbarScrollAnimation }) => {
                         <FontAwesomeIcon icon={['fas', 'bars']} />
                     </button>
                 </div>
-                <div className="hidden lg:flex justify-between min-w-full">
+                <div className="hidden lg:flex justify-between min-w-full mb-2"> {/* Desktop NavBar */}
                     <Link href="/">
                         <a className="min-w-[205px] ml-8 mx-2 mt-5 h-[64px] relative">
                             <Image
@@ -176,7 +176,7 @@ const NavBar: React.FC<Props> = ({ navbarScrollAnimation }) => {
                     </ul>
                 </div>
             </nav>
-            <div className={`relative z-50 text-lightPrimary`}>
+            <div className={`relative z-50 text-lightPrimary`}> {/* Mobile Side NavBar */}
                 <div className={`fixed inset-0 bg-gray-800 transition-opacity duration-300  ${hambugerOpen ? 'opacity-40 block' : 'opacity-0 hidden'}`} onClick={onHamburgerMenuClose}></div>
                 <nav className={`fixed top-0 left-0 bottom-0 flex flex-col w-5/6 max-w-sm py-6 px-6 bg-darkSecondary border-r overflow-y-auto transition-all duration-300 ease-in-out ${hambugerOpen ? 'translate-x-0' : '-translate-x-full'} `}>
                     <div className="flex items-center mb-8">

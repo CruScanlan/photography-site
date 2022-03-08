@@ -2,8 +2,8 @@ import * as React from 'react';
 import { Helmet } from 'react-helmet';
 import { CartProvider } from 'use-shopping-cart/react';
 
-import NavBar, { INavbarScrollAnimation } from 'components/NavBar/NavBar';
-import Footer from 'components/Footer/Footer';
+import NavBar, { INavbarScrollAnimation } from 'components/NavBar';
+import Footer from 'components/Footer';
 
 interface Props {
     pageTitle: string;
