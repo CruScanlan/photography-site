@@ -6,6 +6,7 @@ interface Props {
     href?: string;
     size?: 'sm' | 'md' | 'lg';
     type?: 'transparent' | 'filled';
+    fullWidth?: boolean;
     clickable?: boolean;
     onClick?: (e:  React.MouseEvent) => any;
     onMouseEnter?: (e: React.MouseEvent) => any;
@@ -22,11 +23,11 @@ const ButtonTypeClasses = {
     'filled': 'border border-transparent bg-orange-500 hover:bg-orange-700'
 }
 
-const Button: React.FC<Props>  = ({ classes, href, size = 'sm', type = 'transparent', clickable = false, children, ...props }) => {
+const Button: React.FC<Props>  = ({ classes = '', href, size = 'sm', fullWidth = false, type = 'transparent', clickable = false, children, ...props }) => {
     const innerClasses = `w-full flex items-center justify-center ${clickable ? 'hover:cursor-pointer' : ''} ${ButtonTypeClasses[type]} ${ButtonSizeClasses[size]}`;
 
     return (
-        <div className={`text-base text-center font-semibold text-lightPrimary rounded-md shadow ${classes}`} {...props}>
+        <div className={`text-base text-center font-semibold text-lightPrimary rounded-md shadow ${fullWidth ? 'w-full': ''} ${classes}`} {...props}>
             {
                 href && ( //Add link
                     <Link
