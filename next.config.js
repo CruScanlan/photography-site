@@ -16,6 +16,11 @@ module.exports = withPlaiceholder({
             source: '/image',
             destination: '/gallery/personal-favourites',
             permanent: true
+        },
+        {
+            source: '/store',
+            destination: '/store/collection/personal-favourites',
+            permanent: true
         }
       ]
     }

@@ -77,7 +77,7 @@ const Gallery = (props) => {
     return (
         <Layout 
             pageTitle={'Gallery | Cru Scanlan Photography'} 
-            pageClass="p-gallery bg-darkSecondary" 
+            pageClass="bg-darkSecondary" 
             navbarScrollAnimation={{
                 enabled: true,
                 startPositonRelative: 0.2,
@@ -133,7 +133,8 @@ const Gallery = (props) => {
                     photos={photos}
                     renderPhoto={RenderGalleryImage}
                     spacing={6}
-                    targetRowHeight={600}
+                    targetRowHeight={650}
+                    rowConstraints={{maxPhotos: 4}}
                     breakpoints={[320, 640, 768, 1024, 1280, 1536, 1800, 2100, 2400, 2700, 3000, 3300, 3600, 3900]}
                 />
             </div>

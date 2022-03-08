@@ -92,6 +92,8 @@ const GalleryPhotoPage = (props) => {
 
     const imageFile = image.fullResImage.fields.file;
 
+    const location = image.location ? image.location.fields.name : 'Unknown Location';
+
     return (
         <Layout
             pageTitle={`${image.title} | Cru Scanlan Photography`} 
@@ -136,7 +138,7 @@ const GalleryPhotoPage = (props) => {
                 <div style={{width}} className="mt-2 flex flex-col justify-between items-center md:flex-row" ref={imageInfoSizeRef}>
                     <div className="flex flex-col items-center md:items-start">
                         <h3 className="text-lightPrimary">{image.title}</h3>
-                        <span className="text-sm text-lightSecondary">{image.location}</span>
+                        <span className="text-sm text-lightSecondary">{location}</span>
                     </div>
                     <Button size="md" classes="mt-2 md:m-0 md:ml-2" href={`/store/prints/${imageSlug}`} clickable>BUY PRINT</Button>
                 </div>
