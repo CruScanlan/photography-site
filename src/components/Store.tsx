@@ -136,7 +136,7 @@ const ShopSections = (props) => {
                     <a>All Prints</a>
                 </NavLink>
             </div>
-            <h3>Shop Collections</h3>
+            <h4 className="uppercase font-semibold">Shop Collections</h4>
             <div className="w-full mt-1 border-solid border-t-[1px] border-lightSecondary" />
             <div>
                 {
@@ -149,7 +149,7 @@ const ShopSections = (props) => {
                     ))
                 }
             </div>
-            <h3 className="mt-6">Shop Locations</h3>
+            <h4 className="mt-6 uppercase font-semibold">Shop Locations</h4>
             <div className="w-full mb-2 border-solid border-t-[1px] border-lightSecondary" />
             <div>
                 {

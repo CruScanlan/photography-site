@@ -1,27 +1,80 @@
 import React from 'react';
 import contentful from 'utils/contentful';
+import Image from 'next/image';
+import { getPlaiceholder } from "plaiceholder";
+import ProductCarousel from 'components/ProductCarousel';
 
+import createProductImage from 'utils/productImages/create';
 import Layout from 'components/Layout';
 
-const ProductPage = () => {
-  return (
-    <Layout pageTitle={'Product | Cru Scanlan Photography'} pageClass="bg-darkSecondary text-lightPrimary flex justify-center" padTop={true}>
-        <div className="max-w-4xl p-8">
-            <h1 className="text-center p-8">
-                Product
-            </h1>
-        </div>
-    </Layout>
-  )
+const ProductPage = (props) => {
+    const landscapeImageFile = props.landscapeImage.fullResImage.fields.file;
+
+    const slides = [
+        {
+            id: 1,
+            src: `https:${landscapeImageFile.url}`,
+            width: landscapeImageFile.details.image.width,
+            height: landscapeImageFile.details.image.height,
+            base64: props.landscapeImage.base64
+        },
+        {
+            id: 2,
+            src: props.productImage.publicFile,
+            width: props.productImage.width,
+            height: props.productImage.height,
+            base64: props.productImage.base64
+        },
+        {
+            id: 3,
+            src: `https:${landscapeImageFile.url}`,
+            width: landscapeImageFile.details.image.width,
+            height: landscapeImageFile.details.image.height,
+            base64: props.landscapeImage.base64
+        },
+        {
+            id: 4,
+            src: props.productImage.publicFile,
+            width: props.productImage.width,
+            height: props.productImage.height,
+            base64: props.productImage.base64
+        },
+    ];
+
+    return (
+        <Layout pageTitle={'Product | Cru Scanlan Photography'} pageClass="bg-darkSecondary text-lightPrimary flex justify-center" padTop={true}>
+            <div className="max-w-4xl p-8">
+                <h1 className="text-center p-8">
+                    Product
+                </h1>
+                <div className="w-full h-full">
+                    <ProductCarousel slides={slides} />
+                </div>
+            </div>
+        </Layout>
+    )
 };
 
 export default ProductPage;
 
-export const getStaticProps = () => {
+export const getStaticProps = async ({ params }) => {
+    const printSlug: string = params.printSlug;
+
+    const landscapeImage = (await contentful.getEntries<any>({include: 2, content_type: 'landscapeImage', 'fields.slug': printSlug})).items[0].fields
+    landscapeImage.base64 = (await getPlaiceholder(`https:${landscapeImage.fullResImage.fields.file.url}`)).base64
+
+    const file = landscapeImage.fullResImage.fields.file;
+    const productImageData = await createProductImage(`https:${file.url}`, file.fileName);
+
+    const productImage = {
+        ...productImageData,
+        base64: (await getPlaiceholder(productImageData.publicFile)).base64
+    };
 
     return {
         props: {
-
+            landscapeImage,
+            productImage
         }
     }
 }
