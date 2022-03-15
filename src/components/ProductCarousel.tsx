@@ -4,12 +4,14 @@ import useEmblaCarousel from "embla-carousel-react";
 import AutoHeight from "embla-carousel-auto-height";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useComponentSize from '@rehooks/component-size';
+import useWindowSize from 'hooks/useWindowSize';
 import { useDebouncedCallback } from 'use-debounce';
 
 const ProductCarousel = ({ slides }) => {
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [mainViewportRef, embla] = useEmblaCarousel({ 
-        skipSnaps: false
+        skipSnaps: false,
+        align: 'start'
     }, [AutoHeight()]);
 
     const [thumbViewportRef, emblaThumbs] = useEmblaCarousel({
@@ -34,8 +36,6 @@ const ProductCarousel = ({ slides }) => {
         emblaThumbs.scrollTo(embla.selectedScrollSnap());
     }, [embla, emblaThumbs, setSelectedIndex]);
 
-    
-
     const onPrevClick = useCallback(() => {
         embla.scrollPrev();
     }, [embla]);
@@ -47,31 +47,52 @@ const ProductCarousel = ({ slides }) => {
     useEffect(() => {
         if (!embla) return;
         onSelect();
-        embla.on("select", onSelect);
+        embla.on("select", onSelect)//.on("resize", () => embla.reInit);
     }, [embla, onSelect]);
 
-    const carousalContainerRef = useRef(null);
-    const carousalContainerSize = useComponentSize(carousalContainerRef);
-    const realSlideWidth = carousalContainerSize.width - 250;
+    const carouselContainerRef = useRef(null);
+    const carouselThumbBarRef = useRef(null);
+    const carouselContainerSize = useComponentSize(carouselContainerRef);
+    const carouselThumbBarSize = useComponentSize(carouselThumbBarRef);
+    const { height: windowHeight } = useWindowSize();
+
+    let calculatedSlideSizes: {width: number, height: number}[] = [];
+    for(let i=0; i<slides.length; i++) {
+        const slide = slides[i];
+
+        let width = carouselContainerSize.width - carouselThumbBarSize.width; //Container minus thumbnail bar
+        let height = width * (slide.height/slide.width);
+        const maxHeight = 0.7 * windowHeight;
+
+        if(height > maxHeight) { //Height is bigger than 70% of the window
+            height = maxHeight;
+            width = height * (slide.width/slide.height);
+        }
+
+        calculatedSlideSizes.push({
+            width,
+            height
+        });
+    }
+    const biggestWidth = Math.max(...calculatedSlideSizes.map(size => size.width))
 
     return (
-        <div className="flex">
-            <div className="absolute min-w-full" ref={carousalContainerRef} />
-            <div className="relative p-5 pt-2 h-full">
-                <button className="absolute justify-center top-3 left-[40%] opacity-60 touch-manipulation" onClick={onPrevClick}>
-                    <FontAwesomeIcon className="rotate-90" icon={['fas', 'chevron-left']} size="2x" />
-                </button>
-                <button className="absolute justify-center -bottom-4 left-[40%] opacity-60 touch-manipulation" onClick={onNextClick}>
-                    <FontAwesomeIcon className="rotate-90" icon={['fas', 'chevron-right']} size="2x" />
-                </button>
-                <div className="overflow-hidden mt-10 h-auto" ref={thumbViewportRef}>
+        <div className="flex relative min-w-full">
+            <div className="absolute block min-w-full h-1" ref={carouselContainerRef} />
+            <div className="relative h-full pr-5 py-2" ref={carouselThumbBarRef}>
+                <div className="w-full flex justify-center">
+                    <button className="opacity-60 touch-manipulation hover:opacity-90" onClick={onPrevClick}>
+                        <FontAwesomeIcon className="rotate-90" icon={['fas', 'chevron-left']} size="2x" />
+                    </button>
+                </div>
+                <div className="overflow-hidden h-auto" ref={thumbViewportRef}>
                     <div className="grid grid-flow-row gap-2 select-none touch-none cursor-default">
                         {slides.map((slide, index) => (
                             <div className={`rounded-md border-2 border-solid transition-[opacity] transition-[border] duration-200 ${index === selectedIndex ? "opacity-100 border-lightPrimary" : "opacity-50 border-transparent"}`} key={slide.id}>
                                 <button
                                     onClick={() => onThumbClick(index)}
                                     onMouseOver={() => onMouseOverThumb(index)}
-                                    className="w-20 cursor-pointer relative block overflow-hidden touch-manipulation"
+                                    className="w-14 md:w-20 cursor-pointer relative block overflow-hidden touch-manipulation"
                                     type="button"
                                 >
                                     <Image
@@ -85,22 +106,35 @@ const ProductCarousel = ({ slides }) => {
                         ))}
                     </div>
                 </div>
+                <div className="w-full flex justify-center">
+                    <button className="opacity-60 touch-manipulation hover:opacity-90" onClick={onNextClick}>
+                        <FontAwesomeIcon className="rotate-90" icon={['fas', 'chevron-right']} size="2x" />
+                    </button>
+                </div>
             </div>
-            <div className="relative p-2 mx-auto w-full">
-                <div className="overflow-hidden" ref={mainViewportRef}>
-                    <div className="grid grid-flow-col gap-2 select-none touch-none transition-[height] ease-in-out duration-200" style={{width: realSlideWidth}}>
-                        {slides.map((slide) => (
-                            <div style={{width: realSlideWidth, height: realSlideWidth * (slide.height/slide.width)}} key={slide.id}>
-                                <div className="overflow-hidden">
-                                    <Image
-                                        src={slide.src}
-                                        width={slide.width}
-                                        height={slide.height}
-                                        layout="responsive"
-                                        placeholder="blur"
-                                        blurDataURL={slide.base64}
-                                    />
-                                </div>
+            <div className="p-2 w-full">
+                <div className="w-full overflow-hidden" ref={mainViewportRef} style={{width: biggestWidth}}>
+                    <div className="flex select-none touch-none transition-[height] ease-in-out duration-200">
+                        {slides.map((slide, index) => (
+                            <div 
+                                className="flex-shrink-0 transition-opacity ease-in-out duration-200" 
+                                style={{
+                                    opacity: selectedIndex === index ? '1' : '0', 
+                                    flex: '0 0 auto', 
+                                    width: calculatedSlideSizes[index].width, 
+                                    height: calculatedSlideSizes[index].height 
+                                }} 
+                                key={slide.id}
+                            >
+                                <Image
+                                    className="w-full"
+                                    src={slide.src}
+                                    width={slide.width}
+                                    height={slide.height}
+                                    layout="responsive"
+                                    placeholder="blur"
+                                    blurDataURL={slide.base64}
+                                />
                             </div>
                         ))}
                     </div>
