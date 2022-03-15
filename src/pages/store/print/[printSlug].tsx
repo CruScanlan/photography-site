@@ -43,12 +43,13 @@ const ProductPage = (props) => {
 
     return (
         <Layout pageTitle={'Product | Cru Scanlan Photography'} pageClass="bg-darkSecondary text-lightPrimary flex justify-center" padTop={true}>
-            <div className="max-w-4xl p-8">
+            <div className="max-w-3xl p-8 w-full">
                 <h1 className="text-center p-8">
                     Product
                 </h1>
-                <div className="w-full h-full">
-                    <ProductCarousel slides={slides} />
+                <ProductCarousel slides={slides} />
+                <div className="w-full">
+                    
                 </div>
             </div>
         </Layout>
