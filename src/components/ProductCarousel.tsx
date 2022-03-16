@@ -5,6 +5,7 @@ import AutoHeight from "embla-carousel-auto-height";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useComponentSize from '@rehooks/component-size';
 import useWindowSize from 'hooks/useWindowSize';
+import useClientSize from 'hooks/useClientSize';
 import { useDebouncedCallback } from 'use-debounce';
 
 interface Props {
@@ -60,6 +61,7 @@ const ProductCarousel: React.FC<Props> = ({ slides, className = '' }) => {
     const carouselContainerSize = useComponentSize(carouselContainerRef);
     const carouselThumbBarSize = useComponentSize(carouselThumbBarRef);
     const { height: windowHeight } = useWindowSize();
+    const { width: clientWidth } = useClientSize();
 
     let calculatedSlideSizes: {width: number, height: number}[] = [];
     for(let i=0; i<slides.length; i++) {
@@ -67,6 +69,12 @@ const ProductCarousel: React.FC<Props> = ({ slides, className = '' }) => {
 
         let width = carouselContainerSize.width - (carouselThumbBarSize.width + 16); //Container minus thumbnail bar
         let height = width * (slide.height/slide.width);
+
+        console.log(carouselContainerSize.width, clientWidth)
+        if(carouselContainerSize.width > clientWidth) { //Exceeds screen 
+            width = clientWidth - (carouselThumbBarSize.width + 16);
+            height = width * (slide.height/slide.width);
+        }
         
         const maxHeight = (0.7 * windowHeight);
         if(height > maxHeight) { //Height is bigger than 70% of the window
@@ -83,9 +91,9 @@ const ProductCarousel: React.FC<Props> = ({ slides, className = '' }) => {
     const biggestHeight = Math.max(...calculatedSlideSizes.map(size => size.height));
 
     return (
-        <div className={`flex relative ${className}`} style={{height: biggestHeight}}>
+        <div className={`flex relative mb-4 ${className}`} style={{height: biggestHeight}}>
             <div className="absolute block min-w-full h-1" ref={carouselContainerRef} />
-            <div className="relative h-full pr-2 py-2 md:pr-5" ref={carouselThumbBarRef}>
+            <div className="relative h-full pr-2 py-2 lg:pr-5" ref={carouselThumbBarRef}>
                 <div className="w-full flex justify-center">
                     <button className="opacity-60 touch-manipulation hover:opacity-90" onClick={onPrevClick}>
                         <FontAwesomeIcon className="rotate-90" icon={['fas', 'chevron-left']} size="2x" />
@@ -98,7 +106,7 @@ const ProductCarousel: React.FC<Props> = ({ slides, className = '' }) => {
                                 <button
                                     onClick={() => onThumbClick(index)}
                                     onMouseOver={() => onMouseOverThumb(index)}
-                                    className="w-14 md:w-20 cursor-pointer relative block overflow-hidden touch-manipulation"
+                                    className="w-14 lg:w-20 cursor-pointer relative block overflow-hidden touch-manipulation"
                                     type="button"
                                 >
                                     <Image
@@ -120,16 +128,15 @@ const ProductCarousel: React.FC<Props> = ({ slides, className = '' }) => {
                     </button>
                 </div>
             </div>
-            <div className="p-2 w-full">
+            <div className="w-full flex justify-center">
                 <div className="w-full overflow-hidden" ref={mainViewportRef} style={{width: biggestWidth}}>
                     <div className="flex select-none touch-none transition-[height] ease-in-out duration-200">
                         {slides.map((slide, index) => (
                             <div 
-                                className="flex-shrink-0 transition-opacity ease-in-out duration-200" 
+                                className="flex-shrink-0 h-full transition-opacity ease-in-out duration-100" 
                                 style={{
                                     opacity: selectedIndex === index ? '1' : '0', 
                                     flex: '0 0 auto', 
-                                    //style={{width: biggestWidth}}
                                     width: calculatedSlideSizes[index].width, 
                                     height: calculatedSlideSizes[index].height
                                 }} 
@@ -141,6 +148,7 @@ const ProductCarousel: React.FC<Props> = ({ slides, className = '' }) => {
                                     width={slide.width}
                                     height={slide.height}
                                     layout="responsive"
+                                    objectFit="contain"
                                     placeholder="blur"
                                     blurDataURL={slide.base64}
                                     quality={95}

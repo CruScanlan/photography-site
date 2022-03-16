@@ -44,8 +44,8 @@ const ProductPage = (props) => {
 
     return (
         <Layout pageTitle={'Product | Cru Scanlan Photography'} pageClass="bg-darkSecondary text-lightPrimary flex justify-center" padTop={true}>
-            <div className="max-w-[1536px] w-full p-8">
-                <div className="grid" style={{gridTemplateColumns: "1fr auto"}}>
+            <div className="max-w-[1536px] w-full md:p-8">
+                <div className="grid mt-4 lg:mt-0 lg:grid-cols-[1fr_auto]">
                     <div className="max-w-5xl min-w-0">
                         <ProductCarousel slides={slides} />
                     </div>
@@ -58,6 +58,7 @@ const ProductPage = (props) => {
                         </div>
                     </div>
                 </div>
+                <div className="bg-lightPrimary w-full h-[600px]" />
             </div>
         </Layout>
     )
