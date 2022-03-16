@@ -7,11 +7,16 @@ import useComponentSize from '@rehooks/component-size';
 import useWindowSize from 'hooks/useWindowSize';
 import { useDebouncedCallback } from 'use-debounce';
 
-const ProductCarousel = ({ slides }) => {
+interface Props {
+    slides: any;
+    className?: string;
+}
+
+const ProductCarousel: React.FC<Props> = ({ slides, className = '' }) => {
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [mainViewportRef, embla] = useEmblaCarousel({ 
         skipSnaps: false,
-        align: 'start'
+        align: 'center'
     }, [AutoHeight()]);
 
     const [thumbViewportRef, emblaThumbs] = useEmblaCarousel({
@@ -28,7 +33,7 @@ const ProductCarousel = ({ slides }) => {
     const onMouseOverThumb = useDebouncedCallback((index) => {
         if (!embla || !emblaThumbs) return;
         if (emblaThumbs.clickAllowed()) embla.scrollTo(index);
-    }, 150)
+    }, 100)
 
     const onSelect = useCallback(() => {
         if (!embla || !emblaThumbs) return;
@@ -47,7 +52,7 @@ const ProductCarousel = ({ slides }) => {
     useEffect(() => {
         if (!embla) return;
         onSelect();
-        embla.on("select", onSelect)//.on("resize", () => embla.reInit);
+        embla.on("select", onSelect);
     }, [embla, onSelect]);
 
     const carouselContainerRef = useRef(null);
@@ -60,10 +65,10 @@ const ProductCarousel = ({ slides }) => {
     for(let i=0; i<slides.length; i++) {
         const slide = slides[i];
 
-        let width = carouselContainerSize.width - carouselThumbBarSize.width; //Container minus thumbnail bar
+        let width = carouselContainerSize.width - (carouselThumbBarSize.width + 16); //Container minus thumbnail bar
         let height = width * (slide.height/slide.width);
-        const maxHeight = 0.7 * windowHeight;
-
+        
+        const maxHeight = (0.7 * windowHeight);
         if(height > maxHeight) { //Height is bigger than 70% of the window
             height = maxHeight;
             width = height * (slide.width/slide.height);
@@ -74,12 +79,13 @@ const ProductCarousel = ({ slides }) => {
             height
         });
     }
-    const biggestWidth = Math.max(...calculatedSlideSizes.map(size => size.width))
+    const biggestWidth = Math.max(...calculatedSlideSizes.map(size => size.width));
+    const biggestHeight = Math.max(...calculatedSlideSizes.map(size => size.height));
 
     return (
-        <div className="flex relative min-w-full">
+        <div className={`flex relative ${className}`} style={{height: biggestHeight}}>
             <div className="absolute block min-w-full h-1" ref={carouselContainerRef} />
-            <div className="relative h-full pr-5 py-2" ref={carouselThumbBarRef}>
+            <div className="relative h-full pr-2 py-2 md:pr-5" ref={carouselThumbBarRef}>
                 <div className="w-full flex justify-center">
                     <button className="opacity-60 touch-manipulation hover:opacity-90" onClick={onPrevClick}>
                         <FontAwesomeIcon className="rotate-90" icon={['fas', 'chevron-left']} size="2x" />
@@ -96,13 +102,15 @@ const ProductCarousel = ({ slides }) => {
                                     type="button"
                                 >
                                     <Image
+                                        className="rounded-sm"
                                         src={slide.src}
                                         width={slide.width}
                                         height={slide.height}
                                         layout="responsive"
+                                        quality={70}
                                     />
                                 </button>
-                        </div>
+                            </div>
                         ))}
                     </div>
                 </div>
@@ -121,8 +129,9 @@ const ProductCarousel = ({ slides }) => {
                                 style={{
                                     opacity: selectedIndex === index ? '1' : '0', 
                                     flex: '0 0 auto', 
+                                    //style={{width: biggestWidth}}
                                     width: calculatedSlideSizes[index].width, 
-                                    height: calculatedSlideSizes[index].height 
+                                    height: calculatedSlideSizes[index].height
                                 }} 
                                 key={slide.id}
                             >
@@ -134,6 +143,7 @@ const ProductCarousel = ({ slides }) => {
                                     layout="responsive"
                                     placeholder="blur"
                                     blurDataURL={slide.base64}
+                                    quality={95}
                                 />
                             </div>
                         ))}
