@@ -2,6 +2,7 @@ import React from 'react';
 import contentful from 'utils/contentful';
 import Image from 'next/image';
 import { getPlaiceholder } from "plaiceholder";
+import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import ProductCarousel from 'components/ProductCarousel';
 
 import createProductImage from 'utils/productImages/create';
@@ -43,13 +44,19 @@ const ProductPage = (props) => {
 
     return (
         <Layout pageTitle={'Product | Cru Scanlan Photography'} pageClass="bg-darkSecondary text-lightPrimary flex justify-center" padTop={true}>
-            <div className="max-w-3xl p-8 w-full">
-                <h1 className="text-center p-8">
-                    Product
-                </h1>
-                <ProductCarousel slides={slides} />
-                <div className="w-full">
-                    
+            <div className="max-w-[1536px] w-full p-8">
+                <div className="grid" style={{gridTemplateColumns: "1fr auto"}}>
+                    <div className="max-w-5xl min-w-0">
+                        <ProductCarousel slides={slides} />
+                    </div>
+                    <div className="w-96 p-4 mt-10 ml-4">
+                        <h2>
+                            {props.landscapeImage.title}
+                        </h2>
+                        <div className="mt-8">
+                            {documentToReactComponents(props.landscapeImage.description)}
+                        </div>
+                    </div>
                 </div>
             </div>
         </Layout>
