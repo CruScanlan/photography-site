@@ -70,7 +70,6 @@ const ProductCarousel: React.FC<Props> = ({ slides, className = '' }) => {
         let width = carouselContainerSize.width - (carouselThumbBarSize.width + 16); //Container minus thumbnail bar
         let height = width * (slide.height/slide.width);
 
-        console.log(carouselContainerSize.width, clientWidth)
         if(carouselContainerSize.width > clientWidth) { //Exceeds screen 
             width = clientWidth - (carouselThumbBarSize.width + 16);
             height = width * (slide.height/slide.width);
