@@ -33,7 +33,7 @@ const FormDropdown: React.FC<Props>  = ({ classes = '', items, value,  onChanged
 
     return (
         <select 
-            className={`text-lightPrimary w-full form-select text-base font-semibold rounded-sm shadow bg-darkTertiary py-4 px-6 ${classes}`} 
+            className={`text-lightPrimary w-full form-select text-base font-semibold rounded-sm shadow bg-darkTertiary py-4 px-5 ${classes}`} 
             onChange={changed}
             value={selected}
         >

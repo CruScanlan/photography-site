@@ -125,9 +125,24 @@ const ProductPage = (props) => {
                             value={size}
                         />
 
-                        <Button classes="mt-8 w-full md:w-4/5" size="md" type="filled" clickable>
+                        <Button classes="mt-8 w-full md:w-4/5" size="lg" type="filled" clickable>
                             Add to Cart <FontAwesomeIcon className="ml-2" icon={['fas', 'cart-arrow-down']} />
                         </Button>
+
+                        <div className="mt-4">
+                            <div className="p-1">
+                                <FontAwesomeIcon className="mr-2 w-4" icon={['fas', 'paint-brush']} /> Premium Fine Art Materials And Coatings
+                            </div>
+                            <div className="p-1">
+                                <FontAwesomeIcon className="mr-2 w-4" icon={['fas', 'circle-check']} /> Made-To-Order
+                            </div>
+                            <div className="p-1">
+                                <FontAwesomeIcon className="mr-2 w-4" icon={['fas', 'truck-fast']} /> Fast Delivery With Tracking & Insurance
+                            </div>
+                            <div className="p-1">
+                                <FontAwesomeIcon className="mr-2 w-4" icon={['fas', 'shield']} /> Secure Payments
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div className="bg-lightPrimary w-full h-[600px]" />
