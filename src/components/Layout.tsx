@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { Helmet } from 'react-helmet';
-import { CartProvider } from 'use-shopping-cart/react';
 
 import NavBar, { INavbarScrollAnimation } from 'components/NavBar';
+import Cart from 'components/Cart';
 import Footer from 'components/Footer';
 
 interface Props {
@@ -27,6 +27,7 @@ const Layout: React.FC<Props> = ({ pageTitle, pageClass, padTop = false, navbarS
             {
                 !fullPage && <NavBar navbarScrollAnimation={navbarScrollAnimation} />
             }
+            <Cart />
             <main className={`${pageClass} z-10`} style={{paddingTop: padTop ? '87px' : 0}}>
                 { children }
             </main>
@@ -38,17 +39,3 @@ const Layout: React.FC<Props> = ({ pageTitle, pageClass, padTop = false, navbarS
 }
 
 export default Layout;
-
-/* 
-<CartProvider
-                mode="payment"
-                cartMode="client-only"
-                stripe={process.env.STRIPE_KEY || ''}
-                successUrl="stripe.com"
-                cancelUrl="google.com"
-                currency="AUD"
-                allowedCountries={['AU']}
-                billingAddressCollection={true}
-            >
-                
-            </CartProvider>  */
