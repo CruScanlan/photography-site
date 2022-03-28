@@ -6,6 +6,10 @@ import useScrollPosition from '@react-hook/window-scroll';
 import { FontAwesomeIcon, FontAwesomeIconProps } from '@fortawesome/react-fontawesome';
 import ColorScale from 'color-scales';
 
+import { useShoppingCart } from 'use-shopping-cart';
+import { useAppDispatch } from 'hooks/storeHooks';
+import { setIsOpen } from 'store/cartReducer';
+
 import numberMap from 'utils/numberMap';
 import useWindowSize from 'hooks/useWindowSize';
 
@@ -81,6 +85,9 @@ const navSocialLinks: {
 
 const NavBar: React.FC<Props> = ({ navbarScrollAnimation }) => {
     const [hambugerOpen, setHamburgerOpen] = useState(false);
+    
+    const { cartCount } = useShoppingCart();
+    const dispatch = useAppDispatch();
 
     if(!navbarScrollAnimation || navbarScrollAnimation.enabled) { //Make sure it has all properties
         navbarScrollAnimation = {...defaultOptions, ...navbarScrollAnimation};
@@ -91,18 +98,22 @@ const NavBar: React.FC<Props> = ({ navbarScrollAnimation }) => {
     let style: React.CSSProperties = {};
     let shadow = '';
 
+    //Animate NavBar on scroll
     if(navbarScrollAnimation.enabled && navbarScrollAnimation.startPositonRelative && navbarScrollAnimation.endPositionRelative && navbarScrollAnimation.startPositionAbsolute && navbarScrollAnimation.endPositionAbsolute ) { //All defined
         let opacity: number;
-    
+        
+        //If window height is availiable and calc bar opacity
         if(windowHeight) {
             const [startHeight, endHeight] = [windowHeight*navbarScrollAnimation.startPositonRelative, windowHeight*navbarScrollAnimation.endPositionRelative]
             opacity = scrollPosition < startHeight ? 0 : scrollPosition <  endHeight ? numberMap(scrollPosition, startHeight, endHeight, 0, 1) : 1;
-        }
+        }   //Use absolute positioning if window height is not availiable
         else opacity = scrollPosition < navbarScrollAnimation.startPositionAbsolute ? 0 : scrollPosition < navbarScrollAnimation.endPositionAbsolute ? numberMap(scrollPosition, navbarScrollAnimation.startPositionAbsolute, navbarScrollAnimation.endPositionAbsolute, 0, 1) : 1;
 
+        //Cal padding
         const padding1 = 50*(1-opacity);
         const padding2 = 25*(1-opacity);
 
+        //fade color
         const newColor = colorScale.getColor(opacity*100);
         const color =  `rgba(${newColor.r}, ${newColor.g}, ${newColor.b}, ${newColor.a})`;
 
@@ -114,6 +125,7 @@ const NavBar: React.FC<Props> = ({ navbarScrollAnimation }) => {
             paddingBottom: padding2
         };
         if(navbarScrollAnimation.scrollColor) style.color = color;
+        //Add shadow on full opacity
         shadow = opacity === 1 ? 'shadow-lg' : '';
     }
 
@@ -123,6 +135,11 @@ const NavBar: React.FC<Props> = ({ navbarScrollAnimation }) => {
 
     const onHamburgerMenuClose = () => {
         setHamburgerOpen(false);
+    }
+
+    const onCartClick = () => {
+        setHamburgerOpen(false);
+        dispatch(setIsOpen(true));
     }
 
     return (
@@ -165,13 +182,20 @@ const NavBar: React.FC<Props> = ({ navbarScrollAnimation }) => {
                             ))
                         }
                         {
-                            navSocialLinks.map(navSocialLink => (
+                            /* navSocialLinks.map(navSocialLink => (
                                 <li className="c-navbar__link c-navbar__link--socials" key={navSocialLink.href}>
                                     <a className="text-lightPrimary hover:text-lightSecondary no-underline" href={navSocialLink.href} target="_blank">
                                         <FontAwesomeIcon icon={navSocialLink.icon} size="1x"/>
                                     </a>
                                 </li>
-                            ))
+                            )) */
+                        }
+                        {
+                            cartCount > 0 && 
+                                <li className="c-navbar__link relative hover:cursor-pointer" onClick={onCartClick}>
+                                    <FontAwesomeIcon icon={['fas', 'shopping-cart']} style={{fontSize: '1.2em'}} />
+                                    <span className="absolute right-1 top-0 text-sm bg-orange-500 rounded-full w-6 h-6 pt-[2px]">{cartCount}</span>
+                                </li>
                         }
                     </ul>
                 </div>
@@ -202,6 +226,16 @@ const NavBar: React.FC<Props> = ({ navbarScrollAnimation }) => {
                                     </li>
                                 </Link>
                             ))
+                        }
+                        {
+                            cartCount > 0 && 
+                                <li className="c-navbar__link flex p-4 hover:bg-blue-50 hover:text-blue-600 hover:underline hover:cursor-pointer rounded" onClick={onCartClick}>
+                                    <span className="mr-2 text-xl font-semibold">Cart</span>
+                                    <div className="relative">
+                                        <FontAwesomeIcon icon={['fas', 'shopping-cart']} style={{fontSize: '1.2em'}} />
+                                        <span className="absolute -right-3 -top-3 text-sm bg-orange-500 rounded-full w-6 h-6 pt-[2px] pr-[1px] text-center">{cartCount}</span>
+                                    </div>
+                                </li>
                         }
                     </ul>
                     <div className="mt-auto">
