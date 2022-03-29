@@ -149,22 +149,21 @@ export async function getServerSideProps(ctx) {
 
     const startTimeTotal = performance.now();
     let startTime = startTimeTotal;
-    
-    const photoCollectionOrderContentful = await contentful.getEntry<any>('5MUgow4FEnQHKNRQI5p7Cr', {include: 2}); //{include: 2} will make sure it retreieves linked assets 2 deep
+
+    let [photoCollectionOrderContentful, landscapeImagesContentful] = await Promise.all([
+        contentful.getEntry<any>('5MUgow4FEnQHKNRQI5p7Cr', {include: 2}),
+        contentful.getEntries<any>({include: 1, content_type: 'landscapeImage'})
+    ]);
     
     let endTime = performance.now();
-    console.log(`[imageSlug]:${imageSlug} | Downloaded contentful collection order in ${endTime - startTime}ms`);
+    console.log(`[imageSlug]:${imageSlug} | Downloaded contentful data in ${endTime - startTime}ms`);
+
+    const landscapeImages = landscapeImagesContentful.items;
 
     const photoCollectionSlugs: IPhotoCollectionsSlugsArray = photoCollectionOrderContentful.fields.photoCollections.map(item => ({
         slug: item.fields.slug,
         images: item.fields.images.map(image => image.fields.slug)
     }));
-
-    startTime = performance.now();
-    const landscapeImages = (await contentful.getEntries<any>({include: 1, content_type: 'landscapeImage'})).items;
-
-    endTime = performance.now();
-    console.log(`[imageSlug]:${imageSlug} | Downloaded contentful landscape images in ${endTime - startTime}ms`);
 
     let image = landscapeImages.find(landscapeImage => landscapeImage.fields.slug === imageSlug).fields;
 
