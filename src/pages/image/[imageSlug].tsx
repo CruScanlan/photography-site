@@ -96,8 +96,8 @@ const GalleryPhotoPage = ({ image, collectionSlug, nextImageSlug, previousImageS
                             width={imageFile.details.image.width} 
                             height={imageFile.details.image.height} 
                             alt={`${image.title} | ${image.location}`}
-                            placeholder="blur"
-                            blurDataURL={imageFile.base64}
+                            //placeholder="blur"
+                            //blurDataURL={imageFile.base64}
                         />
                     }
                     {
@@ -167,10 +167,15 @@ export async function getServerSideProps(ctx) {
 
     let image = landscapeImages.find(landscapeImage => landscapeImage.fields.slug === imageSlug).fields;
 
-    image.fullResImage.fields.file = {
+    startTime = performance.now();
+
+    /* image.fullResImage.fields.file = {
         ...image.fullResImage.fields.file,
         base64: (await getPlaiceholder(`https:${image.fullResImage.fields.file.url}`)).base64
-    }
+    } */
+
+    endTime = performance.now();
+    console.log(`[imageSlug]:${imageSlug} | Created Plaiceholder data in ${endTime - startTime}ms`);
 
     //Get collection slugs
     const collectionQueryParam = ctx.query.collection;
