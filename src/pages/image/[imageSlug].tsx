@@ -21,61 +21,29 @@ type IPhotoCollectionsSlugsArray = IPhotoCollectionSlugs[];
 //TODO: Implement pre fetching for these pages to reduce load times at least 300m
 //TODO: Possibly prefetch next image too
 
-const GalleryPhotoPage = (props) => {
-    const imageSlug: string = props.image.slug;
-    const collectionQueryParam: string = props.collectionQueryParam;
-    const image = props.image;
+type IImageDimensions = {width: number; height: number};
 
-    const imageDimensions: {width: number; height: number} = image.fullResImage.fields.file.details.image;
+const GalleryPhotoPage = ({ image, collectionSlug, nextImageSlug, previousImageSlug, nextImage, previousImage}) => {
+    const imageSlug: string = image.slug;
+
+    const getImageSize = (imageDimensions: IImageDimensions): IImageDimensions => {
+        const wRatio = (windowWidth / imageDimensions.width) * wScalingFactor;
+        const hRatio =  ((windowHeight - imageInfoSize.height) / imageDimensions.height) * hScalingFactor;
+        const ratio  = Math.min(hRatio, wRatio);
+
+        const width = imageDimensions.width * ratio;
+        const height = imageDimensions.height * ratio;
+
+        return {width, height}
+    }
+
+    const imageDimensionsPrimary: IImageDimensions = image.fullResImage.fields.file.details.image;
+    const imageDimensionsNext: IImageDimensions = nextImage.fullResImage.fields.file.details.image;
+    const imageDimensionsPrevious: IImageDimensions = previousImage.fullResImage.fields.file.details.image;
 
     const { width: windowWidth, height: windowHeight } = useWindowSize();
     const imageInfoSizeRef = useRef(null);
     const imageInfoSize = useComponentSize(imageInfoSizeRef);
-    
-    let collectionSlug: string = '';
-    let nextImageSlug: string = '';
-    let previousImageSlug: string = '';
-
-    const getOtherImagesFromCollection = (collection: IPhotoCollectionSlugs) => {
-        const imageIndex = collection.images.findIndex((slug) => slug === imageSlug);
-        if(imageIndex === -1) return ['', '', '']; //Didnt find image in collection
-
-        const collectionSlug = collection.slug;
-        const nextImageSlug = collection.images[imageIndex+1 !== collection.images.length ? imageIndex+1 : 0];
-        const previousImageSlug = collection.images[imageIndex !== 0 ? imageIndex-1 : collection.images.length-1];
-
-        return [collectionSlug, nextImageSlug, previousImageSlug];
-    }
-
-    const photoCollectionSlugs: IPhotoCollectionsSlugsArray = props.photoCollectionSlugs;
-    if(collectionQueryParam && collectionQueryParam !== '') {
-        for(let i=0; i<photoCollectionSlugs.length; i++) {
-            const collection = photoCollectionSlugs[i];
-
-            if(collectionQueryParam === collection.slug) { //Found collection
-                [collectionSlug, nextImageSlug, previousImageSlug] = getOtherImagesFromCollection(collection);
-                break;
-            }
-        }
-    }
-
-    if(collectionSlug === '') {
-        let found = false;
-        for(let i=0; i<photoCollectionSlugs.length; i++) {
-            const collection = photoCollectionSlugs[i];
-            const hasImage = collection.images.findIndex((slug) => slug === imageSlug) !== -1;
-
-            if(hasImage) { //Found set and break loop
-                [collectionSlug, nextImageSlug, previousImageSlug] = getOtherImagesFromCollection(collection);
-                found = true;
-                break;
-            }
-        }
-        if(!found) {
-            //Didnt find anything
-            console.error(`ERROR: Didnt find a collection this image belongs to for ${imageSlug}`);
-        }
-    }
 
     if(!windowWidth || !windowHeight) return <div>Error: Could not get window dimensions</div>
     let wScalingFactor = 0.87;
@@ -83,14 +51,13 @@ const GalleryPhotoPage = (props) => {
 
     if(windowWidth > 1024) wScalingFactor = 0.92; //Breakpoint
 
-    const wRatio = (windowWidth / imageDimensions.width) * wScalingFactor;
-    const hRatio =  ((windowHeight - imageInfoSize.height) / imageDimensions.height) * hScalingFactor;
-    const ratio  = Math.min(hRatio, wRatio);
-
-    const width = imageDimensions.width * ratio;
-    const height = imageDimensions.height * ratio;
+    const { width, height } = getImageSize(imageDimensionsPrimary);
+    const { width: widthNext, height: heightNext } = getImageSize(imageDimensionsNext);
+    const { width: widthPrevious, height: heightPrevious } = getImageSize(imageDimensionsPrevious);
 
     const imageFile = image.fullResImage.fields.file;
+    const nextImageFile = nextImage.fullResImage.fields.file;
+    const previousImageFile = previousImage.fullResImage.fields.file;
 
     const location = image.location ? image.location.fields.name : 'Unknown Location';
 
@@ -135,6 +102,32 @@ const GalleryPhotoPage = (props) => {
                         !image && <div className="text-lightPrimary">Could not find Image</div>
                     }
                 </div>
+                <div style={{width: widthNext, height: heightNext}} className="block absolute opacity-0 -z-10">
+                    {
+                        nextImage && <Image
+                            loading="lazy"
+                            layout="responsive"
+                            quality={100}
+                            src={`https:${nextImageFile.url}`} 
+                            width={nextImageFile.details.image.width} 
+                            height={nextImageFile.details.image.height}
+                            alt=""
+                        />
+                    }
+                </div>
+                <div style={{width: widthPrevious, height: heightPrevious}} className="block absolute opacity-0 -z-10">
+                    {
+                        previousImage && <Image
+                            loading="lazy"
+                            layout="responsive"
+                            quality={100}
+                            src={`https:${previousImageFile.url}`} 
+                            width={previousImageFile.details.image.width} 
+                            height={previousImageFile.details.image.height}
+                            alt=""
+                        />
+                    }
+                </div>
                 <div style={{width}} className="mt-2 flex flex-col justify-between items-center md:flex-row" ref={imageInfoSizeRef}>
                     <div className="flex flex-col items-center md:items-start">
                         <h3 className="text-lightPrimary">{image.title}</h3>
@@ -167,11 +160,64 @@ export async function getServerSideProps(ctx) {
         base64: (await getPlaiceholder(`https:${image.fullResImage.fields.file.url}`)).base64
     }
 
+    //Get collection slugs
+    const collectionQueryParam = ctx.query.collection;
+
+    let collectionSlug: string = '';
+    let nextImageSlug: string = '';
+    let previousImageSlug: string = '';
+
+    const getOtherImagesFromCollection = (collection: IPhotoCollectionSlugs) => {
+        const imageIndex = collection.images.findIndex((slug) => slug === imageSlug);
+        if(imageIndex === -1) return ['', '', '']; //Didnt find image in collection
+
+        const collectionSlug = collection.slug;
+        const nextImageSlug = collection.images[imageIndex+1 !== collection.images.length ? imageIndex+1 : 0];
+        const previousImageSlug = collection.images[imageIndex !== 0 ? imageIndex-1 : collection.images.length-1];
+
+        return [collectionSlug, nextImageSlug, previousImageSlug];
+    }
+
+    if(collectionQueryParam && collectionQueryParam !== '') {
+        for(let i=0; i<photoCollectionSlugs.length; i++) {
+            const collection = photoCollectionSlugs[i];
+
+            if(collectionQueryParam === collection.slug) { //Found collection
+                [collectionSlug, nextImageSlug, previousImageSlug] = getOtherImagesFromCollection(collection);
+                break;
+            }
+        }
+    }
+
+    if(collectionSlug === '') {
+        let found = false;
+        for(let i=0; i<photoCollectionSlugs.length; i++) {
+            const collection = photoCollectionSlugs[i];
+            const hasImage = collection.images.findIndex((slug) => slug === imageSlug) !== -1;
+
+            if(hasImage) { //Found set and break loop
+                [collectionSlug, nextImageSlug, previousImageSlug] = getOtherImagesFromCollection(collection);
+                found = true;
+                break;
+            }
+        }
+        if(!found) {
+            //Didnt find anything
+            console.error(`ERROR: Didnt find a collection this image belongs to for ${imageSlug}`);
+        }
+    }
+
+    const nextImage = landscapeImages.find(landscapeImage => landscapeImage.fields.slug === nextImageSlug).fields;
+    const previousImage = landscapeImages.find(landscapeImage => landscapeImage.fields.slug === previousImageSlug).fields;
+
     return {
         props: {
-            photoCollectionSlugs,
             image,
-            collectionQueryParam: ctx.query.collection
+            collectionSlug,
+            nextImageSlug,
+            nextImage,
+            previousImageSlug,
+            previousImage
         }
     };
 }
