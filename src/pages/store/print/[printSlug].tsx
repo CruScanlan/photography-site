@@ -176,8 +176,17 @@ const ProductPage = (props) => {
                             value={size}
                         />
 
-                        <Button classes="mt-8 w-full md:w-4/5" size="lg" type="filled" clickable onClick={onAddToCart}>
-                            Add to Cart <FontAwesomeIcon className="ml-2" icon={['fas', 'cart-arrow-down']} />
+                        <Button classes="mt-8 w-full md:w-4/5" size="lg" type={imageUrl !== '' ? 'filled': 'disabled'} clickable={imageUrl !== ''} onClick={onAddToCart}>
+                            {
+                                imageUrl !== '' && (
+                                    <>
+                                        Add to Cart <FontAwesomeIcon className="ml-2" icon={['fas', 'cart-arrow-down']} />
+                                    </>
+                                )
+                            }
+                            {
+                                imageUrl === '' && 'Still Loading...'
+                            }
                         </Button>
 
                         <div className="mt-4">

@@ -5,7 +5,7 @@ interface Props {
     classes?: React.HTMLAttributes<HTMLDivElement>['className'];
     href?: string;
     size?: 'sm' | 'md' | 'lg';
-    type?: 'transparent' | 'filled';
+    type?: 'transparent' | 'filled' | 'disabled';
     fullWidth?: boolean;
     clickable?: boolean;
     onClick?: (e:  React.MouseEvent) => any;
@@ -20,14 +20,15 @@ const ButtonSizeClasses = {
 
 const ButtonTypeClasses = {
     'transparent': 'border border-lightSecondary hover:border-lightPrimary',
-    'filled': 'border border-transparent bg-orange-500 hover:bg-orange-700'
+    'filled': 'border border-transparent bg-orange-500 hover:bg-orange-700',
+    'disabled': 'border border-transparent bg-gray-700 hover:bg-gray-700'
 }
 
 const Button: React.FC<Props>  = ({ classes = '', href, size = 'sm', fullWidth = false, type = 'transparent', clickable = false, children, ...props }) => {
     const innerClasses = `w-full flex items-center justify-center ${clickable ? 'hover:cursor-pointer' : ''} ${ButtonTypeClasses[type]} ${ButtonSizeClasses[size]}`;
 
     return (
-        <div className={`text-base text-center font-semibold text-lightPrimary rounded-md shadow ${fullWidth ? 'w-full': ''} ${classes}`} {...props}>
+        <div className={`text-base text-center  font-semibold text-lightPrimary rounded-md shadow ${fullWidth ? 'w-full': ''} ${classes}`} {...props}>
             {
                 href && ( //Add link
                     <Link
