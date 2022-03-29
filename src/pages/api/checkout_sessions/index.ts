@@ -43,7 +43,7 @@ export default async function handler(
                         },
                         unit_amount: shopProduct.fields.price*100 //Convert to cents
                     },
-                    quantity: 1
+                    quantity: cartItem.quantity
                 })
             }
 
@@ -51,7 +51,7 @@ export default async function handler(
 
             const params: Stripe.Checkout.SessionCreateParams = {
                 mode: 'payment',
-                payment_method_types: ['card', 'au_becs_debit'],
+                payment_method_types: ['card'],
                 line_items: lineItems,
                 shipping_address_collection: {
                     allowed_countries: ['AU']
