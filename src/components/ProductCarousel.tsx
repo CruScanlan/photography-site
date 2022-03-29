@@ -11,9 +11,10 @@ import { useDebouncedCallback } from 'use-debounce';
 interface Props {
     slides: any;
     className?: string;
+    onGetImageUrl?: (url: string) => void;
 }
 
-const ProductCarousel: React.FC<Props> = ({ slides, className = '' }) => {
+const ProductCarousel: React.FC<Props> = ({ slides, onGetImageUrl, className = '' }) => {
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [mainViewportRef, embla] = useEmblaCarousel({ 
         skipSnaps: false,
@@ -63,11 +64,21 @@ const ProductCarousel: React.FC<Props> = ({ slides, className = '' }) => {
     const { height: windowHeight } = useWindowSize();
     const { width: clientWidth } = useClientSize();
 
+    const onImageLoad = (index: number) => {
+        if(index !== 0) return; //Only get first
+
+        const srcSet = carouselThumbBarRef.current.childNodes[1].firstChild.firstChild.firstChild.firstChild.childNodes[1].attributes.srcset.nodeValue; //Get src of first thumbnail
+
+        const path = srcSet.slice(0, srcSet.indexOf('320w,')).trim(); //Get the first image path (320w). This needs to be updated if devices sizes changes
+
+        onGetImageUrl(window.location.origin+path); //Return full image path after load
+    }
+
     let calculatedSlideSizes: {width: number, height: number}[] = [];
     for(let i=0; i<slides.length; i++) {
         const slide = slides[i];
 
-        let width = carouselContainerSize.width - (carouselThumbBarSize.width + 16); //Container minus thumbnail bar
+        let width = carouselContainerSize.width - (carouselThumbBarSize.width + 16); //Container minus thumbnail bar - 16px
         let height = width * (slide.height/slide.width);
 
         if(carouselContainerSize.width > clientWidth) { //Exceeds screen 
@@ -115,6 +126,7 @@ const ProductCarousel: React.FC<Props> = ({ slides, className = '' }) => {
                                         height={slide.height}
                                         layout="responsive"
                                         quality={70}
+                                        onLoadingComplete={() => onImageLoad(index)}
                                     />
                                 </button>
                             </div>

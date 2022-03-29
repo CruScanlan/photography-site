@@ -29,7 +29,7 @@ const FormDropdown: React.FC<Props>  = ({ classes = '', items, value,  onChanged
 
     useEffect(() => {
         setSelected(value);
-    }, [value]);
+    }, [items, value]);
 
     return (
         <select 
