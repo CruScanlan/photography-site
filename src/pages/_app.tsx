@@ -5,7 +5,7 @@ import { CartProvider } from 'use-shopping-cart';
 
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { library, config } from '@fortawesome/fontawesome-svg-core';
-import { faArrowCircleRight, faChevronRight, faChevronLeft, faTimes, faBars, faChevronDown, faCartArrowDown, faCircleCheck, faTruckFast, faShield, faPaintBrush, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
+import { faArrowCircleRight, faChevronRight, faChevronLeft, faTimes, faBars, faChevronDown, faCartArrowDown, faCircleCheck, faTruckFast, faShield, faPaintBrush, faShoppingCart, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { faInstagram, faFacebook } from '@fortawesome/free-brands-svg-icons';
 
 config.autoAddCss = false;
@@ -25,7 +25,8 @@ library.add(
     faCircleCheck,
     faTruckFast,
     faShield,
-    faShoppingCart
+    faShoppingCart,
+    faTrash
 );
 
 const MyApp = ({ Component, pageProps }: AppProps) => {

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import contentful from 'utils/contentful';
 import Image from 'next/image';
 import { getPlaiceholder } from "plaiceholder";
@@ -78,6 +78,20 @@ const ProductPage = (props) => {
     const [size, setSize] = useState(productSize);
     const [selectedProduct, setSelectedProduct] = useState(product);
 
+    useEffect(() => { //Reload dropdowns on product change
+        const {
+            productType,
+            allProductSizes, 
+            productSize,
+            product 
+        } = getProductInfo();
+
+        setType(productType);
+        setSizes(allProductSizes);
+        setSize(productSize);
+        setSelectedProduct(product);
+    }, [ `${allProductTypes}`, `${allProductSizes}` ]) //Serialize because it includes arrays
+
     /*
         <div className="mt-8">
             {documentToReactComponents(props.landscapeImage.description)}
@@ -106,6 +120,12 @@ const ProductPage = (props) => {
         setSelectedProduct(newProduct);
     }
 
+    const [imageUrl, setImageUrl] = useState('');
+
+    const onImageUrl = (url: string) => {
+        setImageUrl(url);
+    }
+
     const {
         addItem
     } = useShoppingCart();
@@ -113,9 +133,15 @@ const ProductPage = (props) => {
 
     const onAddToCart = () => {
         addItem({
-            id: `${props.landscapeImage.id}/${selectedProduct.id}`,
+            id: `${props.landscapeImage.slug}/${selectedProduct.productCode}`, //Combined image/material/size product code
             name: props.landscapeImage.title,
-            price: selectedProduct.price,
+            description: `${selectedProduct.type} - ${selectedProduct.size}"`, //Material type and size
+            product_metadata: {
+                printSlug: props.landscapeImage.slug,
+                printUrl: window.location.href, //Full page url
+                printImageSrc: imageUrl
+            },
+            price: selectedProduct.price*100, //Convert to cents
             currency: 'AUD'
         });
         dispatch(setIsOpen(true));
@@ -126,7 +152,7 @@ const ProductPage = (props) => {
             <div className="max-w-[1536px] w-full md:p-8">
                 <div className="grid mt-4 lg:mt-0 lg:grid-cols-[1fr_auto]">
                     <div className="max-w-5xl min-w-0">
-                        <ProductCarousel slides={slides} />
+                        <ProductCarousel slides={slides} onGetImageUrl={onImageUrl} />
                     </div>
                     <div className="w-fill lg:w-[28rem] p-4 mt-6 ml-4">
                         <h2 className="w-full">
