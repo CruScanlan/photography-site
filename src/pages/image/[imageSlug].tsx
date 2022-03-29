@@ -7,6 +7,8 @@ import useComponentSize from '@rehooks/component-size';
 import useWindowSize from 'hooks/useWindowSize';
 import contentful from 'utils/contentful';
 
+import { performance } from 'perf_hooks';
+
 
 import Layout from 'components/Layout';
 import Button from 'components/Button';
@@ -144,15 +146,26 @@ export default GalleryPhotoPage;
 
 export async function getServerSideProps(ctx) {
     const imageSlug = ctx.params.imageSlug;
+
+    const startTimeTotal = performance.now();
+    let startTime = startTimeTotal;
     
     const photoCollectionOrderContentful = await contentful.getEntry<any>('5MUgow4FEnQHKNRQI5p7Cr', {include: 2}); //{include: 2} will make sure it retreieves linked assets 2 deep
     
+    let endTime = performance.now();
+    console.log(`[imageSlug]:${imageSlug} | Downloaded contentful collection order in ${endTime - startTime}ms`);
+
     const photoCollectionSlugs: IPhotoCollectionsSlugsArray = photoCollectionOrderContentful.fields.photoCollections.map(item => ({
         slug: item.fields.slug,
         images: item.fields.images.map(image => image.fields.slug)
     }));
 
-    const landscapeImages = (await contentful.getEntries<any>({include: 2, content_type: 'landscapeImage'})).items;
+    startTime = performance.now();
+    const landscapeImages = (await contentful.getEntries<any>({include: 1, content_type: 'landscapeImage'})).items;
+
+    endTime = performance.now();
+    console.log(`[imageSlug]:${imageSlug} | Downloaded contentful landscape images in ${endTime - startTime}ms`);
+
     let image = landscapeImages.find(landscapeImage => landscapeImage.fields.slug === imageSlug).fields;
 
     image.fullResImage.fields.file = {
@@ -209,6 +222,9 @@ export async function getServerSideProps(ctx) {
 
     const nextImage = landscapeImages.find(landscapeImage => landscapeImage.fields.slug === nextImageSlug).fields;
     const previousImage = landscapeImages.find(landscapeImage => landscapeImage.fields.slug === previousImageSlug).fields;
+
+    endTime = performance.now();
+    console.log(`[imageSlug]:${imageSlug} | Finished generating page data in total time ${endTime - startTimeTotal}ms`);
 
     return {
         props: {
