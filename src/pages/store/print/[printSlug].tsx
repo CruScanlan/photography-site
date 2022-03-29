@@ -139,11 +139,13 @@ const ProductPage = (props) => {
             product_metadata: {
                 printSlug: props.landscapeImage.slug,
                 printUrl: window.location.href, //Full page url
-                printImageSrc: imageUrl
+                printImageSrc: imageUrl,
+                productCode: selectedProduct.productCode
             },
             price: selectedProduct.price*100, //Convert to cents
             currency: 'AUD'
         });
+
         dispatch(setIsOpen(true));
     };
 

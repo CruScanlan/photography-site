@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useShoppingCart } from 'use-shopping-cart';
 import { useAppSelector, useAppDispatch } from 'hooks/storeHooks';
 import { setIsOpen } from 'store/cartReducer';
+
+import getStripe from 'utils/get-stripejs';
+import { fetchPostJSON } from 'utils/api-helpers';
 
 import Button from 'components/Button';
 
@@ -15,7 +18,15 @@ const Cart: React.FC<Props>  = () => {
     const isOpen = useAppSelector(state => state.cart.isOpen);
     const dispatch = useAppDispatch();
 
-    const { cartDetails, cartCount, incrementItem, decrementItem, removeItem, formattedTotalPrice } = useShoppingCart();
+    const { 
+        cartDetails,
+        cartCount,
+        incrementItem,
+        decrementItem,
+        removeItem,
+        formattedTotalPrice,
+        redirectToCheckout
+    } = useShoppingCart();
 
     const onClose = () => {
         dispatch(setIsOpen(false));
@@ -33,6 +44,18 @@ const Cart: React.FC<Props>  = () => {
 
     const onClickRemove = (id: string) => {
         removeItem(id);
+    }
+
+    const onClickCheckout = async () => {
+        // Create a Checkout Session.
+        const response = await fetchPostJSON('/api/checkout_sessions', cartItems);
+    
+        if (response.statusCode === 500) {
+            console.error(response.message)
+            return
+        }
+        
+        redirectToCheckout({ sessionId: response.id })
     }
 
     return (
@@ -113,7 +136,7 @@ const Cart: React.FC<Props>  = () => {
                                         <Button type="transparent" clickable onClick={onClose}>
                                             Back to shop
                                         </Button>
-                                        <Button type="filled" clickable>
+                                        <Button type="filled" clickable onClick={onClickCheckout}>
                                             Continue to Checkout
                                         </Button>
                                     </div>
