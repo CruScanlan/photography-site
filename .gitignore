@@ -40,3 +40,4 @@ old/
 .env.production
 
 public/productImages/
+stripe.exe
