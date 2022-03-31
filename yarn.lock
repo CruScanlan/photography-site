@@ -30,11 +30,6 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
-"@builder.io/partytown@^0.5.1":
-  version "0.5.1"
-  resolved "https://registry.yarnpkg.com/@builder.io/partytown/-/partytown-0.5.1.tgz#89373ff8c424c60e1b61dc9029b31b9f9d5ece56"
-  integrity sha512-Qs1CrHTT/I1xeNlPn6+KSxhQhvcJKv2mZhesLfEeEftRbCWb3TdXIghNNIxrnAmD7Sivdp8dSOGEAcM8BLybDA==
-
 "@contentful/rich-text-react-renderer@^15.11.1":
   version "15.11.1"
   resolved "https://registry.yarnpkg.com/@contentful/rich-text-react-renderer/-/rich-text-react-renderer-15.11.1.tgz#54305dc9561ed5d98bb65e8eb054ba1707d44af0"
@@ -335,6 +330,11 @@
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/@types/app-root-path/-/app-root-path-1.2.4.tgz#a78b703282b32ac54de768f5512ecc3569919dc7"
   integrity sha1-p4twMoKzKsVN52j1US7MNWmRncc=
+
+"@types/gtag.js@^0.0.10":
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/@types/gtag.js/-/gtag.js-0.0.10.tgz#ac90d9b79c00daac447725a4b78ec1c398796760"
+  integrity sha512-98Hy7woUb3jMAMXkZQwfIOYNyfxmI0+U4m0PpCGdnd/FHk0tDpQFCqgXdNkdEoXsKkcGya/2Gew1cAJjKJspVw==
 
 "@types/hoist-non-react-statics@^3.3.0":
   version "3.3.1"
