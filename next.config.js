@@ -19,8 +19,5 @@ module.exports = withPlaiceholder({
                 permanent: true
             }
         ]
-    },
-    experimental: {
-        nextScriptWorkers: true,
-    },
+    }
 });
