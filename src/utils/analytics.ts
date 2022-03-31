@@ -2,12 +2,6 @@ import { Product } from "use-shopping-cart/core";
 
 export const GA_TRACKING_ID = process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS;
 
-if(process.env.NODE_ENV === 'production') {
-    interface Window { 
-        gtag: any; 
-    }    
-}
-
 const gtag = window.gtag;
 
 export const addToCartEvent = (product: Product) => {
