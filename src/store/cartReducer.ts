@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { viewCartEvent } from 'utils/analytics';
 
 export const cartReducer = createSlice( {
     name: 'cart',
@@ -10,6 +11,7 @@ export const cartReducer = createSlice( {
     reducers: {
         setIsOpen: ( state, action: PayloadAction<boolean> ) => {
             state.isOpen = action.payload;
+            if(state.isOpen) viewCartEvent();
         }
     }
 });

@@ -9,9 +9,8 @@ import { library, config } from '@fortawesome/fontawesome-svg-core';
 import { faArrowCircleRight, faChevronRight, faChevronLeft, faTimes, faBars, faChevronDown, faCartArrowDown, faCircleCheck, faTruckFast, faShield, faPaintBrush, faShoppingCart, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { faInstagram, faFacebook } from '@fortawesome/free-brands-svg-icons';
 
-import { useRouter } from 'next/router'
 import Script from 'next/script';
-import * as gtag from 'utils/gtag';
+import { GA_TRACKING_ID } from 'utils/analytics';
 
 config.autoAddCss = false;
 import 'styles/global.css';
@@ -35,18 +34,6 @@ library.add(
 );
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
-    const router = useRouter();
-
-    useEffect(() => {
-        const handleRouteChange = (url) => {
-            gtag.pageview(url);
-        }
-        router.events.on('routeChangeComplete', handleRouteChange);
-        return () => {
-            router.events.off('routeChangeComplete', handleRouteChange);
-        }
-    }, [router.events])
-
     return (
         <Provider store={store}>
             <CartProvider
@@ -55,18 +42,19 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
                 currency="AUD"
             >
                 <Script 
-                    strategy="worker"
-                    src={`https://www.googletagmanager.com/gtag/js?id=${gtag.GA_TRACKING_ID}`}
+                    src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
+                    strategy="afterInteractive"
                 />
-                <script
-                    type="text/partytown"
+                <Script
+                    id="google-analytics"
+                    strategy="afterInteractive"
                     dangerouslySetInnerHTML={{
                         __html: `
                             window.dataLayer = window.dataLayer || [];
-                            window.gtag = function gtag(){window.dataLayer.push(arguments);}
+                            function gtag(){window.dataLayer.push(arguments);}
                             gtag('js', new Date());
 
-                            gtag('config', '${gtag.GA_TRACKING_ID}', { 
+                            gtag('config', '${GA_TRACKING_ID}', { 
                                 page_path: window.location.pathname,
                             });
                         `,
