@@ -2,7 +2,6 @@ import type { AppProps } from 'next/app';
 import { Provider } from 'react-redux';
 import store from 'store/store';
 import { CartProvider } from 'use-shopping-cart';
-
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { library, config } from '@fortawesome/fontawesome-svg-core';
 import { faArrowCircleRight, faChevronRight, faChevronLeft, faTimes, faBars, faChevronDown, faCartArrowDown, faCircleCheck, faTruckFast, faShield, faPaintBrush, faShoppingCart, faTrash } from '@fortawesome/free-solid-svg-icons';

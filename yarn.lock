@@ -30,6 +30,11 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
+"@builder.io/partytown@^0.5.1":
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/@builder.io/partytown/-/partytown-0.5.1.tgz#89373ff8c424c60e1b61dc9029b31b9f9d5ece56"
+  integrity sha512-Qs1CrHTT/I1xeNlPn6+KSxhQhvcJKv2mZhesLfEeEftRbCWb3TdXIghNNIxrnAmD7Sivdp8dSOGEAcM8BLybDA==
+
 "@contentful/rich-text-react-renderer@^15.11.1":
   version "15.11.1"
   resolved "https://registry.yarnpkg.com/@contentful/rich-text-react-renderer/-/rich-text-react-renderer-15.11.1.tgz#54305dc9561ed5d98bb65e8eb054ba1707d44af0"
@@ -1878,11 +1883,6 @@ supports-preserve-symlinks-flag@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/supports-preserve-symlinks-flag/-/supports-preserve-symlinks-flag-1.0.0.tgz#6eda4bd344a3c94aea376d4cc31bc77311039e09"
   integrity sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==
-
-swr@^1.2.2:
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/swr/-/swr-1.2.2.tgz#6cae09928d30593a7980d80f85823e57468fac5d"
-  integrity sha512-ky0BskS/V47GpW8d6RU7CPsr6J8cr7mQD6+do5eky3bM0IyJaoi3vO8UhvrzJaObuTlGhPl2szodeB2dUd76Xw==
 
 tailwindcss@^3.0.23:
   version "3.0.23"
