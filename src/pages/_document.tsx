@@ -10,7 +10,8 @@ export default function Document() {
                     __html: `
                         partytown = {
                             lib: "/_next/static/~partytown/",
-                            forward: ["gtag"]           
+                            forward: ["gtag"],
+                            debug: true
                         };
                         `,
                     }}
