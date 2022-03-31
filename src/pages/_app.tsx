@@ -36,14 +36,14 @@ library.add(
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
     const router = useRouter();
-    
+
     useEffect(() => {
         const handleRouteChange = (url) => {
-            gtag.pageview(url)
+            gtag.pageview(url);
         }
-        router.events.on('routeChangeComplete', handleRouteChange)
+        router.events.on('routeChangeComplete', handleRouteChange);
         return () => {
-            router.events.off('routeChangeComplete', handleRouteChange)
+            router.events.off('routeChangeComplete', handleRouteChange);
         }
     }, [router.events])
 
@@ -69,7 +69,6 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
                             gtag('config', '${gtag.GA_TRACKING_ID}', { 
                                 page_path: window.location.pathname,
                             });
-                            console.log('Google');
                         `,
                     }}
                 />
