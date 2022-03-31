@@ -155,6 +155,8 @@ const ProductCarousel: React.FC<Props> = ({ slides, onGetImageUrl, className = '
                             >
                                 <Image
                                     className="w-full"
+                                    priority={index === 1}
+                                    loading={index === 1 ? 'eager' : 'lazy'}
                                     src={slide.src}
                                     width={slide.width}
                                     height={slide.height}
