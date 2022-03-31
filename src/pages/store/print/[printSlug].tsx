@@ -5,9 +5,12 @@ import { getPlaiceholder } from "plaiceholder";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import { useShoppingCart } from 'use-shopping-cart';
+import { Product } from "use-shopping-cart/core";
 
 import { useAppDispatch } from 'hooks/storeHooks';
 import { setIsOpen } from 'store/cartReducer';
+
+import { addToCartEvent } from 'utils/analytics';
 
 import createProductImage from 'utils/productImages/create';
 
@@ -132,7 +135,7 @@ const ProductPage = (props) => {
     const dispatch = useAppDispatch();
 
     const onAddToCart = () => {
-        addItem({
+        const product: Product = {
             id: `${props.landscapeImage.slug}/${selectedProduct.productCode}`, //Combined image/material/size product code
             name: props.landscapeImage.title,
             description: `${selectedProduct.type} - ${selectedProduct.size}"`, //Material type and size
@@ -144,7 +147,10 @@ const ProductPage = (props) => {
             },
             price: selectedProduct.price*100, //Convert to cents
             currency: 'AUD'
-        });
+        }
+
+        addItem(product);
+        addToCartEvent(product);
 
         dispatch(setIsOpen(true));
     };

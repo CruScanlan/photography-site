@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useShoppingCart } from 'use-shopping-cart';
+import { Product } from "use-shopping-cart/core";
 import { useAppSelector, useAppDispatch } from 'hooks/storeHooks';
 import { setIsOpen } from 'store/cartReducer';
+
+import { addToCartEvent, beginCheckoutEvent, removeFromCartEvent } from 'utils/analytics';
 
 import getStripe from 'utils/get-stripejs';
 import { fetchPostJSON } from 'utils/api-helpers';
@@ -32,18 +35,21 @@ const Cart: React.FC<Props>  = () => {
         dispatch(setIsOpen(false));
     };
 
-    const cartItems = Object.entries(cartDetails).map(entry => entry[1]);
+    const cartItems: Product[] = (Object.entries(cartDetails).map(entry => entry[1])) as any;
 
     const onClickReduceQuantity = (id: string) => {
-        decrementItem(id)
+        decrementItem(id);
+        removeFromCartEvent(cartDetails[id]);
     }
 
     const onClickIncreaseQuantity = (id: string) => {
-        incrementItem(id)
+        incrementItem(id);
+        addToCartEvent(cartDetails[id]);
     }
 
     const onClickRemove = (id: string) => {
         removeItem(id);
+        removeFromCartEvent(cartDetails[id], true);
     }
 
     const onClickCheckout = async () => {
@@ -51,11 +57,13 @@ const Cart: React.FC<Props>  = () => {
         const response = await fetchPostJSON('/api/checkout_sessions', cartItems);
     
         if (response.statusCode === 500) {
-            console.error(response.message)
+            console.error(response.message);
             return
         }
+
+        beginCheckoutEvent(cartItems);
         
-        redirectToCheckout({ sessionId: response.id })
+        redirectToCheckout({ sessionId: response.id });
     }
 
     return (
