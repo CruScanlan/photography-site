@@ -2,6 +2,8 @@ import { Product } from "use-shopping-cart/core";
 
 export const GA_TRACKING_ID = process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS;
 
+const gtag = window.gtag;
+
 export const addToCartEvent = (product: Product) => {
     gtag('event', 'add_to_cart', {
         currency: product.currency,
