@@ -47,15 +47,15 @@ const navLinks: {
         href: "/",
         exact: true
     },
-    {
+/*     {
         name: "About",
         href: "/about"
-    },
+    }, */
     {
         name: "Gallery",
         href: "/gallery"
     },
-    {
+/*     {
         name: "Prints",
         href: "/prints"
     },
@@ -66,7 +66,7 @@ const navLinks: {
     {
         name: "Print Store",
         href: "/store"
-    }
+    } */
 ];
 
 const navSocialLinks: {
