@@ -135,7 +135,7 @@ const GalleryPhotoPage = ({ image, collectionSlug, nextImageSlug, previousImageS
                         <h3 className="text-lightPrimary">{image.title}</h3>
                         <span className="text-sm text-lightSecondary">{location}</span>
                     </div>
-                    <Button size="md" classes="mt-2 md:m-0 md:ml-2" href={`/store/print/${imageSlug}`} clickable>BUY PRINT</Button>
+                    {/* <Button size="md" classes="mt-2 md:m-0 md:ml-2" href={`/store/print/${imageSlug}`} clickable>BUY PRINT</Button> */}
                 </div>
             </div>
         </Layout>
