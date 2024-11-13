@@ -67,7 +67,7 @@ const Cart: React.FC<Props>  = () => {
     }
 
     return (
-        <div className="relative z-50 text-lightPrimary">
+        (<div className="relative z-50 text-lightPrimary">
             <div className={`fixed inset-0 bg-gray-800 transition-opacity duration-300 w-full h-full ${isOpen ? 'opacity-60 block' : 'opacity-0 hidden'}`} onClick={onClose} />
             <div className={`fixed right-0 top-0 h-full border-2 bg-darkSecondary overflow-y-auto transition-all duration-300 ease-in-out ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
                 <div className="flex flex-col h-full justify-between max-w-lg p-4 sm:p-8">
@@ -98,10 +98,13 @@ const Cart: React.FC<Props>  = () => {
                                             <div className="flex justify-between w-full pb-2 space-x-2">
                                                 <div className="space-y-1">
                                                     <h3 className="leading-snug sm:pr-8">
-                                                        <Link href={`/store/print/${cartItem.product_metadata.printSlug}`}>
-                                                            <a className="hover:underline" onClick={onClose}>
-                                                                {cartItem.name}
-                                                            </a>
+                                                        <Link
+                                                            href={`/store/print/${cartItem.product_metadata.printSlug}`}
+                                                            className="hover:underline"
+                                                            onClick={onClose}>
+
+                                                            {cartItem.name}
+
                                                         </Link>
                                                     </h3>
                                                     <p className="text-sm text-coolGray-400">{cartItem.description}</p>
@@ -161,7 +164,7 @@ const Cart: React.FC<Props>  = () => {
                     </div>
                 </div>
             </div>
-        </div>
+        </div>)
     );
 };
 

@@ -17,9 +17,9 @@ const NavLink: React.FC<Props> = ({ href, as, exact = false, activeClassName, ch
     const className = ((child.props.className || '') + ' ' + (isActive ? activeClassName : '')).trim();
 
     return (
-        <Link href={href} as={as} {...props}>
+        (<Link href={href} as={as} {...props} legacyBehavior>
             {React.cloneElement(child, { className })}
-        </Link>
+        </Link>)
     );
 }
 

@@ -28,27 +28,25 @@ const Button: React.FC<Props>  = ({ classes = '', href, size = 'sm', fullWidth =
     const innerClasses = `w-full flex items-center justify-center ${clickable ? 'hover:cursor-pointer' : ''} ${ButtonTypeClasses[type]} ${ButtonSizeClasses[size]}`;
 
     return (
-        <div className={`text-base text-center font-semibold text-lightPrimary rounded-md shadow ${fullWidth ? 'w-full': ''} ${classes}`} {...props}>
+        (<div className={`text-base text-center font-semibold text-lightPrimary rounded-md shadow ${fullWidth ? 'w-full': ''} ${classes}`} {...props}>
             {
                 href && ( //Add link
-                    <Link
-                        href={href}
-                    >
+                    (<Link href={href} legacyBehavior>
                         <div className={innerClasses}>
                             {children}
                         </div>
-                    </Link>
+                    </Link>)
                 )
             }
             {
                 !href && ( //No link
-                    <div className={innerClasses}>
+                    (<div className={innerClasses}>
                         {children}
-                    </div>
+                    </div>)
                 )
             }
-        </div>
-    )
+        </div>)
+    );
 };
 
 export default Button;

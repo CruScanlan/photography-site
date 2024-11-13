@@ -25,7 +25,7 @@ const RenderGalleryImage: React.FC<IRenderGalleryImageProps> = ({ photo, imagePr
     if(!photo) return <div>Error Getting Image</div>;
 
     return (
-        <div className="w-full relative hover:cursor-pointer" 
+        (<div className="w-full relative hover:cursor-pointer" 
             style={{
                 width: style.width,
                 padding: style.padding,
@@ -34,7 +34,7 @@ const RenderGalleryImage: React.FC<IRenderGalleryImageProps> = ({ photo, imagePr
             }}
             {...restWrapperProps}
         >
-            <Link href={`/image/${imageSlug}?collection=${collectionSlug}`}>
+            <Link href={`/image/${imageSlug}?collection=${collectionSlug}`} legacyBehavior>
                 <div className="w-full h-full z-10 absolute flex flex-row items-end opacity-0 transition-opacity duration-600 hover:opacity-100">
                     <div className="c-galleryImage p-2 w-full bg-opacity-80 bg-darkSecondary">
                         <h4 className="text-lightPrimary font">
@@ -54,8 +54,8 @@ const RenderGalleryImage: React.FC<IRenderGalleryImageProps> = ({ photo, imagePr
                 placeholder="blur"
                 blurDataURL={base64}
             />
-        </div>
-    )
+        </div>)
+    );
 }
 
 const Gallery = (props) => {
