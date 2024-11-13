@@ -16,7 +16,7 @@ export async function getStaticProps({ params }) {
     const photoCollection = (await contentful.getEntries<any>({include: 2, content_type: 'photoCollection', 'fields.slug': photoCollectionSlug})).items[0].fields
     const landscapeImagesContentful = photoCollection.images.map(image => image.fields);
 
-    const productImagesPromises = [];
+    /* const productImagesPromises = [];
     for(let i=0; i<landscapeImagesContentful.length; i++) { //landscapeImagesContentful.length
         const landscapeImage = landscapeImagesContentful[i];
         const file = landscapeImage.fullResImage.fields.file;
@@ -25,7 +25,7 @@ export async function getStaticProps({ params }) {
         productImagesPromises.push(createProductImage(imageUrl, file.fileName));
     } //Get product images
 
-    const productImages = await Promise.all(productImagesPromises);
+    const productImages = await Promise.all(productImagesPromises); */
 
     const landscapeImages = [];
     for(let i=0; i<landscapeImagesContentful.length; i++) {
@@ -38,7 +38,7 @@ export async function getStaticProps({ params }) {
         landscapeImages.push({
             ...landscapeImageContentful,
             products,
-            productImage: productImages[i]
+            //productImage: productImages[i]
         });
     } //Get landscape images with product images
 
