@@ -64,24 +64,24 @@ const GalleryPhotoPage = ({ image, collectionSlug, nextImageSlug, previousImageS
     const location = image.location ? image.location.fields.name : 'Unknown Location';
 
     return (
-        <Layout
+        (<Layout
             pageTitle={`${image.title} | Cru Scanlan Photography`} 
             pageClass="bg-darkPrimary relative"
             fullPage={true}
         >
             <div className="absolute h-screen p-1 md:p-4 2xl:p-8 flex items-center">
                 <Link href={`/image/${previousImageSlug}?collection=${collectionSlug}`}>
-                    <a><FontAwesomeIcon className="text-lightSecondary hover:text-lightPrimary" icon={['fas', 'chevron-left']} size="2x" /></a>
+                    <FontAwesomeIcon className="text-lightSecondary hover:text-lightPrimary" icon={['fas', 'chevron-left']} size="2x" />
                 </Link>
             </div>
             <div className="absolute h-screen p-1 md:p-4 2xl:p-8 flex items-center right-0">
                 <Link href={`/image/${nextImageSlug}?collection=${collectionSlug}`}>
-                    <a><FontAwesomeIcon className="text-lightSecondary hover:text-lightPrimary" icon={['fas', 'chevron-right']} size="2x" /></a>
+                    <FontAwesomeIcon className="text-lightSecondary hover:text-lightPrimary" icon={['fas', 'chevron-right']} size="2x" />
                 </Link>
             </div>
             <div className="absolute w-screen p-1 md:p-4 2xl:p-8 flex justify-end">
                 <Link href={`/gallery/${collectionSlug}`}>
-                    <a><FontAwesomeIcon className="text-lightSecondary hover:text-lightPrimary" icon={['fas', 'times']} size="2x" /></a>
+                    <FontAwesomeIcon className="text-lightSecondary hover:text-lightPrimary" icon={['fas', 'times']} size="2x" />
                 </Link>
             </div>
             <div className="w-screen h-screen flex flex-col justify-center items-center">
@@ -138,8 +138,8 @@ const GalleryPhotoPage = ({ image, collectionSlug, nextImageSlug, previousImageS
                     {/* <Button size="md" classes="mt-2 md:m-0 md:ml-2" href={`/store/print/${imageSlug}`} clickable>BUY PRINT</Button> */}
                 </div>
             </div>
-        </Layout>
-    )
+        </Layout>)
+    );
 };
 
 export default GalleryPhotoPage;

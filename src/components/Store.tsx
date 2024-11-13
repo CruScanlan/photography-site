@@ -24,7 +24,7 @@ const Store = (props) => {
     }
 
     return (
-        <Layout 
+        (<Layout 
             pageTitle={'Store | Cru Scanlan Photography'} 
             pageClass="bg-darkSecondary" 
             navbarScrollAnimation={{
@@ -77,8 +77,8 @@ const Store = (props) => {
                         <div className="flex flex-row-wrap justify-between mb-4 text-sm">
                             <div>
                                 <span className="text-lightSecondary">
-                                    <Link href="/store">
-                                        <a className="hover:underline">Store</a>
+                                    <Link href="/store" className="hover:underline">
+                                        Store
                                     </Link>
                                     {
                                         props.storeDetails.type !== 'root' && (
@@ -104,18 +104,18 @@ const Store = (props) => {
                                 props.landscapeImages.map(landscapeImage => (
                                     <div key={landscapeImage.slug}>
                                         <Link href={`/store/print/${landscapeImage.slug}`}>
-                                            <a>
-                                                <div className="w-full hover:cursor-pointer">
-                                                    <Image
-                                                        src={landscapeImage.productImage.publicFile}
-                                                        width={landscapeImage.productImage.width}
-                                                        height={landscapeImage.productImage.height}
-                                                        quality={90}
-                                                    />
-                                                </div>
-                                                <h4 className="text-center hover:cursor-pointer">{landscapeImage.title}</h4>
-                                                <p className="text-center text-lightSecondary text-sm">From ${landscapeImage.products[0].price} AUD</p>
-                                            </a>
+
+                                            <div className="w-full hover:cursor-pointer">
+                                                <Image
+                                                    src={landscapeImage.productImage.publicFile}
+                                                    width={landscapeImage.productImage.width}
+                                                    height={landscapeImage.productImage.height}
+                                                    quality={90}
+                                                />
+                                            </div>
+                                            <h4 className="text-center hover:cursor-pointer">{landscapeImage.title}</h4>
+                                            <p className="text-center text-lightSecondary text-sm">From ${landscapeImage.products[0].price} AUD</p>
+
                                         </Link>
                                     </div>
                                 ))
@@ -124,8 +124,8 @@ const Store = (props) => {
                     </div>
                 </div>
             </div>
-        </Layout>
-    )
+        </Layout>)
+    );
 };
 
 const ShopSections = (props) => {

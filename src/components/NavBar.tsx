@@ -142,122 +142,120 @@ const NavBar: React.FC<Props> = ({ navbarScrollAnimation }) => {
         dispatch(setIsOpen(true));
     }
 
-    return (
-        <>
-            <nav style={style} className={`${shadow} ${hambugerOpen ? 'hidden' : ''} bg-darkPrimary text-lightPrimary text-center fixed top-0 container overflow-hidden min-w-full z-50`}>
-                <div className="flex lg:hidden justify-between min-w-full mb-2"> {/* Hamburger NavBar */}
-                    <Link href="/">
-                        <a className="min-w-[205px] mx-2 mt-5 h-[64px] relative">
-                            <Image
-                                src="/logo.svg"
-                                layout="fill"
-                                objectFit="contain"
-                                priority
-                                unoptimized
-                            />
-                        </a>
-                    </Link>
-                    <button className="visible lg:invisible mt-9 mr-5 p-2 text-2xl" onClick={onHamburgerClick}>
-                        <FontAwesomeIcon icon={['fas', 'bars']} />
+    return (<>
+        <nav style={style} className={`${shadow} ${hambugerOpen ? 'hidden' : ''} bg-darkPrimary text-lightPrimary text-center fixed top-0 container overflow-hidden min-w-full z-50`}>
+            <div className="flex lg:hidden justify-between min-w-full mb-2"> {/* Hamburger NavBar */}
+                <Link href="/" className="min-w-[205px] mx-2 mt-5 h-[64px] relative">
+
+                    <Image
+                        src="/logo.svg"
+                        layout="fill"
+                        objectFit="contain"
+                        priority
+                        unoptimized
+                    />
+
+                </Link>
+                <button className="visible lg:invisible mt-9 mr-5 p-2 text-2xl" onClick={onHamburgerClick}>
+                    <FontAwesomeIcon icon={['fas', 'bars']} />
+                </button>
+            </div>
+            <div className="hidden lg:flex justify-between min-w-full mb-2"> {/* Desktop NavBar */}
+                <Link href="/" className="min-w-[205px] ml-8 mx-2 mt-5 h-[64px] relative">
+
+                    <Image
+                        src="/logo.svg"
+                        layout="fill"
+                        objectFit="contain"
+                        priority
+                        unoptimized
+                    />
+
+                </Link>
+                <ul className="text-lg font-black list-none mt-5 p-0 flex items-center justify-center mr-5">
+                    {
+                        navLinks.map(navLink => (
+                            <li className="c-navbar__link" key={navLink.href}>
+                                <NavLink href={navLink.href} activeClassName="underline" exact={navLink.exact || false}><a>{navLink.name}</a></NavLink>
+                            </li>
+                        ))
+                    }
+                    {
+                        /* navSocialLinks.map(navSocialLink => (
+                            <li className="c-navbar__link c-navbar__link--socials" key={navSocialLink.href}>
+                                <a className="text-lightPrimary hover:text-lightSecondary no-underline" href={navSocialLink.href} target="_blank">
+                                    <FontAwesomeIcon icon={navSocialLink.icon} size="1x"/>
+                                </a>
+                            </li>
+                        )) */
+                    }
+                    {
+                        cartCount > 0 && 
+                            <li className="c-navbar__link relative hover:cursor-pointer" onClick={onCartClick}>
+                                <FontAwesomeIcon icon={['fas', 'shopping-cart']} style={{fontSize: '1.2em'}} />
+                                <span className="absolute right-1 top-0 text-sm bg-orange-500 rounded-full w-6 h-6 pt-[2px]">{cartCount}</span>
+                            </li>
+                    }
+                </ul>
+            </div>
+        </nav>
+        <div className={`relative z-50 text-lightPrimary`}> {/* Mobile Side NavBar */}
+            <div className={`fixed inset-0 bg-gray-800 transition-opacity duration-300  ${hambugerOpen ? 'opacity-40 block' : 'opacity-0 hidden'}`} onClick={onHamburgerMenuClose}></div>
+            <nav className={`fixed top-0 left-0 bottom-0 flex flex-col w-5/6 max-w-sm py-6 px-6 bg-darkSecondary border-r overflow-y-auto transition-all duration-300 ease-in-out ${hambugerOpen ? 'translate-x-0' : '-translate-x-full'} `}>
+                <div className="flex items-center mb-8">
+                    <div className="w-[205px] h-[64px] mr-auto relative">
+                        <Image
+                            src="/logo.svg"
+                            layout="fill"
+                            objectFit="contain"
+                            priority
+                            unoptimized
+                        />
+                    </div>
+                    <button className="ml-2" onClick={onHamburgerMenuClose}>
+                        <FontAwesomeIcon icon={['fas', 'times']} size="2x"/>
                     </button>
                 </div>
-                <div className="hidden lg:flex justify-between min-w-full mb-2"> {/* Desktop NavBar */}
-                    <Link href="/">
-                        <a className="min-w-[205px] ml-8 mx-2 mt-5 h-[64px] relative">
-                            <Image
-                                src="/logo.svg"
-                                layout="fill"
-                                objectFit="contain"
-                                priority
-                                unoptimized
-                            />
-                        </a>
-                    </Link>
-                    <ul className="text-lg font-black list-none mt-5 p-0 flex items-center justify-center mr-5">
-                        {
-                            navLinks.map(navLink => (
-                                <li className="c-navbar__link" key={navLink.href}>
-                                    <NavLink href={navLink.href} activeClassName="underline" exact={navLink.exact || false}><a>{navLink.name}</a></NavLink>
+                <ul className="font-medium text-lg">
+                    {
+                        navLinks.map(navLink => (
+                            <Link href={navLink.href} key={navLink.href} legacyBehavior>
+                                <li className="mb-1 block p-4 hover:bg-blue-50 hover:text-blue-600 hover:underline hover:cursor-pointer rounded">
+                                    <NavLink href={navLink.href} exact={navLink.exact || false} activeClassName="underline"><a>{navLink.name}</a></NavLink>
                                 </li>
-                            ))
-                        }
+                            </Link>
+                        ))
+                    }
+                    {
+                        cartCount > 0 && 
+                            <li className="c-navbar__link flex p-4 hover:bg-blue-50 hover:text-blue-600 hover:underline hover:cursor-pointer rounded" onClick={onCartClick}>
+                                <span className="mr-2 text-xl font-semibold">Cart</span>
+                                <div className="relative">
+                                    <FontAwesomeIcon icon={['fas', 'shopping-cart']} style={{fontSize: '1.2em'}} />
+                                    <span className="absolute -right-3 -top-3 text-sm bg-orange-500 rounded-full w-6 h-6 pt-[2px] pr-[1px] text-center">{cartCount}</span>
+                                </div>
+                            </li>
+                    }
+                </ul>
+                <div className="mt-auto">
+                    <div className="flex justify-center">
                         {
-                            /* navSocialLinks.map(navSocialLink => (
-                                <li className="c-navbar__link c-navbar__link--socials" key={navSocialLink.href}>
-                                    <a className="text-lightPrimary hover:text-lightSecondary no-underline" href={navSocialLink.href} target="_blank">
-                                        <FontAwesomeIcon icon={navSocialLink.icon} size="1x"/>
+                            navSocialLinks.map(navSocialLink => (
+                                <li className="inline-block py-2 px-4 no-underline font-medium hover:underline" key={navSocialLink.href}>
+                                    <a href={navSocialLink.href} target="_blank">
+                                        <FontAwesomeIcon icon={navSocialLink.icon} className="text-2xl" />
                                     </a>
                                 </li>
-                            )) */
-                        }
-                        {
-                            cartCount > 0 && 
-                                <li className="c-navbar__link relative hover:cursor-pointer" onClick={onCartClick}>
-                                    <FontAwesomeIcon icon={['fas', 'shopping-cart']} style={{fontSize: '1.2em'}} />
-                                    <span className="absolute right-1 top-0 text-sm bg-orange-500 rounded-full w-6 h-6 pt-[2px]">{cartCount}</span>
-                                </li>
-                        }
-                    </ul>
-                </div>
-            </nav>
-            <div className={`relative z-50 text-lightPrimary`}> {/* Mobile Side NavBar */}
-                <div className={`fixed inset-0 bg-gray-800 transition-opacity duration-300  ${hambugerOpen ? 'opacity-40 block' : 'opacity-0 hidden'}`} onClick={onHamburgerMenuClose}></div>
-                <nav className={`fixed top-0 left-0 bottom-0 flex flex-col w-5/6 max-w-sm py-6 px-6 bg-darkSecondary border-r overflow-y-auto transition-all duration-300 ease-in-out ${hambugerOpen ? 'translate-x-0' : '-translate-x-full'} `}>
-                    <div className="flex items-center mb-8">
-                        <div className="w-[205px] h-[64px] mr-auto relative">
-                            <Image
-                                src="/logo.svg"
-                                layout="fill"
-                                objectFit="contain"
-                                priority
-                                unoptimized
-                            />
-                        </div>
-                        <button className="ml-2" onClick={onHamburgerMenuClose}>
-                            <FontAwesomeIcon icon={['fas', 'times']} size="2x"/>
-                        </button>
-                    </div>
-                    <ul className="font-medium text-lg">
-                        {
-                            navLinks.map(navLink => (
-                                <Link href={navLink.href} key={navLink.href}>
-                                    <li className="mb-1 block p-4 hover:bg-blue-50 hover:text-blue-600 hover:underline hover:cursor-pointer rounded">
-                                        <NavLink href={navLink.href} exact={navLink.exact || false} activeClassName="underline"><a>{navLink.name}</a></NavLink>
-                                    </li>
-                                </Link>
                             ))
                         }
-                        {
-                            cartCount > 0 && 
-                                <li className="c-navbar__link flex p-4 hover:bg-blue-50 hover:text-blue-600 hover:underline hover:cursor-pointer rounded" onClick={onCartClick}>
-                                    <span className="mr-2 text-xl font-semibold">Cart</span>
-                                    <div className="relative">
-                                        <FontAwesomeIcon icon={['fas', 'shopping-cart']} style={{fontSize: '1.2em'}} />
-                                        <span className="absolute -right-3 -top-3 text-sm bg-orange-500 rounded-full w-6 h-6 pt-[2px] pr-[1px] text-center">{cartCount}</span>
-                                    </div>
-                                </li>
-                        }
-                    </ul>
-                    <div className="mt-auto">
-                        <div className="flex justify-center">
-                            {
-                                navSocialLinks.map(navSocialLink => (
-                                    <li className="inline-block py-2 px-4 no-underline font-medium hover:underline" key={navSocialLink.href}>
-                                        <a href={navSocialLink.href} target="_blank">
-                                            <FontAwesomeIcon icon={navSocialLink.icon} className="text-2xl" />
-                                        </a>
-                                    </li>
-                                ))
-                            }
-                        </div>
-                        <p className="my-4 text-xs text-center text-lightTertiary">
-                            <span>All Content Copyright &copy; {new Date().getFullYear()} - Cru Scanlan</span>
-                        </p>
                     </div>
-                </nav>
-            </div>
-        </>
-    );
+                    <p className="my-4 text-xs text-center text-lightTertiary">
+                        <span>All Content Copyright &copy; {new Date().getFullYear()} - Cru Scanlan</span>
+                    </p>
+                </div>
+            </nav>
+        </div>
+    </>);
 }
 
 export default NavBar;
