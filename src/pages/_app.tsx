@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import type { AppProps } from 'next/app';
-import { Provider } from 'react-redux';
+import { Provider as ReduxProvider } from 'react-redux';
 import store from 'store/store';
 import { CartProvider } from 'use-shopping-cart';
 
@@ -34,10 +34,8 @@ library.add(
 );
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
-    return <Component {...pageProps} />
-
-    /* return (
-        <Provider store={store}>
+    return ( //@ts-ignore
+        <ReduxProvider store={store}>
             <CartProvider
                 cartMode="checkout-session"
                 stripe={process.env.NEXT_PUBLIC_STRIPE_KEY_PUBLISHABLE || ''}
@@ -64,8 +62,8 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
                 />
                 <Component {...pageProps} />
             </CartProvider>
-        </Provider>
-    ); */
+        </ReduxProvider>
+    );
 }
 
 export default MyApp;
