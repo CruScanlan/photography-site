@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import Image from 'next/image';
+import Image from "next/legacy/image";
 import { getPlaiceholder } from "plaiceholder";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { animated } from 'react-spring';
