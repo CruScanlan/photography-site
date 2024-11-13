@@ -4,6 +4,7 @@ import useBoop, { BoopConfig } from 'hooks/useBoop';
 
 interface Props {
     boopConfig: BoopConfig;
+    children: React.ReactNode;
 }
 
 const Boop: React.FC<Props> = ({ children, boopConfig }) => {

@@ -10,6 +10,7 @@ interface Props {
     clickable?: boolean;
     onClick?: (e:  React.MouseEvent) => any;
     onMouseEnter?: (e: React.MouseEvent) => any;
+    children: React.ReactNode;
 };
 
 const ButtonSizeClasses = {

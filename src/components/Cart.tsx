@@ -63,7 +63,7 @@ const Cart: React.FC<Props>  = () => {
 
         beginCheckoutEvent(cartItems);
         
-        redirectToCheckout({ sessionId: response.id });
+        //redirectToCheckout({ sessionId: response.id });
     }
 
     return (
