@@ -163,7 +163,6 @@ export async function getStaticProps({ params }) {
     let landscapeImagesContentful = collection.images.map(image => image.fields);
     let landscapeImages = [];
     for(let i=0; i<landscapeImagesContentful.length; i++) {
-
         landscapeImagesContentful[i].fullResImage.fields.file = {
             ...landscapeImagesContentful[i].fullResImage.fields.file,
             base64: (await getPlaiceholder(`https:${landscapeImagesContentful[i].fullResImage.fields.file.url}`)).base64

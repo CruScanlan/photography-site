@@ -156,7 +156,7 @@ const ProductPage = (props) => {
     };
 
     return (
-        <Layout pageTitle={'Product | Cru Scanlan Photography'} pageClass="bg-darkSecondary text-lightPrimary flex justify-center" padTop={true}>
+        <Layout pageTitle={`${props.landscapeImage.title} Print For Sale | Cru Scanlan Photography`} pageClass="bg-darkSecondary text-lightPrimary flex justify-center" padTop={true}>
             <div className="max-w-[1536px] w-full md:p-8">
                 <div className="grid mt-4 lg:mt-0 lg:grid-cols-[1fr_auto]">
                     <div className="max-w-5xl min-w-0">

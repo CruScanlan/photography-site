@@ -109,7 +109,7 @@ const createProductImage = async (remotePath: string, fileName: string) => {
                 .toBuffer(); //Composite image
             
             productImage = sharp(productImageBase).resize(1800);
-        } else if(ratio === '2.00') { //2x3 Landscape
+        } else if(ratio === '2.00') { //1x2 Landscape
             imageInfoMessage = `Created Set Image 1x2 Landscape - ${fileName}`;
     
             const setImage = await loadImage(publicDirectory + 'Product Image Template 1 1x2 Landscape.png'); //Get base image
