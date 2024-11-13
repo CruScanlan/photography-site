@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
+import Image from "next/legacy/image";
 import PhotoAlbum, { PhotoProps } from "react-photo-album";
 import { getPlaiceholder } from "plaiceholder";
 import contentful from 'utils/contentful';
@@ -25,7 +25,7 @@ const RenderGalleryImage: React.FC<IRenderGalleryImageProps> = ({ photo, imagePr
     if(!photo) return <div>Error Getting Image</div>;
 
     return (
-        <div className="w-full relative hover:cursor-pointer" 
+        (<div className="w-full relative hover:cursor-pointer" 
             style={{
                 width: style.width,
                 padding: style.padding,
@@ -34,7 +34,7 @@ const RenderGalleryImage: React.FC<IRenderGalleryImageProps> = ({ photo, imagePr
             }}
             {...restWrapperProps}
         >
-            <Link href={`/image/${imageSlug}?collection=${collectionSlug}`}>
+            <Link href={`/image/${imageSlug}?collection=${collectionSlug}`} legacyBehavior>
                 <div className="w-full h-full z-10 absolute flex flex-row items-end opacity-0 transition-opacity duration-600 hover:opacity-100">
                     <div className="c-galleryImage p-2 w-full bg-opacity-80 bg-darkSecondary">
                         <h4 className="text-lightPrimary font">
@@ -54,8 +54,8 @@ const RenderGalleryImage: React.FC<IRenderGalleryImageProps> = ({ photo, imagePr
                 placeholder="blur"
                 blurDataURL={base64}
             />
-        </div>
-    )
+        </div>)
+    );
 }
 
 const Gallery = (props) => {
@@ -132,7 +132,7 @@ const Gallery = (props) => {
                 <PhotoAlbum 
                     layout="rows"
                     photos={photos}
-                    renderPhoto={RenderGalleryImage}
+                    renderPhoto={RenderGalleryImage as any}
                     spacing={6}
                     targetRowHeight={650}
                     rowConstraints={{maxPhotos: 4}}
@@ -163,7 +163,6 @@ export async function getStaticProps({ params }) {
     let landscapeImagesContentful = collection.images.map(image => image.fields);
     let landscapeImages = [];
     for(let i=0; i<landscapeImagesContentful.length; i++) {
-
         landscapeImagesContentful[i].fullResImage.fields.file = {
             ...landscapeImagesContentful[i].fullResImage.fields.file,
             base64: (await getPlaiceholder(`https:${landscapeImagesContentful[i].fullResImage.fields.file.url}`)).base64

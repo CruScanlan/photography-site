@@ -12,6 +12,7 @@ interface Props {
     padTop?: boolean;
     navbarScrollAnimation?: INavbarScrollAnimation;
     fullPage?: boolean; //No navbar or footer
+    children: React.ReactNode;
 }
 
 const Layout: React.FC<Props> = ({ pageTitle, pageClass, padTop = false, navbarScrollAnimation, fullPage = false, children, style }) => {

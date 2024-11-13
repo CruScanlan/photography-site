@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import Image from 'next/image';
+import Image from "next/legacy/image";
 import { getPlaiceholder } from "plaiceholder";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { animated } from 'react-spring';
@@ -45,6 +45,7 @@ const IndexPage = ({ homePageHero }) => {
                     priority
                     placeholder="blur"
                     blurDataURL={homePageHero.base64}
+                    alt="Cru Scanlan Photography"
                 />
             </div>
             <div style={{opacity}} className="flex flex-col items-center justify-center text-center z-10 h-screen">
@@ -88,7 +89,7 @@ const IndexPage = ({ homePageHero }) => {
 }
 
 export const getStaticProps = async () => {
-    const { base64, img } = await getPlaiceholder("/homePageHero2.jpg");
+    const { base64, img } = await getPlaiceholder("/homePageHero.jpg");
 
     return {
         props: {
