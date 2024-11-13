@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
-import Image from 'next/image';
+import Image from "next/legacy/image";
 import useEmblaCarousel from "embla-carousel-react";
 import AutoHeight from "embla-carousel-auto-height";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

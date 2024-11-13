@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
+import Image from "next/legacy/image";
 import PhotoAlbum, { PhotoProps } from "react-photo-album";
 import { getPlaiceholder } from "plaiceholder";
 import contentful from 'utils/contentful';

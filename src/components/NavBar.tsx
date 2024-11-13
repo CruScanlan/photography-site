@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Link from 'next/link';
-import Image from 'next/image';
+import Image from "next/legacy/image";
 import NavLink from 'components/NavLink';
 import useScrollPosition from '@react-hook/window-scroll';
 import { FontAwesomeIcon, FontAwesomeIconProps } from '@fortawesome/react-fontawesome';

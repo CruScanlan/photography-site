@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import contentful from 'utils/contentful';
-import Image from 'next/image';
+import Image from "next/legacy/image";
 import { getPlaiceholder } from "plaiceholder";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
