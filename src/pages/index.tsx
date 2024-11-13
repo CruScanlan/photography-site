@@ -89,7 +89,7 @@ const IndexPage = ({ homePageHero }) => {
 }
 
 export const getStaticProps = async () => {
-    const { base64, img } = await getPlaiceholder("/homePageHero.jpg");
+    const { base64, img } = await getPlaiceholder("/Eternal Growth 2022 - 2048px.jpg");
 
     return {
         props: {
