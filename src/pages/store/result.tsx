@@ -19,7 +19,7 @@ const ResultPage: NextPage<Props> = ({ success, reciptNumber, reciptUrl, custome
     if(success && cartCount > 0) clearCart();
 
     return (
-        <Layout pageTitle="Checkout Payment Result"  pageClass="bg-darkSecondary text-lightPrimary flex justify-center" padTop={true}>
+        (<Layout pageTitle="Checkout Payment Result"  pageClass="bg-darkSecondary text-lightPrimary flex justify-center" padTop={true}>
             <div className="p-8 max-w-4xl w-full">
                 {
                     success && (
@@ -36,13 +36,13 @@ const ResultPage: NextPage<Props> = ({ success, reciptNumber, reciptUrl, custome
                     !success && (
                         <>
                             <h1 className="w-full text-center">Checkout Payment Failed</h1>
-                            <h5 className="mt-10">If this is an error then please <Link href="/contact"><a className="underline">contact us</a></Link> and we will get it sorted out as soon as possible.</h5>
+                            <h5 className="mt-10">If this is an error then please <Link href="/contact" className="underline">contact us</Link> and we will get it sorted out as soon as possible.</h5>
                         </>
                     )
                 }
             </div>
-        </Layout>
-    )
+        </Layout>)
+    );
 }
 
 export async function getServerSideProps({ req, query }) {
