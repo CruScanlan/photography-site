@@ -24,6 +24,7 @@ export interface INavbarScrollAnimation {
 
 interface Props {
     navbarScrollAnimation?: INavbarScrollAnimation;
+    children?: React.ReactNode;
 };
 
 const defaultOptions: Props['navbarScrollAnimation'] = {

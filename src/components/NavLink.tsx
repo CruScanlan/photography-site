@@ -7,6 +7,7 @@ interface Props extends LinkProps {
     as?: any;
     exact?: boolean;
     activeClassName?: string;
+    children: React.ReactNode;
 }
 
 const NavLink: React.FC<Props> = ({ href, as, exact = false, activeClassName, children, ...props }) => {

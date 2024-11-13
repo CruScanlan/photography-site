@@ -132,7 +132,7 @@ const Gallery = (props) => {
                 <PhotoAlbum 
                     layout="rows"
                     photos={photos}
-                    renderPhoto={RenderGalleryImage}
+                    renderPhoto={RenderGalleryImage as any}
                     spacing={6}
                     targetRowHeight={650}
                     rowConstraints={{maxPhotos: 4}}

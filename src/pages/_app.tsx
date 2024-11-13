@@ -34,7 +34,9 @@ library.add(
 );
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
-    return (
+    return <Component {...pageProps} />
+
+    /* return (
         <Provider store={store}>
             <CartProvider
                 cartMode="checkout-session"
@@ -63,7 +65,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
                 <Component {...pageProps} />
             </CartProvider>
         </Provider>
-    );
+    ); */
 }
 
 export default MyApp;
