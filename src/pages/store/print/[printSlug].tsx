@@ -226,17 +226,17 @@ export const getStaticProps = async ({ params }) => {
     landscapeImage.base64 = (await getPlaiceholder(`https:${landscapeImage.fullResImage.fields.file.url}`)).base64;
 
     const file = landscapeImage.fullResImage.fields.file;
-    const productImageData = await createProductImage(`https:${file.url}`, file.fileName);
+    //const productImageData = await createProductImage(`https:${file.url}`, file.fileName);
 
-    const productImage = {
+    /* const productImage = {
         ...productImageData,
         base64: (await getPlaiceholder(productImageData.publicFile)).base64
-    };
+    }; */
 
     return {
         props: {
             landscapeImage,
-            productImage
+            //productImage
         }
     };
 }
