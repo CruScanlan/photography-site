@@ -7,3 +7,4 @@ Host: https://cruscanlan.com
 
 # Sitemaps
 Sitemap: https://cruscanlan.com/sitemap.xml
+Sitemap: https://cruscanlan.com/server-sitemap.xml
