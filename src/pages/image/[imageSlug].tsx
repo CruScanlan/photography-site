@@ -89,15 +89,14 @@ const GalleryPhotoPage = ({ image, collectionSlug, nextImageSlug, previousImageS
                             priority 
                             loading="eager"
                             quality={100}
-                            src={`https:${imageFile.url}`} 
+                            src={`${imageFile.url}`} 
                             width={imageFile.details.image.width} 
                             height={imageFile.details.image.height} 
-                            alt={`${image.title} | ${image.location}`}
+                            sizes="(max-width: 320px) 320px, (max-width: 640px) 640px, (max-width: 750px) 750px, (max-width: 828px) 828px, (max-width: 1080px) 1080px, (max-width: 1200px) 1200px, (max-width: 1920px) 1920px, (max-width: 2048px) 2048px, 3840px"
+                            alt={`${image.title} | ${location} | Cru Scanlan Photography`}
                             placeholder="blur"
                             blurDataURL={imageFile.base64}
                             style={{
-                                width: '100%',
-                                height: '100%',
                                 objectFit: 'contain'
                             }}
                         />
@@ -114,6 +113,7 @@ const GalleryPhotoPage = ({ image, collectionSlug, nextImageSlug, previousImageS
                             src={`https:${nextImageFile.url}`} 
                             width={nextImageFile.details.image.width} 
                             height={nextImageFile.details.image.height}
+                            sizes="(max-width: 320px) 320px, (max-width: 640px) 640px, (max-width: 750px) 750px, (max-width: 828px) 828px, (max-width: 1080px) 1080px, (max-width: 1200px) 1200px, (max-width: 1920px) 1920px, (max-width: 2048px) 2048px, 3840px"
                             alt=""
                             style={{
                                 width: '100%',
@@ -131,6 +131,7 @@ const GalleryPhotoPage = ({ image, collectionSlug, nextImageSlug, previousImageS
                             src={`https:${previousImageFile.url}`} 
                             width={previousImageFile.details.image.width} 
                             height={previousImageFile.details.image.height}
+                            sizes="(max-width: 320px) 320px, (max-width: 640px) 640px, (max-width: 750px) 750px, (max-width: 828px) 828px, (max-width: 1080px) 1080px, (max-width: 1200px) 1200px, (max-width: 1920px) 1920px, (max-width: 2048px) 2048px, 3840px"
                             alt=""
                             style={{
                                 width: '100%',
