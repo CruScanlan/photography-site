@@ -6,7 +6,7 @@ module.exports = {
     exclude: ['/server-sitemap.xml'], // <= exclude here
     robotsTxtOptions: {
         additionalSitemaps: [
-            'https://cruscanlan.com/server-sitemap.xml', // <==== Add here
+            'https://cruscanlan.com/server-sitemap-index.xml', // <==== Add here
         ],
     },
 }
