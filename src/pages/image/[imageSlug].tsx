@@ -88,7 +88,7 @@ const GalleryPhotoPage = ({ image, collectionSlug, nextImageSlug, previousImageS
                         image && <Image
                             priority 
                             loading="eager"
-                            quality={100}
+                            quality={98}
                             src={`${imageFile.url}`} 
                             width={imageFile.details.image.width} 
                             height={imageFile.details.image.height} 
@@ -109,7 +109,7 @@ const GalleryPhotoPage = ({ image, collectionSlug, nextImageSlug, previousImageS
                     {
                         nextImage && <Image
                             loading="lazy"
-                            quality={100}
+                            quality={98}
                             src={`https:${nextImageFile.url}`} 
                             width={nextImageFile.details.image.width} 
                             height={nextImageFile.details.image.height}
@@ -127,7 +127,7 @@ const GalleryPhotoPage = ({ image, collectionSlug, nextImageSlug, previousImageS
                     {
                         previousImage && <Image
                             loading="lazy"
-                            quality={100}
+                            quality={98}
                             src={`https:${previousImageFile.url}`} 
                             width={previousImageFile.details.image.width} 
                             height={previousImageFile.details.image.height}
