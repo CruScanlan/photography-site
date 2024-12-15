@@ -109,6 +109,7 @@ const Gallery = (props) => {
                     src={`https:${props.heroImage.file.url}`} 
                     width={props.heroImage.file.details.image.width} 
                     height={props.heroImage.file.details.image.height}
+                    sizes="(max-width: 320px) 320px, (max-width: 640px) 640px, (max-width: 750px) 750px, (max-width: 828px) 828px, (max-width: 1080px) 1080px, (max-width: 1200px) 1200px, (max-width: 1920px) 1920px, (max-width: 2048px) 2048px, 3840px"
                     style={{
                         objectFit: 'cover'
                     }}
