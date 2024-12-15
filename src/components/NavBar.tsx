@@ -56,15 +56,15 @@ const navLinks: {
         name: "Gallery",
         href: "/gallery"
     },
-/*     {
+    /* {
         name: "Prints",
         href: "/prints"
-    },
+    }, */
     {
         name: "Contact",
         href: "/contact"
     },
-    {
+    /* {
         name: "Print Store",
         href: "/store"
     } */
