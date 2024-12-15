@@ -1855,10 +1855,10 @@ react-modal@^3.14.4:
     react-lifecycles-compat "^3.0.0"
     warning "^4.0.3"
 
-react-photo-album@^1.7.0:
-  version "1.7.0"
-  resolved "https://registry.yarnpkg.com/react-photo-album/-/react-photo-album-1.7.0.tgz#10a66733d6945aa1aac76783bce1c3f628dbd3b8"
-  integrity sha512-vWUFc6/QSGuEOv1QWcVBvCxsflsomFmB8JrldbTfDZMs92e4TOrYAqQT2X4QQRoDlx6xG3fnf9KGx6JfK9oz+w==
+react-photo-album@^2.4.1:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/react-photo-album/-/react-photo-album-2.4.1.tgz#9754b22501a157c3c1774260bd3da8a38d88cf4b"
+  integrity sha512-dzqP5QbYAugA0uZTl3qsVldckzDXYDkDOvA8CpACl51hSEfhJmCfwhbnI4WBHnETQHv48nnNQ1jhrulst8njLA==
 
 react-redux@^7.2.2, react-redux@^7.2.6:
   version "7.2.6"
