@@ -2,5 +2,11 @@
 module.exports = {
     siteUrl: process.env.SITE_URL || 'https://cruscanlan.com',
     generateRobotsTxt: true, // (optional)
-    // ...other options
-  }
+    sitemapSize: 7000,
+    exclude: ['/server-sitemap.xml'], // <= exclude here
+    robotsTxtOptions: {
+        additionalSitemaps: [
+            'https://cruscanlan.com/server-sitemap.xml', // <==== Add here
+        ],
+    },
+}
