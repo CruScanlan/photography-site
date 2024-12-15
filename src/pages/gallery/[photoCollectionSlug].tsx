@@ -86,7 +86,7 @@ const Gallery = (props) => {
 
     return (
         <Layout 
-            pageTitle={'Gallery | Cru Scanlan Photography'} 
+            pageTitle={`${props.collectionName} | Cru Scanlan Photography`} 
             pageClass="bg-darkSecondary" 
             navbarScrollAnimation={{
                 enabled: true,
@@ -187,7 +187,8 @@ export async function getStaticProps({ params }) {
             slug: photoCollectionSlug,
             heroImage,
             collections,
-            landscapeImages
+            landscapeImages,
+            collectionName: collection.name
         }
     };
 }
