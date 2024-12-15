@@ -1,29 +1,83 @@
 import React from 'react';
+import Image from 'next/image';
 
 import Layout from 'components/Layout';
+import Button from 'components/Button';
+import TextLink from 'components/TextLink';
 
 const AboutPage = () => {
   return (
     <Layout pageTitle={'About | Cru Scanlan Photography'} pageClass="bg-darkSecondary text-lightPrimary flex justify-center" padTop={true}>
-        <div className="max-w-4xl p-8">
-            <h1 className="text-center p-8">
+        <div className="flex flex-col w-full">
+            <h1 className="text-4xl text-center font-bold my-8">
                 About
             </h1>
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus et varius dolor. Suspendisse blandit iaculis lacus a placerat. Pellentesque cursus ligula eget diam feugiat lobortis. Vivamus malesuada velit vitae tellus interdum consequat at nec magna. Morbi sodales dapibus sapien ac vestibulum. Donec euismod pulvinar ligula id dapibus. Vivamus luctus, nisi vel tempor hendrerit, est dolor rhoncus ligula, quis varius sapien quam a elit. Quisque purus nibh, maximus sed odio nec, tincidunt viverra quam. In tempor leo at odio elementum, eu egestas mauris hendrerit. Nam at orci luctus, mollis libero et, condimentum libero. Praesent eu ornare lacus. Ut velit lacus, dapibus nec velit blandit, blandit sollicitudin felis. Praesent sed mi dolor. Vestibulum at aliquet metus, in ornare justo. Sed fringilla velit ipsum, ut mattis turpis lobortis non. Integer posuere ex accumsan, molestie purus non, dictum risus.
-            </p>
-            <p>
-                Mauris a risus nec massa bibendum feugiat in ac elit. Vestibulum tincidunt scelerisque porttitor. Duis tristique risus ac urna elementum, scelerisque posuere diam convallis. Vestibulum varius tortor mi, quis rhoncus ligula lobortis eget. Integer pharetra ultrices finibus. Curabitur ornare mauris vestibulum enim varius, eget accumsan ligula faucibus. Morbi aliquam tellus mollis molestie viverra. Suspendisse pretium ut libero a molestie. Mauris justo lorem, euismod sit amet elit vel, malesuada vehicula nulla.            
-            </p>
-            <p>
-                Sed finibus eu nisi sit amet cursus. Mauris vehicula ut felis ut pulvinar. In id justo sit amet arcu dapibus venenatis. Etiam sed lobortis enim. Nam justo tortor, rutrum sit amet libero sed, maximus placerat libero. Suspendisse sed mauris accumsan, condimentum odio quis, maximus risus. Nullam est metus, venenatis vitae odio quis, egestas malesuada magna. Quisque vel elit tempus, hendrerit nulla id, mollis urna. Ut vehicula tortor vestibulum justo pharetra, in accumsan magna commodo. Proin posuere porttitor mi, vel tristique felis facilisis congue. Nullam posuere tincidunt mauris, id viverra felis euismod ut. Aenean mauris metus, porttitor id turpis non, scelerisque consectetur tortor. Donec ac lacus eget mi lobortis luctus varius finibus lorem.
-            </p>
-            <p>
-                Aenean bibendum tortor at eros pulvinar, at mollis tellus egestas. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec suscipit maximus malesuada. Sed ut varius lacus. Donec nec enim et mi pulvinar posuere eu at nisl. Integer porttitor elementum ipsum vulputate semper. Maecenas congue, dolor a sodales lobortis, nulla sem dapibus est, eu sodales tortor sapien nec lacus. Integer varius, sem eget facilisis consectetur, augue magna sodales ante, id euismod arcu ligula non tellus. Mauris tincidunt felis nec ex ullamcorper, a semper turpis vehicula. In hac habitasse platea dictumst.
-            </p>
-            <p>
-                Praesent interdum feugiat nunc vel facilisis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas facilisis dui ac sodales efficitur. Sed eleifend est sed eros lobortis, sit amet molestie leo interdum. Duis finibus vulputate nunc, elementum fermentum nulla ultricies ac. Quisque et leo eu mauris cursus imperdiet. Maecenas sodales et ligula quis volutpat. Nulla pellentesque, urna et lacinia semper, purus est venenatis diam, non consectetur erat velit ut dui. Nam tellus elit, iaculis ut eleifend eu, gravida non mauris. Donec vestibulum leo diam, vel vulputate magna dapibus ac.
-            </p>
+            <div className="max-w-6xl p-8 flex flex-col lg:flex-row gap-12 mx-auto">
+                <div className="lg:max-w-[60%]">
+                    <div className="space-y-6 text-lg">
+                        <p>
+                            Hi, I'm Cru – a landscape and nature photographer based in South East Queensland, Australia.
+                        </p>
+
+                        <p>
+                            My journey with photography began in 2019 when I bought my first DSLR, a Canon 80D. Drawn by my love of technology and the beautiful images I'd always admired, I felt compelled to pick up a "real" camera and see what I could create. In the beginning, I photographed anything and everything that caught my eye – mostly birds, with no particular focus.
+                        </p>
+
+                        <p>
+                            Things changed in 2020 when I moved to Rainbow Beach, Queensland, at the start of the COVID-19 pandemic. One day, I wandered down to the harbor with my camera and captured a sunset over the water. That image, and the process of editing it in Adobe Lightroom, sparked a deep passion for landscape photography. It became the perfect creative outlet and a way to reconnect with the outdoors during a challenging time.
+                        </p>
+
+                        <p>
+                            Since then, my love for photography has only grown. It's taken me to some of the most stunning and remote places I've ever seen. When I'm not working as a software engineer, I'm out exploring new terrain, chasing light, and capturing the beauty of the natural world.
+                        </p>
+
+                        <p>
+                            Photography has given me a profound appreciation for the diversity of landscapes and the allure of untouched wilderness. Through my images, I strive to share this connection with nature and inspire others to experience it for themselves.
+                        </p>
+
+                        <p>
+                            Whether you're interested in purchasing a print, collaborating on a project, or just saying hello, feel free to reach out through my{' '}
+                            <TextLink href="/contact">
+                                contact form
+                            </TextLink>{' '}
+                            or send me a message on{' '}
+                            <TextLink href="https://instagram.com/cruscanlan" external>
+                                Instagram
+                            </TextLink>{' '}
+                            – I'd love to hear from you!
+                        </p>
+                    </div>
+                </div>
+
+                <div className="lg:flex lg:top-24 flex-col items-center gap-4">
+                    <div className="w-full max-w-[400px] bg-gray-800">
+                        <Image
+                            src="pages/about/cru.jpg"
+                            alt="Cru Scanlan"
+                            quality={90}
+                            width={400}
+                            height={400}
+                            priority={true}
+                            sizes="(max-width: 768px) 100vw, 50vw"
+                            className="w-full h-full object-cover"
+                        />
+                    </div>
+                    <Button href="/contact" type="filled" size="sm" clickable>
+                        Contact Me
+                    </Button>
+                </div>
+            </div>
+            <div className="w-full my-12 px-4 relative max-w-screen-md mx-auto">
+                <Image
+                    src="/pages/about/cru-aurora.jpg"
+                    alt="Banner"
+                    width={1632}
+                    height={1305}
+                    quality={90}
+                    className="w-full h-full object-cover"
+                />
+            </div>
+            
         </div>
     </Layout>
   )
