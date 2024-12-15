@@ -48,10 +48,7 @@ const navLinks: {
         href: "/",
         exact: true
     },
-/*     {
-        name: "About",
-        href: "/about"
-    }, */
+    
     {
         name: "Gallery",
         href: "/gallery"
@@ -60,6 +57,10 @@ const navLinks: {
         name: "Prints",
         href: "/prints"
     }, */
+    {
+        name: "About",
+        href: "/about"
+    },
     {
         name: "Contact",
         href: "/contact"
