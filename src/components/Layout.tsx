@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Helmet } from 'react-helmet';
+import Head from 'next/head';
 
 import NavBar, { INavbarScrollAnimation } from 'components/NavBar';
 import Cart from 'components/Cart';
@@ -18,13 +18,13 @@ interface Props {
 const Layout: React.FC<Props> = ({ pageTitle, pageClass, padTop = false, navbarScrollAnimation, fullPage = false, children, style }) => {
     return (
         <>
-            <Helmet>
+            <Head>
+                <title>{pageTitle}</title>
                 <meta charSet="utf-8" />
-                <title>{ pageTitle }</title>
                 <link rel="canonical" href="https://google.com" />
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-                <meta http-equiv="content-language" content="en"></meta>
-            </Helmet>
+                <meta httpEquiv="content-language" content="en" />
+            </Head>
             {
                 !fullPage && <NavBar navbarScrollAnimation={navbarScrollAnimation} />
             }
