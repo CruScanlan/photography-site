@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import Link from 'next/link';
-import Image from "next/legacy/image";
+import Image from "next/image";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import useComponentSize from '@rehooks/component-size';
 import useWindowSize from 'hooks/useWindowSize';
@@ -8,9 +8,8 @@ import contentful from 'utils/contentful';
 
 import { performance } from 'perf_hooks';
 
-
 import Layout from 'components/Layout';
-import Button from 'components/Button';
+import { getPlaiceholder } from 'plaiceholder';
 
 type IPhotoCollectionSlugs = {
     slug: string;
@@ -89,14 +88,18 @@ const GalleryPhotoPage = ({ image, collectionSlug, nextImageSlug, previousImageS
                         image && <Image
                             priority 
                             loading="eager"
-                            layout="responsive"
                             quality={100}
                             src={`https:${imageFile.url}`} 
                             width={imageFile.details.image.width} 
                             height={imageFile.details.image.height} 
                             alt={`${image.title} | ${image.location}`}
-                            //placeholder="blur"
-                            //blurDataURL={imageFile.base64}
+                            placeholder="blur"
+                            blurDataURL={imageFile.base64}
+                            style={{
+                                width: '100%',
+                                height: '100%',
+                                objectFit: 'contain'
+                            }}
                         />
                     }
                     {
@@ -107,12 +110,16 @@ const GalleryPhotoPage = ({ image, collectionSlug, nextImageSlug, previousImageS
                     {
                         nextImage && <Image
                             loading="lazy"
-                            layout="responsive"
                             quality={100}
                             src={`https:${nextImageFile.url}`} 
                             width={nextImageFile.details.image.width} 
                             height={nextImageFile.details.image.height}
                             alt=""
+                            style={{
+                                width: '100%',
+                                height: '100%',
+                                objectFit: 'contain'
+                            }}
                         />
                     }
                 </div>
@@ -120,12 +127,16 @@ const GalleryPhotoPage = ({ image, collectionSlug, nextImageSlug, previousImageS
                     {
                         previousImage && <Image
                             loading="lazy"
-                            layout="responsive"
                             quality={100}
                             src={`https:${previousImageFile.url}`} 
                             width={previousImageFile.details.image.width} 
                             height={previousImageFile.details.image.height}
                             alt=""
+                            style={{
+                                width: '100%',
+                                height: '100%',
+                                objectFit: 'contain'
+                            }}
                         />
                     }
                 </div>
@@ -168,10 +179,10 @@ export async function getServerSideProps(ctx) {
 
     startTime = performance.now();
 
-    /* image.fullResImage.fields.file = {
+    image.fullResImage.fields.file = {
         ...image.fullResImage.fields.file,
         base64: (await getPlaiceholder(`https:${image.fullResImage.fields.file.url}`)).base64
-    } */
+    }
 
     endTime = performance.now();
     console.log(`[imageSlug]:${imageSlug} | Created Plaiceholder data in ${endTime - startTime}ms`);
