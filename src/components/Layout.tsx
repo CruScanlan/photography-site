@@ -12,10 +12,11 @@ interface Props {
     padTop?: boolean;
     navbarScrollAnimation?: INavbarScrollAnimation;
     fullPage?: boolean; //No navbar or footer
+    pageDescription?: string;
     children: React.ReactNode;
 }
 
-const Layout: React.FC<Props> = ({ pageTitle, pageClass, padTop = false, navbarScrollAnimation, fullPage = false, children, style }) => {
+const Layout: React.FC<Props> = ({ pageTitle, pageClass, padTop = false, navbarScrollAnimation, fullPage = false, children, style, pageDescription }) => {
     return (
         <>
             <Head>
@@ -24,6 +25,7 @@ const Layout: React.FC<Props> = ({ pageTitle, pageClass, padTop = false, navbarS
                 <link rel="canonical" href="https://google.com" />
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
                 <meta httpEquiv="content-language" content="en" />
+                <meta name="description" content={pageDescription} />
             </Head>
             {
                 !fullPage && <NavBar navbarScrollAnimation={navbarScrollAnimation} />

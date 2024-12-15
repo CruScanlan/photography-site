@@ -84,7 +84,12 @@ const ContactPage = () => {
   };
 
   return (
-    <Layout pageTitle={'Contact | Cru Scanlan Photography'} pageClass="bg-darkSecondary text-lightPrimary w-full flex justify-center" padTop={true}>
+    <Layout 
+      pageTitle={'Contact | Cru Scanlan Photography'}
+      pageDescription={'Get in touch with Cru Scanlan Photography. Contact me for image licensing, print purchases, or any questions about my photography work.'}
+      pageClass="bg-darkSecondary text-lightPrimary w-full flex justify-center" 
+      padTop={true}
+    >
       <div className="w-full max-w-6xl">
         <h1 className="text-4xl font-bold tracking-wide text-center my-8">
             CONTACT

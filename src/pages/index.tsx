@@ -34,7 +34,12 @@ const IndexPage = ({ homePageHero }) => {
     } else opacity = scrollPosition < 150 ? 1 : scrollPosition < 300 ? 1-numberMap(scrollPosition, 150, 300, 0, 1) : 0;
 
     return (
-        <Layout pageTitle={'Cru Scanlan Photography'} pageClass="top min-h-screen" navbarScrollAnimation={{enabled: true}}>
+        <Layout 
+            pageTitle={'Cru Scanlan Photography'} 
+            pageClass="top min-h-screen" 
+            navbarScrollAnimation={{enabled: true}}
+            pageDescription="Cru Scanlan is a landscape photographer based in South East Queensland, Australia. He specializes in capturing the beauty of the natural world, from the mountains to the sea. View his gallery and contact him for licensing, print purchases, or any questions about his photography work."
+        >
             <div className="fixed h-[100vh] w-[100vw] overflow-hidden z-[-1]">
                 <Image
                     src={homePageHero.img}
