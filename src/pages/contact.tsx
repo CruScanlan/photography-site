@@ -92,7 +92,7 @@ const ContactPage = () => {
     >
       <div className="w-full max-w-6xl">
         <h1 className="text-4xl font-bold tracking-wide text-center my-8">
-            CONTACT
+            Contact
         </h1>
         <div className="text-lightPrimary my-8">
             <div className="max-w-4xl mx-auto p-4">
