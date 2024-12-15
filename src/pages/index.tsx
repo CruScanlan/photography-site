@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import Image from "next/legacy/image";
+import Image from "next/image";
 import { getPlaiceholder } from "plaiceholder";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { animated } from 'react-spring';
@@ -39,13 +39,18 @@ const IndexPage = ({ homePageHero }) => {
                 <Image
                     src={homePageHero.img}
                     layout="fill"
-                    objectFit="cover"
                     quality={98}
                     loading="eager"
                     priority
                     placeholder="blur"
                     blurDataURL={homePageHero.base64}
                     alt="Cru Scanlan Photography"
+                    style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        position: 'absolute'
+                    }}
                 />
             </div>
             <div style={{opacity}} className="flex flex-col items-center justify-center text-center z-10 h-screen">

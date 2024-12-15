@@ -309,10 +309,10 @@
   resolved "https://registry.yarnpkg.com/@pkgjs/parseargs/-/parseargs-0.11.0.tgz#a77ea742fab25775145434eb1d2328cf5013ac33"
   integrity sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==
 
-"@plaiceholder/next@^2.3.0":
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/@plaiceholder/next/-/next-2.3.0.tgz#e97bf825eb94e4c747153a1cee6ef5de537dd813"
-  integrity sha512-u3yJOxyEMxf70D0HdePLEm9UGrTkGXSfhqY0o2H5GtR37/lcMKZco5saTyLqo6vU6s4s+NgxMnohWOpYFA84oA==
+"@plaiceholder/next@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@plaiceholder/next/-/next-3.0.0.tgz#b35d74286f14fccf8df6793a540d81ac16bca349"
+  integrity sha512-7UK/H1X64hwo2VaxOPKMXE+OY9IgmKLPsq/xKHZ+gU07oqQSfIWWIgpVVucMB3ZgVYah+68agR15BRuSxAuMHw==
 
 "@react-hook/event@^1.2.1":
   version "1.2.6"

@@ -1,6 +1,5 @@
-const { withPlaiceholder } = require("@plaiceholder/next");
-
-module.exports = withPlaiceholder({
+/** @type {import('next').NextConfig} */
+const nextConfig = {
     images: {
         formats: ['image/webp'],
         remotePatterns: [
@@ -29,4 +28,6 @@ module.exports = withPlaiceholder({
             }
         ]
     }
-});
+};
+
+module.exports = nextConfig;
