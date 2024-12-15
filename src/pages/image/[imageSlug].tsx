@@ -94,8 +94,8 @@ const GalleryPhotoPage = ({ image, collectionSlug, nextImageSlug, previousImageS
                             height={imageFile.details.image.height} 
                             sizes="(max-width: 320px) 320px, (max-width: 640px) 640px, (max-width: 750px) 750px, (max-width: 828px) 828px, (max-width: 1080px) 1080px, (max-width: 1200px) 1200px, (max-width: 1920px) 1920px, (max-width: 2048px) 2048px, 3840px"
                             alt={`${image.title} | ${location} | Cru Scanlan Photography`}
-                            placeholder="blur"
-                            blurDataURL={imageFile.base64}
+                            //placeholder="blur"
+                            //blurDataURL={imageFile.base64}
                             style={{
                                 objectFit: 'contain'
                             }}
@@ -178,7 +178,7 @@ export async function getServerSideProps(ctx) {
 
     let image = landscapeImages.find(landscapeImage => landscapeImage.fields.slug === imageSlug).fields;
 
-    startTime = performance.now();
+    /* startTime = performance.now();
 
     image.fullResImage.fields.file = {
         ...image.fullResImage.fields.file,
@@ -186,7 +186,7 @@ export async function getServerSideProps(ctx) {
     }
 
     endTime = performance.now();
-    console.log(`[imageSlug]:${imageSlug} | Created Plaiceholder data in ${endTime - startTime}ms`);
+    console.log(`[imageSlug]:${imageSlug} | Created Plaiceholder data in ${endTime - startTime}ms`); */
 
     //Get collection slugs
     const collectionQueryParam = ctx.query.collection;
