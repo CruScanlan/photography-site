@@ -89,6 +89,8 @@ const ContactPage = () => {
       pageDescription={'Get in touch with Cru Scanlan Photography. Contact me for image licensing, print purchases, or any questions about my photography work.'}
       pageClass="bg-darkSecondary text-lightPrimary w-full flex justify-center" 
       padTop={true}
+      ogImage={'/pages/contact/cru-aurora.jpg'}
+      ogUrl={'https://cruscanlan.com/contact'}
     >
       <div className="w-full max-w-6xl">
         <h1 className="text-4xl font-bold tracking-wide text-center my-8">

@@ -13,7 +13,7 @@ import Button from 'components/Button';
 
 const IndexPage = ({ homePageHero }) => {
     const scrollPosition = useScrollPosition(60);
-    const { width: windowWidth, height: windowHeight } = useWindowSize();
+    const { height: windowHeight } = useWindowSize();
 
     const [heroButtonIconStyle, heroButtonTrigger] = useBoop({
         x: 5,
@@ -38,7 +38,7 @@ const IndexPage = ({ homePageHero }) => {
             pageTitle={'Cru Scanlan Photography'} 
             pageClass="top min-h-screen" 
             navbarScrollAnimation={{enabled: true}}
-            pageDescription="Cru Scanlan is a landscape photographer based in South East Queensland, Australia. He specializes in capturing the beauty of the natural world, from the mountains to the sea. View his gallery and contact him for licensing, print purchases, or any questions about his photography work."
+            pageDescription="Cru Scanlan is a landscape photographer based in South East Queensland, Australia. Specializing in capturing the beauty of the natural world, from the mountains to the sea. View his gallery and contact him for licensing, print purchases, or any questions about his photography work."
         >
             <div className="fixed h-[100vh] w-[100vw] overflow-hidden z-[-1]">
                 <Image
@@ -59,8 +59,6 @@ const IndexPage = ({ homePageHero }) => {
                 />
             </div>
             <div style={{opacity}} className="flex flex-col items-center justify-center text-center z-10 h-screen">
-                {/* <h1 className="text-5xl text-lightPrimary max-w-screen-lg">LANDSCAPE PHOTOGRAPHY</h1>
-                <h3 className="text-3xl text-lightPrimary max-w-screen-lg"><i>by Cru Scanlan</i></h3> */}
                 <Button classes="mt-4" href="/gallery" type="transparent" size="lg" onMouseEnter={buttonHoverCallback} clickable={true}>
                     See Gallery
                     <animated.span style={heroButtonIconStyle}>
@@ -68,32 +66,6 @@ const IndexPage = ({ homePageHero }) => {
                     </animated.span>
                 </Button>
             </div>
-            {/* <BackgroundImage critical={true} fluid={heroImage.childImageSharp.fluid} Tag="section" className="font-sans h-screen w-full bg-cover bg-fixed flex flex-col items-center justify-center">
-                
-            </BackgroundImage> */}
-            {/* <section className="mb-8 flex flex-col justify-center items-center">
-                <h2 className="mt-8 text-center">Latest Instagram Posts</h2>
-                <div className="w-full flex flex-wrap justify-center items-center mt-8">
-                    {
-                        instaPosts.edges.map((edge: any, index: number) => {
-                            const image = getImage(edge.node.localFile.childImageSharp.gatsbyImageData);
-                            if(!image) return <div>Error: Could not get image</div>;
-                            if(windowWidth && windowWidth < 1024 && index >= 4) return <></>; //Do not show more than 4 on less than lg screen  
-
-                            return (
-                                <div className="m-2 w-1/3 max-w-[16rem] max-h-30 flex-grow drop-shadow-lg">
-                                    <a href={`https://instagram.com/p/${edge.node.id}`} target="_blank">
-                                        <GatsbyImage image={image} alt="Image" />
-                                    </a>
-                                </div>
-                            )
-                        })
-                    }
-                </div>
-                <a href="https://instagram.com/cruscanlan" target="_blank">
-                    <Button size="lg" type="filled">View More <FontAwesomeIcon className="ml-2" icon={faInstagram} size="lg"/></Button>
-                </a>
-            </section> */}
         </Layout>
     )
 }
