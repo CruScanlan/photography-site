@@ -1,60 +1,70 @@
 import React from 'react';
 import Link from 'next/link';
-import Image from "next/legacy/image";
-import PhotoAlbum, { PhotoProps } from "react-photo-album";
+import Image from "next/image";
+import PhotoAlbum from "react-photo-album";
 import { getPlaiceholder } from "plaiceholder";
 import contentful from 'utils/contentful';
 
 import Layout from 'components/Layout';
 import NavLink from 'components/NavLink';
 
-type IRenderGalleryImageProps  = PhotoProps<{
-    src: string;
-    width: number;
-    height: number;
-    imageSlug: string;
-    collectionSlug: string;
-    base64: string;
-}> & { wrapperProps?: React.HTMLAttributes<HTMLDivElement>; };
+type IRenderGalleryImageProps = {
+    photo: {
+        src: string;
+        width: number;
+        height: number;
+        imageSlug: string;
+        collectionSlug: string;
+        base64: string;
+    };
+    imageProps: {
+        src: string;
+        alt: string;
+        title?: string;
+        style: React.CSSProperties;
+    } & React.HTMLAttributes<HTMLImageElement>;
+    wrapperProps?: React.HTMLAttributes<HTMLDivElement>;
+};
 
 const RenderGalleryImage: React.FC<IRenderGalleryImageProps> = ({ photo, imageProps, wrapperProps }) => {
     const { width, height, imageSlug, collectionSlug, base64 } = photo;
-    const { src, alt, title, style} = imageProps;
+    const { src, alt, title, style } = imageProps;
     const { style: wrapperStyle, ...restWrapperProps } = wrapperProps ?? {};
 
-    if(!photo) return <div>Error Getting Image</div>;
-
     return (
-        (<div className="w-full relative hover:cursor-pointer" 
+        <div 
+            className="relative hover:cursor-pointer" 
             style={{
+                ...wrapperStyle,
+                position: 'relative',
                 width: style.width,
                 padding: style.padding,
-                marginBottom: style.marginBottom,
-                ...wrapperStyle
+                marginBottom: style.marginBottom
             }}
             {...restWrapperProps}
         >
             <Link href={`/image/${imageSlug}?collection=${collectionSlug}`} legacyBehavior>
                 <div className="w-full h-full z-10 absolute flex flex-row items-end opacity-0 transition-opacity duration-600 hover:opacity-100">
-                    <div className="c-galleryImage p-2 w-full bg-opacity-80 bg-darkSecondary">
-                        <h4 className="text-lightPrimary font">
-                            { title }
-                        </h4>
+                    <div className="p-2 w-full bg-opacity-80 bg-darkSecondary">
+                        <h4 className="text-lightPrimary">{ title }</h4>
                     </div>
                 </div>
             </Link>
             <Image 
-                className="c-galleryImage__gatsby w-full h-full absolute" 
-                quality={95} 
+                quality={92}
                 src={src} 
                 width={width} 
                 height={height} 
-                layout="responsive" 
                 alt={alt}
                 placeholder="blur"
                 blurDataURL={base64}
+                style={{
+                    width: '100%',
+                    height: 'auto',
+                    display: 'block'
+                }}
             />
-        </div>)
+        </div>
     );
 }
 
@@ -91,15 +101,16 @@ const Gallery = (props) => {
                     className="w-full h-[60vh] !fixed z-[0] overflow-hidden"
                     alt="Image" 
                     loading="eager"
-                    quality={98}
-                    layout="responsive"
-                    objectFit="cover"
+                    quality={95}
                     priority
                     placeholder='blur'
                     blurDataURL={props.heroImage.file.base64}
                     src={`https:${props.heroImage.file.url}`} 
                     width={props.heroImage.file.details.image.width} 
                     height={props.heroImage.file.details.image.height}
+                    style={{
+                        objectFit: 'cover'
+                    }}
                 />
             </div>
             <div className="w-full relative p-4 text-lightPrimary bg-darkPrimary shadow-xl flex items-center flex-col text-center md:flex-row md:text-left">
@@ -132,7 +143,7 @@ const Gallery = (props) => {
                 <PhotoAlbum 
                     layout="rows"
                     photos={photos}
-                    renderPhoto={RenderGalleryImage as any}
+                    renderPhoto={RenderGalleryImage}
                     spacing={6}
                     targetRowHeight={650}
                     rowConstraints={{maxPhotos: 4}}
