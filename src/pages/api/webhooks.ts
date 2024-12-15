@@ -73,7 +73,6 @@ const sendPaymentSucccessEmail = async (charge: Stripe.Charge) => {
         dynamicTemplateData: {
             first_name: charge.billing_details.name.split(' ')[0]
         },
-        
     })
     await sgClient.request({
         url: `/v3/marketing/contacts`,

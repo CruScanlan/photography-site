@@ -178,6 +178,7 @@ export async function getServerSideProps(ctx) {
 
     let image = landscapeImages.find(landscapeImage => landscapeImage.fields.slug === imageSlug).fields;
 
+    //Dont do this because it takes too long
     /* startTime = performance.now();
 
     image.fullResImage.fields.file = {
