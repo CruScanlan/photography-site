@@ -49,8 +49,8 @@ const AboutPage = () => {
                     </div>
                 </div>
 
-                <div className="lg:flex lg:top-24 flex-col items-center gap-4">
-                    <div className="w-full max-w-[400px] bg-gray-800">
+                <div className="md:flex lg:top-24 flex-col items-center gap-4 max-w-[400px]">
+                    <div className="w-full  bg-gray-800">
                         <Image
                             src="pages/about/cru.jpg"
                             alt="Cru Scanlan"
@@ -62,7 +62,7 @@ const AboutPage = () => {
                             className="w-full h-full object-cover"
                         />
                     </div>
-                    <Button href="/contact" type="filled" size="sm" clickable>
+                    <Button href="/contact" type="filled" size="sm" clickable classes="mt-2">
                         Contact Me
                     </Button>
                 </div>
