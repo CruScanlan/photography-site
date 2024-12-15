@@ -3,6 +3,7 @@ import { Provider as ReduxProvider } from 'react-redux';
 import store, { persistor } from 'store/store';
 import { PersistGate } from 'redux-persist/integration/react'
 import { CartProvider } from 'use-shopping-cart';
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { library, config } from '@fortawesome/fontawesome-svg-core';
@@ -61,6 +62,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
                             `,
                         }}
                     />
+                    <SpeedInsights />
                     <Component {...pageProps} />
                 </CartProvider>
             </PersistGate>
