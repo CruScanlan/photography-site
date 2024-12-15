@@ -39,6 +39,8 @@ const IndexPage = ({ homePageHero }) => {
             pageClass="top min-h-screen" 
             navbarScrollAnimation={{enabled: true}}
             pageDescription="Cru Scanlan is a landscape photographer based in South East Queensland, Australia. Specializing in capturing the beauty of the natural world, from the mountains to the sea. View his gallery and contact him for licensing, print purchases, or any questions about his photography work."
+            ogImage={homePageHero.img.file}
+            ogUrl={'https://cruscanlan.com'}
         >
             <div className="fixed h-[100vh] w-[100vw] overflow-hidden z-[-1]">
                 <Image
