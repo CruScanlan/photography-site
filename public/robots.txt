@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://cruscanlan.com
+
+# Sitemaps
+Sitemap: https://cruscanlan.com/sitemap.xml
