@@ -96,6 +96,8 @@ const Gallery = (props) => {
                 endPositionRelative: 0.4,
                 endPositionAbsolute: 120
             }}
+            ogImage={props.heroImage.file.url}
+            ogUrl={`https://cruscanlan.com/gallery/${props.slug}`}
         >
             <div className="w-full h-[60vh]">
                 <Image 

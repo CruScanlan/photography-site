@@ -7,7 +7,13 @@ import TextLink from 'components/TextLink';
 
 const AboutPage = () => {
   return (
-    <Layout pageTitle={'About | Cru Scanlan Photography'} pageClass="bg-darkSecondary text-lightPrimary flex justify-center" padTop={true}>
+    <Layout 
+        pageTitle={'About | Cru Scanlan Photography'} 
+        pageClass="bg-darkSecondary text-lightPrimary flex justify-center" 
+        padTop={true}
+        ogImage={'/pages/about/cru.jpg'}
+        ogUrl={'https://cruscanlan.com/about'}
+    >
         <div className="flex flex-col w-full">
             <h1 className="text-4xl text-center font-bold my-8">
                 About

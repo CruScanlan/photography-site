@@ -7,9 +7,7 @@ import useWindowSize from 'hooks/useWindowSize';
 import contentful from 'utils/contentful';
 
 import { performance } from 'perf_hooks';
-
 import Layout from 'components/Layout';
-import { getPlaiceholder } from 'plaiceholder';
 
 type IPhotoCollectionSlugs = {
     slug: string;
@@ -24,7 +22,6 @@ type IPhotoCollectionsSlugsArray = IPhotoCollectionSlugs[];
 type IImageDimensions = {width: number; height: number};
 
 const GalleryPhotoPage = ({ image, collectionSlug, nextImageSlug, previousImageSlug, nextImage, previousImage}) => {
-    const imageSlug: string = image.slug;
 
     const getImageSize = (imageDimensions: IImageDimensions): IImageDimensions => {
         const wRatio = (windowWidth / imageDimensions.width) * wScalingFactor;
@@ -66,6 +63,8 @@ const GalleryPhotoPage = ({ image, collectionSlug, nextImageSlug, previousImageS
             pageTitle={`${image.title} | Cru Scanlan Photography`} 
             pageClass="bg-darkPrimary relative"
             fullPage={true}
+            ogImage={image.fullResImage.fields.file.url}
+            ogUrl={`https://cruscanlan.com/image/${image.slug}`}
         >
             <div className="absolute h-screen p-1 md:p-4 2xl:p-8 flex items-center">
                 <Link href={`/image/${previousImageSlug}?collection=${collectionSlug}`}>
@@ -177,17 +176,6 @@ export async function getServerSideProps(ctx) {
     }));
 
     let image = landscapeImages.find(landscapeImage => landscapeImage.fields.slug === imageSlug).fields;
-
-    //Dont do this because it takes too long
-    /* startTime = performance.now();
-
-    image.fullResImage.fields.file = {
-        ...image.fullResImage.fields.file,
-        base64: (await getPlaiceholder(`https:${image.fullResImage.fields.file.url}`)).base64
-    }
-
-    endTime = performance.now();
-    console.log(`[imageSlug]:${imageSlug} | Created Plaiceholder data in ${endTime - startTime}ms`); */
 
     //Get collection slugs
     const collectionQueryParam = ctx.query.collection;
