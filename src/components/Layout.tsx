@@ -30,7 +30,7 @@ const Layout: React.FC<Props> = ({
     ogImage = '/Eternal Growth 2022 - 2048px.jpg', // Add a default OG image
     ogUrl = 'https://cruscanlan.com' // Replace with your default domain
 }) => {
-    ogImage = `${ogImage}?w=1024&q=95`;
+    ogImage = `${ogImage}?w=1080&q=95`;
 
     if(ogImage.includes('images.ctfassets.net')) {
         ogImage = `https:${ogImage}`;
