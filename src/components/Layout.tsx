@@ -24,20 +24,10 @@ const Layout: React.FC<Props> = ({
     padTop = false, 
     navbarScrollAnimation, 
     fullPage = false, 
-    children, 
-    style, 
+    children,  
     pageDescription,
-    ogImage = '/Eternal Growth 2022 - 2048px.jpg', // Add a default OG image
-    ogUrl = 'https://cruscanlan.com' // Replace with your default domain
+    ogUrl
 }) => {
-    ogImage = `${ogImage}?w=1080&q=95`;
-
-    if(ogImage.includes('images.ctfassets.net')) {
-        ogImage = `https:${ogImage}`;
-    } else {
-        ogImage = `https://cruscanlan.com${ogImage}`;
-    }
-
     return (
         <>
             <Head>
@@ -47,20 +37,6 @@ const Layout: React.FC<Props> = ({
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
                 <meta httpEquiv="content-language" content="en" />
                 <meta name="description" content={pageDescription} />
-
-                {/* Open Graph / Facebook */}
-                <meta property="og:type" content="website" />
-                <meta property="og:url" content={ogUrl} />
-                <meta property="og:title" content={pageTitle} />
-                <meta property="og:description" content={pageDescription} />
-                <meta property="og:image" content={ogImage} />
-
-                {/* Twitter */}
-                <meta property="twitter:card" content="summary_large_image" />
-                <meta property="twitter:url" content={ogUrl} />
-                <meta property="twitter:title" content={pageTitle} />
-                <meta property="twitter:description" content={pageDescription} />
-                <meta property="twitter:image" content={ogImage} />
             </Head>
             {
                 !fullPage && <NavBar navbarScrollAnimation={navbarScrollAnimation} />
@@ -74,6 +50,32 @@ const Layout: React.FC<Props> = ({
             }
         </>
     );
+}
+
+export async function generateMetadata({ 
+    ogImage = '/Eternal Growth 2022 - 2048px.jpg', // Add a default OG image
+    ogUrl = 'https://cruscanlan.com', // Replace with your default domain 
+    pageTitle, 
+    pageDescription 
+}: Props) {
+    ogImage = `${ogImage}?w=1080&q=95`;
+
+    if(ogImage.includes('images.ctfassets.net')) {
+        ogImage = `https:${ogImage}`;
+    } else {
+        ogImage = `https://cruscanlan.com${ogImage}`;
+    }
+
+    return {
+        title: pageTitle,
+        description: pageDescription,
+        openGraph: {
+            title: pageTitle,
+            description: pageDescription,
+            url: ogUrl,
+            images: [ogImage]
+        }
+    };
 }
 
 export default Layout;
