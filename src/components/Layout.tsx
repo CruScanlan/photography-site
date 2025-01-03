@@ -1,6 +1,5 @@
 import * as React from 'react';
 import Head from 'next/head';
-import { NextSeo } from 'next-seo';
 
 import NavBar, { INavbarScrollAnimation } from 'components/NavBar';
 import Cart from 'components/Cart';
@@ -41,22 +40,27 @@ const Layout: React.FC<Props> = ({
 
     return (
         <>
-            <NextSeo
-                title={pageTitle}
-                description={pageDescription}
-                canonical={ogUrl}
-                openGraph={{
-                    url: ogUrl,
-                    title: pageTitle,
-                    description: pageDescription,
-                    images: [{ url: ogImage }],
-                }}
-            />
             <Head>
+                <title>{pageTitle}</title>
                 <meta charSet="utf-8" />
                 <link rel="canonical" href={ogUrl} />
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
                 <meta httpEquiv="content-language" content="en" />
+                <meta name="description" content={pageDescription} />
+
+                {/* Open Graph / Facebook */}
+                <meta property="og:type" content="website" />
+                <meta property="og:url" content={ogUrl} />
+                <meta property="og:title" content={pageTitle} />
+                <meta property="og:description" content={pageDescription} />
+                <meta property="og:image" content={ogImage} />
+
+                {/* Twitter */}
+                <meta property="twitter:card" content="summary_large_image" />
+                <meta property="twitter:url" content={ogUrl} />
+                <meta property="twitter:title" content={pageTitle} />
+                <meta property="twitter:description" content={pageDescription} />
+                <meta property="twitter:image" content={ogImage} />
             </Head>
             {
                 !fullPage && <NavBar navbarScrollAnimation={navbarScrollAnimation} />
