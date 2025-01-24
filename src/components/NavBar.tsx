@@ -74,6 +74,7 @@ const navLinks: {
 const navSocialLinks: {
     icon: FontAwesomeIconProps['icon'];
     href: string;
+    rel?: string;
 }[] = [
     {
         icon: ['fab', 'instagram'],
@@ -82,6 +83,11 @@ const navSocialLinks: {
     {
         icon: ['fab', 'facebook'],
         href: 'https://facebook.com/cruscanlan'
+    },
+    {
+        icon: ['fab', 'mastodon'],
+        href: 'https://mastodon.social/@cruscanlan',
+        rel: 'me'
     }
 ]
 
@@ -244,7 +250,7 @@ const NavBar: React.FC<Props> = ({ navbarScrollAnimation }) => {
                         {
                             navSocialLinks.map(navSocialLink => (
                                 <li className="inline-block py-2 px-4 no-underline font-medium hover:underline" key={navSocialLink.href}>
-                                    <a href={navSocialLink.href} target="_blank">
+                                    <a href={navSocialLink.href} target="_blank" rel={navSocialLink.rel || ''}>
                                         <FontAwesomeIcon icon={navSocialLink.icon} className="text-2xl" />
                                     </a>
                                 </li>

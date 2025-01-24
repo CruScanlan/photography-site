@@ -38,6 +38,7 @@ const Footer: React.FC<Props> = () => {
                         <div className="flex pl-4 justify-start">
                             <a className="flex items-center text-lightPrimary hover:text-lightSecondary no-underline" href="https://instagram.com/cruscanlan" target="_blank"><FontAwesomeIcon icon={['fab', 'instagram']} size="2x"/></a>
                             <a className="flex items-center text-lightPrimary hover:text-lightSecondary no-underline ml-3" href="https://facebook.com/cruscanlan" target="_blank"><FontAwesomeIcon icon={['fab', 'facebook']} size="2x"/></a>
+                            <a className="flex items-center text-lightPrimary hover:text-lightSecondary no-underline ml-3" href="https://mastodon.social/@cruscanlan" target="_blank" rel="me"><FontAwesomeIcon icon={['fab', 'mastodon']} size="2x"/></a>
                         </div>
                     </div>
                 </div>
