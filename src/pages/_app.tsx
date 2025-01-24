@@ -7,8 +7,8 @@ import { SpeedInsights } from "@vercel/speed-insights/next"
 
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { library, config } from '@fortawesome/fontawesome-svg-core';
-import { faArrowCircleRight, faChevronRight, faChevronLeft, faTimes, faBars, faChevronDown, faCartArrowDown, faCircleCheck, faTruckFast, faShield, faPaintBrush, faShoppingCart, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { faInstagram, faFacebook } from '@fortawesome/free-brands-svg-icons';
+import { faArrowCircleRight, faChevronRight, faChevronLeft, faTimes, faBars, faChevronDown, faCartArrowDown, faCircleCheck, faTruckFast, faShield, faPaintBrush, faShoppingCart, faTrash, faMasksTheater } from '@fortawesome/free-solid-svg-icons';
+import { faInstagram, faFacebook, faMastodon } from '@fortawesome/free-brands-svg-icons';
 
 import Script from 'next/script';
 import { GA_TRACKING_ID } from 'utils/analytics';
@@ -24,6 +24,7 @@ library.add(
     faTimes,
     faBars,
     faInstagram,
+    faMastodon,
     faFacebook,
     faCartArrowDown,
     faPaintBrush,
