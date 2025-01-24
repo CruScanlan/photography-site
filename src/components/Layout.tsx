@@ -48,6 +48,8 @@ const Layout: React.FC<Props> = ({
                 <meta httpEquiv="content-language" content="en" />
                 <meta name="description" content={pageDescription} />
 
+                <meta name="fediverse:creator" content="@cruscanlan@mastodon.social"></meta>
+
                 {/* Open Graph / Facebook */}
                 <meta property="og:type" content="website" />
                 <meta property="og:url" content={ogUrl} />
