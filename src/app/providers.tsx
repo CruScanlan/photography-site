@@ -6,21 +6,23 @@ import store, { persistor } from 'store/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import { CartProvider } from 'use-shopping-cart';
 import { library, config } from '@fortawesome/fontawesome-svg-core';
-import { 
-  faArrowCircleRight, 
-  faChevronRight, 
-  faChevronLeft, 
-  faTimes, 
-  faBars, 
-  faChevronDown, 
-  faCartArrowDown, 
-  faCircleCheck, 
-  faTruckFast, 
-  faShield, 
-  faPaintBrush, 
-  faShoppingCart, 
-  faTrash, 
-  faMasksTheater 
+import {
+  faArrowCircleRight,
+  faChevronRight,
+  faChevronLeft,
+  faTimes,
+  faBars,
+  faChevronDown,
+  faCartArrowDown,
+  faCircleCheck,
+  faTruckFast,
+  faShield,
+  faPaintBrush,
+  faShoppingCart,
+  faTrash,
+  faMasksTheater,
+  faExpand,
+  faCompress
 } from '@fortawesome/free-solid-svg-icons';
 import { faInstagram, faFacebook, faMastodon } from '@fortawesome/free-brands-svg-icons';
 
@@ -29,7 +31,7 @@ config.autoAddCss = false;
 
 // Add icons to library
 library.add(
-    faArrowCircleRight, 
+    faArrowCircleRight,
     faChevronRight,
     faChevronLeft,
     faChevronDown,
@@ -44,7 +46,9 @@ library.add(
     faTruckFast,
     faShield,
     faShoppingCart,
-    faTrash
+    faTrash,
+    faExpand,
+    faCompress
 );
 
 export default function Providers({ children }: { children: React.ReactNode }) {
