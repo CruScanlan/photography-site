@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from "react";
 import Link from 'next/link';
 import Image from "next/legacy/image";
@@ -170,7 +172,6 @@ const NavBar: React.FC<Props> = ({ navbarScrollAnimation }) => {
             </div>
             <div className="hidden lg:flex justify-between min-w-full mb-2"> {/* Desktop NavBar */}
                 <Link href="/" className="min-w-[205px] ml-8 mx-2 mt-5 h-[64px] relative">
-
                     <Image
                         src="/logo.svg"
                         layout="fill"
@@ -178,13 +179,14 @@ const NavBar: React.FC<Props> = ({ navbarScrollAnimation }) => {
                         priority
                         unoptimized
                     />
-
                 </Link>
                 <ul className="text-lg font-black list-none mt-5 p-0 flex items-center justify-center mr-5">
                     {
                         navLinks.map(navLink => (
                             <li className="c-navbar__link" key={navLink.href}>
-                                <NavLink href={navLink.href} activeClassName="underline" exact={navLink.exact || false}><a>{navLink.name}</a></NavLink>
+                                <NavLink href={navLink.href} activeClassName="underline" exact={navLink.exact || false}>
+                                    <span>{navLink.name}</span>
+                                </NavLink>
                             </li>
                         ))
                     }
@@ -198,7 +200,7 @@ const NavBar: React.FC<Props> = ({ navbarScrollAnimation }) => {
                         )) */
                     }
                     {
-                        cartCount > 0 && 
+                        (cartCount ?? 0) > 0 && 
                             <li className="c-navbar__link relative hover:cursor-pointer" onClick={onCartClick}>
                                 <FontAwesomeIcon icon={['fas', 'shopping-cart']} style={{fontSize: '1.2em'}} />
                                 <span className="absolute right-1 top-0 text-sm bg-orange-500 rounded-full w-6 h-6 pt-[2px]">{cartCount}</span>
@@ -227,15 +229,15 @@ const NavBar: React.FC<Props> = ({ navbarScrollAnimation }) => {
                 <ul className="font-medium text-lg">
                     {
                         navLinks.map(navLink => (
-                            <Link href={navLink.href} key={navLink.href} legacyBehavior>
-                                <li className="mb-1 block p-4 hover:bg-blue-50 hover:text-blue-600 hover:underline hover:cursor-pointer rounded">
-                                    <NavLink href={navLink.href} exact={navLink.exact || false} activeClassName="underline"><a>{navLink.name}</a></NavLink>
-                                </li>
-                            </Link>
+                            <li className="mb-1 block p-4 hover:bg-blue-50 hover:text-blue-600 hover:underline hover:cursor-pointer rounded" key={navLink.href}>
+                                <NavLink href={navLink.href} exact={navLink.exact || false} activeClassName="underline">
+                                    <span>{navLink.name}</span>
+                                </NavLink>
+                            </li>
                         ))
                     }
                     {
-                        cartCount > 0 && 
+                        (cartCount ?? 0) > 0 && 
                             <li className="c-navbar__link flex p-4 hover:bg-blue-50 hover:text-blue-600 hover:underline hover:cursor-pointer rounded" onClick={onCartClick}>
                                 <span className="mr-2 text-xl font-semibold">Cart</span>
                                 <div className="relative">

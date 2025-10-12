@@ -25,6 +25,9 @@ const createProductImage = async (remotePath: string, fileName: string) => {
     }
 
     const photoImage = await loadImage(remotePath);
+    if (!photoImage) {
+        throw new Error(`Failed to load image from ${remotePath}`);
+    }
     const ratio = (photoImage.img.width / photoImage.img.height).toFixed(2);
 
     let productImage: sharp.Sharp | undefined;
@@ -35,6 +38,9 @@ const createProductImage = async (remotePath: string, fileName: string) => {
             imageInfoMessage = `Created Set Image 2x3 Vertical - ${fileName}`;
     
             const setImage = await loadImage(publicDirectory + 'Product Image Template 1 2x3 Vertical.png'); //Get base image
+            if (!setImage) {
+                throw new Error('Failed to load template image: Product Image Template 1 2x3 Vertical.png');
+            }
     
             const setImageSharp = await sharp(setImage.file).toBuffer(); //Get photo
             const productImageBase = await sharp(photoImage.file)
@@ -61,6 +67,9 @@ const createProductImage = async (remotePath: string, fileName: string) => {
             imageInfoMessage = `Created Set Image 4x5 Vertical - ${fileName}`;
     
             const setImage = await loadImage(publicDirectory + 'Product Image Template 1 4x5 Vertical.png'); //Get base image
+            if (!setImage) {
+                throw new Error('Failed to load template image: Product Image Template 1 4x5 Vertical.png');
+            }
     
             const setImageSharp = await sharp(setImage.file).toBuffer(); //Get photo
             const productImageBase = await sharp(photoImage.file)
@@ -87,6 +96,9 @@ const createProductImage = async (remotePath: string, fileName: string) => {
             imageInfoMessage = `Created Set Image 2x3 Landscape - ${fileName}`;
     
             const setImage = await loadImage(publicDirectory + 'Product Image Template 1 2x3 Landscape.png'); //Get base image
+            if (!setImage) {
+                throw new Error('Failed to load template image: Product Image Template 1 2x3 Landscape.png');
+            }
     
             const setImageSharp = await sharp(setImage.file).toBuffer(); //Get photo
             const productImageBase = await sharp(photoImage.file)
@@ -113,6 +125,9 @@ const createProductImage = async (remotePath: string, fileName: string) => {
             imageInfoMessage = `Created Set Image 1x2 Landscape - ${fileName}`;
     
             const setImage = await loadImage(publicDirectory + 'Product Image Template 1 1x2 Landscape.png'); //Get base image
+            if (!setImage) {
+                throw new Error('Failed to load template image: Product Image Template 1 1x2 Landscape.png');
+            }
     
             const setImageSharp = await sharp(setImage.file).toBuffer(); //Get photo
             const productImageBase = await sharp(photoImage.file)
@@ -139,6 +154,9 @@ const createProductImage = async (remotePath: string, fileName: string) => {
             imageInfoMessage = `Created Set Image 1x3 Landscape - ${fileName}`;
     
             const setImage = await loadImage(publicDirectory + 'Product Image Template 1 1x3 Landscape.png'); //Get base image
+            if (!setImage) {
+                throw new Error('Failed to load template image: Product Image Template 1 1x3 Landscape.png');
+            }
     
             const setImageSharp = await sharp(setImage.file).toBuffer(); //Get photo
             const productImageBase = await sharp(photoImage.file)
@@ -167,7 +185,11 @@ const createProductImage = async (remotePath: string, fileName: string) => {
     
         
         await productImage.toFile(productFilePath); //Save to cache
-        const { width, height } = (await loadImage((await productImage.toBuffer()))).img; //Get width height
+        const loadedImage = await loadImage((await productImage.toBuffer()));
+        if (!loadedImage) {
+            throw new Error('Failed to load generated product image');
+        }
+        const { width, height } = loadedImage.img; //Get width height
 
         console.log(`Created Set Image: ${imageInfoMessage}`);
 

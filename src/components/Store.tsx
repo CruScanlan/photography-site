@@ -1,10 +1,12 @@
+'use client';
+
 import React, { useEffect, useState } from 'react';
 import Image from "next/legacy/image";
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 
-import Layout from 'components/Layout';
+import ClientLayout from 'components/ClientLayout';
 import NavLink from 'components/NavLink';
 import Button from 'components/Button';
 
@@ -24,7 +26,7 @@ const Store = (props) => {
     }
 
     return (
-        (<Layout 
+        (<ClientLayout 
             pageTitle={'Store | Cru Scanlan Photography'} 
             pageClass="bg-darkSecondary" 
             navbarScrollAnimation={{
@@ -124,7 +126,7 @@ const Store = (props) => {
                     </div>
                 </div>
             </div>
-        </Layout>)
+        </ClientLayout>)
     );
 };
 
@@ -133,7 +135,7 @@ const ShopSections = (props) => {
         <>
             <div className="block py-2 pl-2 mb-2 text-lightSecondary no-underline font-semibold hover:underline hover:text-lightPrimary">
                 <NavLink href={`/store`} activeClassName="underline text-lightPrimary" exact>
-                    <a>All Prints</a>
+                    <span>All Prints</span>
                 </NavLink>
             </div>
             <h4 className="uppercase font-semibold">Shop Collections</h4>
@@ -143,7 +145,7 @@ const ShopSections = (props) => {
                     props.photoCollectionOrder.map(photoCollection => (
                         <div className="block py-2 pl-2 text-lightSecondary no-underline font-medium hover:underline hover:text-lightPrimary" key={photoCollection.slug}>
                             <NavLink href={`/store/collection/${photoCollection.slug}`} activeClassName="underline text-lightPrimary">
-                                <a>{photoCollection.name}</a>
+                                <span>{photoCollection.name}</span>
                             </NavLink>
                         </div>
                     ))
@@ -156,7 +158,7 @@ const ShopSections = (props) => {
                     props.locations.map(location => (
                         <div className="block py-2 pl-2 text-lightSecondary no-underline font-medium hover:underline hover:text-lightPrimary" key={location.slug}>
                             <NavLink href={`/store/location/${location.slug}`} activeClassName="underline text-lightPrimary">
-                                <a>{location.name}</a>
+                                <span>{location.name}</span>
                             </NavLink>
                         </div>
                     ))

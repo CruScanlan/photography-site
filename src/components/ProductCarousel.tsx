@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import Image from "next/legacy/image";
 import useEmblaCarousel from "embla-carousel-react";
@@ -44,11 +46,11 @@ const ProductCarousel: React.FC<Props> = ({ slides, onGetImageUrl, className = '
     }, [embla, emblaThumbs, setSelectedIndex]);
 
     const onPrevClick = useCallback(() => {
-        embla.scrollPrev();
+        embla?.scrollPrev();
     }, [embla]);
 
     const onNextClick = useCallback(() => {
-        embla.scrollNext();
+        embla?.scrollNext();
     }, [embla]);
 
     useEffect(() => {
@@ -66,12 +68,18 @@ const ProductCarousel: React.FC<Props> = ({ slides, onGetImageUrl, className = '
 
     const onImageLoad = (index: number) => {
         if(index !== 0) return; //Only get first
+        if(!carouselThumbBarRef.current || !onGetImageUrl) return;
 
-        const srcSet = carouselThumbBarRef.current.childNodes[1].firstChild.firstChild.firstChild.firstChild.childNodes[1].attributes.srcset.nodeValue; //Get src of first thumbnail
+        try {
+            // @ts-ignore - Complex DOM traversal for getting image srcset
+            const srcSet = carouselThumbBarRef.current.childNodes[1].firstChild.firstChild.firstChild.firstChild.childNodes[1].attributes.srcset.nodeValue; //Get src of first thumbnail
 
-        const path = srcSet.slice(0, srcSet.indexOf('320w,')).trim(); //Get the first image path (320w). This needs to be updated if devices sizes changes
+            const path = srcSet.slice(0, srcSet.indexOf('320w,')).trim(); //Get the first image path (320w). This needs to be updated if devices sizes changes
 
-        onGetImageUrl(window.location.origin+path); //Return full image path after load
+            onGetImageUrl(window.location.origin+path); //Return full image path after load
+        } catch (e) {
+            console.error('Error getting image URL:', e);
+        }
     }
 
     let calculatedSlideSizes: {width: number, height: number}[] = [];
@@ -81,12 +89,12 @@ const ProductCarousel: React.FC<Props> = ({ slides, onGetImageUrl, className = '
         let width = carouselContainerSize.width - (carouselThumbBarSize.width + 16); //Container minus thumbnail bar - 16px
         let height = width * (slide.height/slide.width);
 
-        if(carouselContainerSize.width > clientWidth) { //Exceeds screen 
+        if(clientWidth && carouselContainerSize.width > clientWidth) { //Exceeds screen 
             width = clientWidth - (carouselThumbBarSize.width + 16);
             height = width * (slide.height/slide.width);
         }
         
-        const maxHeight = (0.7 * windowHeight);
+        const maxHeight = windowHeight ? (0.7 * windowHeight) : 500;
         if(height > maxHeight) { //Height is bigger than 70% of the window
             height = maxHeight;
             width = height * (slide.width/slide.height);

@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
 
@@ -41,19 +43,14 @@ const Button: React.FC<Props>  = ({ classes = '', href, size = 'sm', fullWidth =
     return (
         (<div className={`text-base text-center font-semibold text-lightPrimary rounded-md shadow ${fullWidth ? 'w-full': ''} ${classes}`} onClick={handleClick} {...props}>
             {
-                href && !disabled && ( //Add link only if not disabled
-                    (<Link href={href} legacyBehavior>
-                        <div className={innerClasses}>
-                            {children}
-                        </div>
-                    </Link>)
-                )
-            }
-            {
-                (!href || disabled) && ( //No link or disabled
-                    (<div className={innerClasses}>
+                href && !disabled ? ( //Add link only if not disabled
+                    <Link href={href} className={innerClasses}>
                         {children}
-                    </div>)
+                    </Link>
+                ) : ( //No link or disabled
+                    <div className={innerClasses}>
+                        {children}
+                    </div>
                 )
             }
         </div>)
