@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import Image from "next/legacy/image";
+import Image from "next/image";
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
@@ -43,12 +43,15 @@ const Store = (props) => {
                     alt="Image" 
                     loading="eager"
                     quality={98}
-                    layout="responsive"
-                    objectFit="cover"
                     priority
                     placeholder='blur'
                     blurDataURL={props.banner.base64}
                     src={props.banner.img}
+                    fill
+                    sizes="100vw"
+                    style={{
+                        objectFit: 'cover'
+                    }}
                 />
             </div>
             <div className="relative text-lightPrimary flex bg-darkSecondary">
@@ -113,6 +116,11 @@ const Store = (props) => {
                                                     width={landscapeImage.productImage.width}
                                                     height={landscapeImage.productImage.height}
                                                     quality={90}
+                                                    style={{
+                                                        width: '100%',
+                                                        height: 'auto'
+                                                    }}
+                                                    alt={landscapeImage.title}
                                                 />
                                             </div>
                                             <h4 className="text-center hover:cursor-pointer">{landscapeImage.title}</h4>

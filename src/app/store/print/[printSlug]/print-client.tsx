@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useCallback, useEffect, useState } from 'react';
-import Image from "next/legacy/image";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import { useShoppingCart } from 'use-shopping-cart';
