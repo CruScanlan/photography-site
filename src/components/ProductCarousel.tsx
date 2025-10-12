@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect, useCallback } from "react";
-import Image from "next/legacy/image";
+import Image from "next/image";
 import useEmblaCarousel from "embla-carousel-react";
 import AutoHeight from "embla-carousel-auto-height";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -132,9 +132,13 @@ const ProductCarousel: React.FC<Props> = ({ slides, onGetImageUrl, className = '
                                         src={slide.src}
                                         width={slide.width}
                                         height={slide.height}
-                                        layout="responsive"
                                         quality={70}
-                                        onLoadingComplete={() => onImageLoad(index)}
+                                        onLoad={() => onImageLoad(index)}
+                                        style={{
+                                            width: '100%',
+                                            height: 'auto'
+                                        }}
+                                        alt={''}
                                     />
                                 </button>
                             </div>
@@ -163,16 +167,20 @@ const ProductCarousel: React.FC<Props> = ({ slides, onGetImageUrl, className = '
                             >
                                 <Image
                                     className="w-full"
-                                    priority={index === 1}
-                                    loading={index === 1 ? 'eager' : 'lazy'}
+                                    priority={index === 0}
+                                    loading={index === 0 ? 'eager' : 'lazy'}
                                     src={slide.src}
                                     width={slide.width}
                                     height={slide.height}
-                                    layout="responsive"
-                                    objectFit="contain"
                                     placeholder="blur"
                                     blurDataURL={slide.base64}
                                     quality={95}
+                                    style={{
+                                        width: '100%',
+                                        height: 'auto',
+                                        objectFit: 'contain'
+                                    }}
+                                    alt={''}
                                 />
                             </div>
                         ))}

@@ -1,5 +1,5 @@
 import React from 'react';
-import Image from "next/legacy/image";
+import Image from "next/image";
 
 import ClientLayout from 'components/ClientLayout';
 
@@ -17,9 +17,13 @@ const PrintsPage = () => {
                     <div className="h-auto w-[40%]">
                         <Image
                             src="/canvas1.png"
-                            layout="responsive"
+                            alt="Canvas Print Example"
                             width={3930}
                             height={3929}
+                            style={{
+                                width: '100%',
+                                height: 'auto'
+                            }}
                         />
                     </div>
                 </div>

@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Link from 'next/link';
-import Image from "next/legacy/image";
+import Image from "next/image";
 import NavLink from 'components/NavLink';
 import useScrollPosition from '@react-hook/window-scroll';
 import { FontAwesomeIcon, FontAwesomeIconProps } from '@fortawesome/react-fontawesome';
@@ -159,10 +159,14 @@ const NavBar: React.FC<Props> = ({ navbarScrollAnimation }) => {
 
                     <Image
                         src="/logo.svg"
-                        layout="fill"
-                        objectFit="contain"
+                        fill
                         priority
                         unoptimized
+                        sizes="205px"
+                        style={{
+                            objectFit: 'contain'
+                        }}
+                        alt="Cru Scanlan Photography Logo"
                     />
 
                 </Link>
@@ -174,10 +178,14 @@ const NavBar: React.FC<Props> = ({ navbarScrollAnimation }) => {
                 <Link href="/" className="min-w-[205px] ml-8 mx-2 mt-5 h-[64px] relative">
                     <Image
                         src="/logo.svg"
-                        layout="fill"
-                        objectFit="contain"
+                        fill
                         priority
                         unoptimized
+                        sizes="205px"
+                        style={{
+                            objectFit: 'contain'
+                        }}
+                        alt="Cru Scanlan Photography Logo"
                     />
                 </Link>
                 <ul className="text-lg font-black list-none mt-5 p-0 flex items-center justify-center mr-5">
@@ -216,10 +224,14 @@ const NavBar: React.FC<Props> = ({ navbarScrollAnimation }) => {
                     <div className="w-[205px] h-[64px] mr-auto relative">
                         <Image
                             src="/logo.svg"
-                            layout="fill"
-                            objectFit="contain"
+                            fill
                             priority
                             unoptimized
+                            sizes="205px"
+                            style={{
+                                objectFit: 'contain'
+                            }}
+                            alt="Cru Scanlan Photography Logo"
                         />
                     </div>
                     <button className="ml-2" onClick={onHamburgerMenuClose}>
