@@ -21,25 +21,31 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Providers>
-          <Script 
-            src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
-            strategy="afterInteractive"
-          />
-          <Script
-            id="google-analytics"
-            strategy="afterInteractive"
-            dangerouslySetInnerHTML={{
-              __html: `
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){window.dataLayer.push(arguments);}
-                gtag('js', new Date());
-
-                gtag('config', '${GA_TRACKING_ID}', { 
-                    page_path: window.location.pathname,
-                });
-              `,
-            }}
-          />
+          {GA_TRACKING_ID && (
+            <>
+              <Script 
+                src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
+                strategy="afterInteractive"
+              />
+              <Script
+                id="google-analytics"
+                strategy="afterInteractive"
+              >
+                {`
+                  try {
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){window.dataLayer.push(arguments);}
+                    gtag('js', new Date());
+                    gtag('config', '${GA_TRACKING_ID}', { 
+                        page_path: window.location.pathname,
+                    });
+                  } catch(e) {
+                    console.error('GA initialization error:', e);
+                  }
+                `}
+              </Script>
+            </>
+          )}
           <SpeedInsights />
           {children}
         </Providers>
