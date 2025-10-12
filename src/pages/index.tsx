@@ -44,8 +44,8 @@ const IndexPage = ({ homePageHero }) => {
         >
             <div className="fixed h-[100vh] w-[100vw] overflow-hidden z-[-1]">
                 <Image
-                    src={homePageHero.img}
-                    layout="fill"
+                    src={homePageHero.img.src}
+                    fill
                     quality={98}
                     loading="eager"
                     priority
@@ -53,10 +53,7 @@ const IndexPage = ({ homePageHero }) => {
                     blurDataURL={homePageHero.base64}
                     alt="Cru Scanlan Photography"
                     style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover',
-                        position: 'absolute'
+                        objectFit: 'cover'
                     }}
                 />
             </div>
