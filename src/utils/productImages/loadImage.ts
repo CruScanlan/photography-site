@@ -24,7 +24,7 @@ interface ILoadRemoteImage {
 };
 
 interface ILoadImageImg extends IGetImageSizeReturn {
-    src: string;
+    src: string | null;
 };
 
 interface ILoadImageReturn {
@@ -39,6 +39,10 @@ interface ILoadImage {
 const getImageSize: IGetImageSize = (file) => {
     const { width, height, type } = sizeOf(file);
   
+    if (typeof width === 'undefined' || typeof height === 'undefined') {
+        throw new Error('Could not determine image dimensions');
+    }
+
     return {
         width,
         height,

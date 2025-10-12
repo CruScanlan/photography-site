@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useEffect } from 'react';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -35,21 +37,21 @@ const Cart: React.FC<Props>  = () => {
         dispatch(setIsOpen(false));
     };
 
-    const cartItems: Product[] = (Object.entries(cartDetails).map(entry => entry[1])) as any;
+    const cartItems: Product[] = (Object.entries(cartDetails ?? {}).map(entry => entry[1])) as any;
 
     const onClickReduceQuantity = (id: string) => {
         decrementItem(id);
-        removeFromCartEvent(cartDetails[id]);
+        if (cartDetails?.[id]) removeFromCartEvent(cartDetails[id]);
     }
 
     const onClickIncreaseQuantity = (id: string) => {
         incrementItem(id);
-        addToCartEvent(cartDetails[id]);
+        if (cartDetails?.[id]) addToCartEvent(cartDetails[id]);
     }
 
     const onClickRemove = (id: string) => {
         removeItem(id);
-        removeFromCartEvent(cartDetails[id], true);
+        if (cartDetails?.[id]) removeFromCartEvent(cartDetails[id], true);
     }
 
     const onClickCheckout = async () => {
@@ -78,14 +80,14 @@ const Cart: React.FC<Props>  = () => {
                                 <FontAwesomeIcon icon={['fas', 'times']} size="2x"/>
                             </button>
                         </div>
-                        <ul className="flex flex-col divide-y divide-coolGray-700">
-                            {
-                                cartCount === 0 && (
-                                    <h4 className="py-6">
-                                        No Items In Cart
-                                    </h4>
-                                )
-                            }
+                <ul className="flex flex-col divide-y divide-coolGray-700">
+                    {
+                        (cartCount ?? 0) === 0 && (
+                            <h4 className="py-6">
+                                No Items In Cart
+                            </h4>
+                        )
+                    }
                             {
                                 cartItems.map((cartItem: any) => (
                                     <li className="flex flex-col py-6 sm:flex-row sm:justify-between" key={cartItem.id}>
@@ -135,32 +137,32 @@ const Cart: React.FC<Props>  = () => {
                             }
                         </ul>
                     </div>
-                    <div className="space-y-4">
-                        {
-                            cartCount > 0 && (
-                                <>
-                                    <div className="space-y-1 text-right">
-                                        <h4>Total: <span className="font-semibold">{formattedTotalPrice.split('A').join('')}</span></h4>
-                                        <h5 className="text-sm text-coolGray-400">Not including shipping costs</h5>
-                                    </div>
-                                    <div className="flex space-x-4">
-                                        <Button type="transparent" clickable onClick={onClose}>
-                                            Back to shop
-                                        </Button>
-                                        <Button type="filled" clickable onClick={onClickCheckout}>
-                                            Continue to Checkout
-                                        </Button>
-                                    </div>
-                                </>
-                            )
-                        }
-                        {
-                            cartCount === 0 && (
-                                <Button type="transparent" clickable onClick={onClose}>
-                                    Back to shop
-                                </Button>
-                            )
-                        }
+                <div className="space-y-4">
+                    {
+                        (cartCount ?? 0) > 0 && (
+                            <>
+                                <div className="space-y-1 text-right">
+                                    <h4>Total: <span className="font-semibold">{formattedTotalPrice?.split('A').join('')}</span></h4>
+                                    <h5 className="text-sm text-coolGray-400">Not including shipping costs</h5>
+                                </div>
+                                <div className="flex space-x-4">
+                                    <Button type="transparent" clickable onClick={onClose}>
+                                        Back to shop
+                                    </Button>
+                                    <Button type="filled" clickable onClick={onClickCheckout}>
+                                        Continue to Checkout
+                                    </Button>
+                                </div>
+                            </>
+                        )
+                    }
+                    {
+                        (cartCount ?? 0) === 0 && (
+                            <Button type="transparent" clickable onClick={onClose}>
+                                Back to shop
+                            </Button>
+                        )
+                    }
                     </div>
                 </div>
             </div>
