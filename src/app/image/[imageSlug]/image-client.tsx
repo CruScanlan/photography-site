@@ -86,7 +86,7 @@ const ImageClient: React.FC<Props> = ({ image, collectionSlug, nextImageSlug, pr
                         image && <Image
                             priority 
                             loading="eager"
-                            quality={98}
+                            quality={95}
                             src={`https:${imageFile.url}`} 
                             width={imageFile.details.image.width} 
                             height={imageFile.details.image.height} 
@@ -107,7 +107,7 @@ const ImageClient: React.FC<Props> = ({ image, collectionSlug, nextImageSlug, pr
                     {
                         nextImage && <Image
                             loading="lazy"
-                            quality={98}
+                            quality={95}
                             src={`https:${nextImageFile.url}`} 
                             width={nextImageFile.details.image.width} 
                             height={nextImageFile.details.image.height}
@@ -125,7 +125,7 @@ const ImageClient: React.FC<Props> = ({ image, collectionSlug, nextImageSlug, pr
                     {
                         previousImage && <Image
                             loading="lazy"
-                            quality={98}
+                            quality={95}
                             src={`https:${previousImageFile.url}`} 
                             width={previousImageFile.details.image.width} 
                             height={previousImageFile.details.image.height}
