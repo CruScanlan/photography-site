@@ -33,10 +33,33 @@ const ImageClient: React.FC<Props> = ({ image, collectionSlug, nextImageSlug, pr
     
     const [isFullscreen, setIsFullscreen] = useState(false);
 
+    // Restore fullscreen on page load if it was active
+    useEffect(() => {
+        const wasFullscreen = sessionStorage.getItem('imageFullscreen') === 'true';
+        
+        if (wasFullscreen && containerRef.current) {
+            // Small delay to ensure the page is fully loaded
+            setTimeout(() => {
+                containerRef.current?.requestFullscreen().catch(err => {
+                    console.error('Error entering fullscreen on load:', err);
+                    sessionStorage.removeItem('imageFullscreen');
+                });
+            }, 100);
+        }
+    }, []);
+
     // Handle fullscreen state changes
     useEffect(() => {
         const handleFullscreenChange = () => {
-            setIsFullscreen(!!document.fullscreenElement);
+            const isNowFullscreen = !!document.fullscreenElement;
+            setIsFullscreen(isNowFullscreen);
+            
+            // Store fullscreen state for persistence across navigation
+            if (isNowFullscreen) {
+                sessionStorage.setItem('imageFullscreen', 'true');
+            } else {
+                sessionStorage.removeItem('imageFullscreen');
+            }
         };
 
         document.addEventListener('fullscreenchange', handleFullscreenChange);
@@ -115,7 +138,13 @@ const ImageClient: React.FC<Props> = ({ image, collectionSlug, nextImageSlug, pr
                             size="xl" 
                         />
                     </button>
-                    <Link href={`/gallery/${collectionSlug}`}>
+                    <Link 
+                        href={`/gallery/${collectionSlug}`}
+                        onClick={() => {
+                            // Clear fullscreen state when closing
+                            sessionStorage.removeItem('imageFullscreen');
+                        }}
+                    >
                         <FontAwesomeIcon className="text-lightSecondary hover:text-lightPrimary" icon={['fas', 'times']} size="2x" />
                     </Link>
                 </div>
