@@ -2,8 +2,8 @@ import React from 'react';
 import Link from 'next/link';
 import Image from "next/image";
 import PhotoAlbum from "react-photo-album";
-import { getPlaiceholder } from "plaiceholder";
 import contentful from 'utils/contentful';
+import { generateTinyPlaceholder, generateHighQualityPlaceholder } from 'utils/generate-placeholder';
 
 import ClientLayout from 'components/ClientLayout';
 import NavLink from 'components/NavLink';
@@ -23,19 +23,21 @@ async function getData(photoCollectionSlug: string) {
     const collections = photoCollectionOrderContentful.fields.photoCollections.map(item => ({name: item.fields.name, slug: item.fields.slug}));
     const collection = photoCollectionOrderContentful.fields.photoCollections.find(photoCollection => photoCollection.fields.slug === photoCollectionSlug).fields;
     
+    // Use high-quality placeholder for hero image (it's the main image users see first)
     let heroImage = collection.heroImage.fields;
     heroImage.file = {
         ...heroImage.file,
-        base64: (await getPlaiceholder(`https:${heroImage.file.url}`)).base64
+        base64: await generateHighQualityPlaceholder(`https:${heroImage.file.url}`)
     };
 
     let landscapeImagesContentful = collection.images.map(image => image.fields);
     let landscapeImages: any[] = [];
     
+    // Use tiny placeholders for gallery images (much faster to generate)
     for(let i=0; i<landscapeImagesContentful.length; i++) {
         landscapeImagesContentful[i].fullResImage.fields.file = {
             ...landscapeImagesContentful[i].fullResImage.fields.file,
-            base64: (await getPlaiceholder(`https:${landscapeImagesContentful[i].fullResImage.fields.file.url}`)).base64
+            base64: await generateTinyPlaceholder(`https:${landscapeImagesContentful[i].fullResImage.fields.file.url}`)
         };
         landscapeImages.push(landscapeImagesContentful[i]);
     }
