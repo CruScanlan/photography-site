@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { sgMail } from 'utils/get-sendgrid';
 
+// TODO: Update SENDGRID_API_KEY in .env.local with new SendGrid account API key
+// TODO: Verify sender email 'noreply@cruscanlan.com' in SendGrid → Settings → Sender Authentication
 export async function POST(request: NextRequest) {
   try {
     const { name, email, subject, message, recaptchaValue } = await request.json();

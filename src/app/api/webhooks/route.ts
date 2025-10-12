@@ -45,20 +45,25 @@ export async function POST(request: NextRequest) {
 }
 
 const sendPaymentSuccessEmail = async (charge: Stripe.Charge) => {
+  // TODO (STORE): When store is re-enabled, verify sender email 'noreply@cruscanlan.com' in new SendGrid account
+  // TODO (STORE): Create new dynamic template in SendGrid with {{first_name}} variable
+  // TODO (STORE): Update templateId below with new template ID from SendGrid dashboard
   await sgMail.send({
     to: charge.billing_details.email!,
     from: 'Cru Scanlan Photography<noreply@cruscanlan.com>',
-    templateId: 'd-0c8a7336edf34dd88fa2b8e06c4859d3',
+    templateId: 'd-0c8a7336edf34dd88fa2b8e06c4859d3', // TODO (STORE): Replace with new template ID
     dynamicTemplateData: {
       first_name: charge.billing_details.name!.split(' ')[0]
     },
   });
   
+  // TODO (STORE): When store is re-enabled, create new "Customers" contact list in SendGrid Marketing
+  // TODO (STORE): Update list_ids below with new list ID from SendGrid dashboard
   await sgClient.request({
     url: `/v3/marketing/contacts`,
     method: 'PUT',
     body: {
-      list_ids: ['d09a8fdb-ce74-419c-a933-ec53bc1bc02c'], //Customers
+      list_ids: ['d09a8fdb-ce74-419c-a933-ec53bc1bc02c'], // TODO (STORE): Replace with new list ID
       "contacts": [
         {
           "email": charge.billing_details.email,
@@ -68,7 +73,7 @@ const sendPaymentSuccessEmail = async (charge: Stripe.Charge) => {
           "postal_code": charge.billing_details.address?.postal_code,
           "country": charge.billing_details.address?.country,
           "first_name": charge.billing_details.name!.split(' ')[0],
-          "last_nam": charge.billing_details.name!.split(' ')[1]
+          "last_name": charge.billing_details.name!.split(' ')[1] // TODO (STORE): Fixed typo from "last_nam"
         }
       ]
     }
