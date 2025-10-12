@@ -49,7 +49,6 @@ library.add(
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   return (
-    // @ts-ignore - React types mismatch between react-redux and Next.js
     <ReduxProvider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <CartProvider

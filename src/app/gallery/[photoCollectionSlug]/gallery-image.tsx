@@ -14,7 +14,7 @@ type IRenderGalleryImageProps = {
         base64: string;
     };
     imageProps: {
-        src: string;
+        src: string | Blob;
         alt: string;
         title?: string;
         style: React.CSSProperties;
@@ -22,10 +22,13 @@ type IRenderGalleryImageProps = {
     wrapperProps?: React.HTMLAttributes<HTMLDivElement>;
 };
 
-const GalleryImage: React.FC<IRenderGalleryImageProps> = ({ photo, imageProps, wrapperProps }) => {
+const GalleryImage = ({ photo, imageProps, wrapperProps }: IRenderGalleryImageProps): React.ReactElement => {
     const { width, height, imageSlug, collectionSlug, base64 } = photo;
     const { src, alt, title, style } = imageProps;
     const { style: wrapperStyle, ...restWrapperProps } = wrapperProps ?? {};
+
+    // Ensure src is a string for Next.js Image component
+    const imageSrc = typeof src === 'string' ? src : photo.src;
 
     return (
         <div 
@@ -46,7 +49,7 @@ const GalleryImage: React.FC<IRenderGalleryImageProps> = ({ photo, imageProps, w
             </Link>
             <Image 
                 quality={92}
-                src={src} 
+                src={imageSrc} 
                 width={width} 
                 height={height} 
                 sizes="(max-width: 320px) 320px, (max-width: 640px) 640px, (max-width: 750px) 750px, (max-width: 828px) 828px, (max-width: 1080px) 1080px, (max-width: 1200px) 1200px, (max-width: 1920px) 1920px, (max-width: 2048px) 2048px, 3840px"
