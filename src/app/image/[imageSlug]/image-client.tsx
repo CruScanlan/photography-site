@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from "next/image";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -29,6 +29,33 @@ const ImageClient: React.FC<Props> = ({ image, collectionSlug, nextImageSlug, pr
     const { width: windowWidth, height: windowHeight } = useWindowSize();
     const imageInfoSizeRef = useRef(null);
     const imageInfoSize = useComponentSize(imageInfoSizeRef);
+    const containerRef = useRef<HTMLDivElement>(null);
+    
+    const [isFullscreen, setIsFullscreen] = useState(false);
+
+    // Handle fullscreen state changes
+    useEffect(() => {
+        const handleFullscreenChange = () => {
+            setIsFullscreen(!!document.fullscreenElement);
+        };
+
+        document.addEventListener('fullscreenchange', handleFullscreenChange);
+        return () => {
+            document.removeEventListener('fullscreenchange', handleFullscreenChange);
+        };
+    }, []);
+
+    const toggleFullscreen = async () => {
+        try {
+            if (!isFullscreen) {
+                await containerRef.current?.requestFullscreen();
+            } else {
+                await document.exitFullscreen();
+            }
+        } catch (error) {
+            console.error('Error toggling fullscreen:', error);
+        }
+    };
 
     if(!windowWidth || !windowHeight) return <div>Loading...</div>
 
@@ -65,22 +92,34 @@ const ImageClient: React.FC<Props> = ({ image, collectionSlug, nextImageSlug, pr
             ogImage={image.fullResImage.fields.file.url}
             ogUrl={`https://cruscanlan.com/image/${image.slug}`}
         >
-            <div className="absolute h-screen p-1 md:p-4 2xl:p-8 flex items-center">
-                <Link href={`/image/${previousImageSlug}?collection=${collectionSlug}`}>
-                    <FontAwesomeIcon className="text-lightSecondary hover:text-lightPrimary" icon={['fas', 'chevron-left']} size="2x" />
-                </Link>
-            </div>
-            <div className="absolute h-screen p-1 md:p-4 2xl:p-8 flex items-center right-0">
-                <Link href={`/image/${nextImageSlug}?collection=${collectionSlug}`}>
-                    <FontAwesomeIcon className="text-lightSecondary hover:text-lightPrimary" icon={['fas', 'chevron-right']} size="2x" />
-                </Link>
-            </div>
-            <div className="absolute w-screen p-1 md:p-4 2xl:p-8 flex justify-end">
-                <Link href={`/gallery/${collectionSlug}`}>
-                    <FontAwesomeIcon className="text-lightSecondary hover:text-lightPrimary" icon={['fas', 'times']} size="2x" />
-                </Link>
-            </div>
-            <div className="w-screen h-screen flex flex-col justify-center items-center">
+            <div ref={containerRef} className="w-screen h-screen bg-darkPrimary">
+                <div className="absolute h-screen p-1 md:p-4 2xl:p-8 flex items-center z-10">
+                    <Link href={`/image/${previousImageSlug}?collection=${collectionSlug}`}>
+                        <FontAwesomeIcon className="text-lightSecondary hover:text-lightPrimary" icon={['fas', 'chevron-left']} size="2x" />
+                    </Link>
+                </div>
+                <div className="absolute h-screen p-1 md:p-4 2xl:p-8 flex items-center right-0 z-10">
+                    <Link href={`/image/${nextImageSlug}?collection=${collectionSlug}`}>
+                        <FontAwesomeIcon className="text-lightSecondary hover:text-lightPrimary" icon={['fas', 'chevron-right']} size="2x" />
+                    </Link>
+                </div>
+                <div className="absolute w-screen p-1 md:p-4 2xl:p-8 flex justify-end gap-4 z-10">
+                    <button 
+                        onClick={toggleFullscreen}
+                        className="hover:cursor-pointer focus:outline-none"
+                        aria-label={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"}
+                    >
+                        <FontAwesomeIcon 
+                            className="text-lightSecondary hover:text-lightPrimary transition-colors" 
+                            icon={['fas', isFullscreen ? 'compress' : 'expand']} 
+                            size="xl" 
+                        />
+                    </button>
+                    <Link href={`/gallery/${collectionSlug}`}>
+                        <FontAwesomeIcon className="text-lightSecondary hover:text-lightPrimary" icon={['fas', 'times']} size="2x" />
+                    </Link>
+                </div>
+                <div className="w-screen h-screen flex flex-col justify-center items-center">
                 <div style={{width, height}} className="block">
                     {
                         image && <Image
@@ -145,6 +184,7 @@ const ImageClient: React.FC<Props> = ({ image, collectionSlug, nextImageSlug, pr
                         <span className="text-sm text-lightSecondary">{location}</span>
                     </div>
                     {/* <Button size="md" classes="mt-2 md:m-0 md:ml-2" href={`/store/print/${imageSlug}`} clickable>BUY PRINT</Button> */}
+                </div>
                 </div>
             </div>
         </ClientLayout>)
