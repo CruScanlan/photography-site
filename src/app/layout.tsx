@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Script from 'next/script';
 import { GA_TRACKING_ID } from 'utils/analytics';
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/react";
 
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import 'styles/global.css';
@@ -46,6 +47,7 @@ export default function RootLayout({
               </Script>
             </>
           )}
+          <Analytics />
           <SpeedInsights />
           {children}
         </Providers>

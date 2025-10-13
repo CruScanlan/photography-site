@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useRef, useState, useEffect } from 'react';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import Image from "next/image";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import useComponentSize from '@rehooks/component-size';
@@ -30,23 +30,36 @@ const ImageClient: React.FC<Props> = ({ image, collectionSlug, nextImageSlug, pr
     const imageInfoSizeRef = useRef(null);
     const imageInfoSize = useComponentSize(imageInfoSizeRef);
     const containerRef = useRef<HTMLDivElement>(null);
+    const router = useRouter();
+    const isNavigatingRef = useRef(false);
     
     const [isFullscreen, setIsFullscreen] = useState(false);
+    const [isTransitioning, setIsTransitioning] = useState(false);
 
-    // Restore fullscreen on page load if it was active
+    // Restore fullscreen when navigating between images if it was active
     useEffect(() => {
         const wasFullscreen = sessionStorage.getItem('imageFullscreen') === 'true';
         
-        if (wasFullscreen && containerRef.current) {
-            // Small delay to ensure the page is fully loaded
+        if (wasFullscreen && !document.fullscreenElement) {
+            if (!containerRef.current) {
+                // Don't reset navigation flag yet - wait for ref to be ready
+                return;
+            }
+            
+            // Small delay to ensure the new image container is ready
             setTimeout(() => {
                 containerRef.current?.requestFullscreen().catch(err => {
-                    console.error('Error entering fullscreen on load:', err);
+                    console.error('Error entering fullscreen on navigation:', err);
                     sessionStorage.removeItem('imageFullscreen');
+                }).finally(() => {
+                    isNavigatingRef.current = false;
                 });
-            }, 100);
+            }, 50);
+        } else {
+            // Not in navigation mode or already in fullscreen
+            isNavigatingRef.current = false;
         }
-    }, []);
+    }, [image.slug, containerRef.current]);
 
     // Handle fullscreen state changes
     useEffect(() => {
@@ -55,9 +68,10 @@ const ImageClient: React.FC<Props> = ({ image, collectionSlug, nextImageSlug, pr
             setIsFullscreen(isNowFullscreen);
             
             // Store fullscreen state for persistence across navigation
+            // Don't clear the flag if we're navigating (it will be restored on the next page)
             if (isNowFullscreen) {
                 sessionStorage.setItem('imageFullscreen', 'true');
-            } else {
+            } else if (!isNavigatingRef.current) {
                 sessionStorage.removeItem('imageFullscreen');
             }
         };
@@ -79,6 +93,71 @@ const ImageClient: React.FC<Props> = ({ image, collectionSlug, nextImageSlug, pr
             console.error('Error toggling fullscreen:', error);
         }
     };
+
+    // Navigation handlers with fade transition
+    const navigateToNext = () => {
+        setIsTransitioning(true);
+        isNavigatingRef.current = true;
+        
+        // Wait for fade-out animation before navigating
+        setTimeout(() => {
+            router.push(`/image/${nextImageSlug}?collection=${collectionSlug}`);
+        }, 75);
+    };
+
+    const navigateToPrevious = () => {
+        setIsTransitioning(true);
+        isNavigatingRef.current = true;
+        
+        // Wait for fade-out animation before navigating
+        setTimeout(() => {
+            router.push(`/image/${previousImageSlug}?collection=${collectionSlug}`);
+        }, 75);
+    };
+
+    const closeAndReturnToGallery = async () => {
+        // Clear fullscreen state
+        sessionStorage.removeItem('imageFullscreen');
+        
+        // Exit fullscreen if active
+        if (document.fullscreenElement) {
+            try {
+                await document.exitFullscreen();
+            } catch (error) {
+                console.error('Error exiting fullscreen:', error);
+            }
+        }
+        
+        // Navigate back to gallery
+        router.push(`/gallery/${collectionSlug}`);
+    };
+
+    // Prefetch adjacent routes for instant navigation
+    useEffect(() => {
+        router.prefetch(`/image/${nextImageSlug}?collection=${collectionSlug}`);
+        router.prefetch(`/image/${previousImageSlug}?collection=${collectionSlug}`);
+    }, [nextImageSlug, previousImageSlug, collectionSlug, router]);
+
+    // Reset transition state when image changes (fade in)
+    useEffect(() => {
+        setIsTransitioning(false);
+    }, [image.slug]);
+
+    // Keyboard navigation
+    useEffect(() => {
+        const handleKeyPress = (e: KeyboardEvent) => {
+            if (e.key === 'ArrowRight') {
+                navigateToNext();
+            } else if (e.key === 'ArrowLeft') {
+                navigateToPrevious();
+            } else if (e.key === 'Escape' && !isFullscreen) {
+                closeAndReturnToGallery();
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyPress);
+        return () => window.removeEventListener('keydown', handleKeyPress);
+    }, [nextImageSlug, previousImageSlug, collectionSlug, isFullscreen, router, navigateToNext, navigateToPrevious, closeAndReturnToGallery]);
 
     if(!windowWidth || !windowHeight) return <div>Loading...</div>
 
@@ -117,14 +196,22 @@ const ImageClient: React.FC<Props> = ({ image, collectionSlug, nextImageSlug, pr
         >
             <div ref={containerRef} className="w-screen h-screen bg-darkPrimary">
                 <div className="absolute h-screen p-1 md:p-4 2xl:p-8 flex items-center z-10">
-                    <Link href={`/image/${previousImageSlug}?collection=${collectionSlug}`}>
-                        <FontAwesomeIcon className="text-lightSecondary hover:text-lightPrimary" icon={['fas', 'chevron-left']} size="2x" />
-                    </Link>
+                    <button 
+                        onClick={navigateToPrevious}
+                        className="hover:cursor-pointer focus:outline-none"
+                        aria-label="Previous image"
+                    >
+                        <FontAwesomeIcon className="text-lightSecondary hover:text-lightPrimary transition-colors" icon={['fas', 'chevron-left']} size="2x" />
+                    </button>
                 </div>
                 <div className="absolute h-screen p-1 md:p-4 2xl:p-8 flex items-center right-0 z-10">
-                    <Link href={`/image/${nextImageSlug}?collection=${collectionSlug}`}>
-                        <FontAwesomeIcon className="text-lightSecondary hover:text-lightPrimary" icon={['fas', 'chevron-right']} size="2x" />
-                    </Link>
+                    <button 
+                        onClick={navigateToNext}
+                        className="hover:cursor-pointer focus:outline-none"
+                        aria-label="Next image"
+                    >
+                        <FontAwesomeIcon className="text-lightSecondary hover:text-lightPrimary transition-colors" icon={['fas', 'chevron-right']} size="2x" />
+                    </button>
                 </div>
                 <div className="absolute w-screen p-1 md:p-4 2xl:p-8 flex justify-end gap-4 z-10">
                     <button 
@@ -138,17 +225,15 @@ const ImageClient: React.FC<Props> = ({ image, collectionSlug, nextImageSlug, pr
                             size="xl" 
                         />
                     </button>
-                    <Link 
-                        href={`/gallery/${collectionSlug}`}
-                        onClick={() => {
-                            // Clear fullscreen state when closing
-                            sessionStorage.removeItem('imageFullscreen');
-                        }}
+                    <button 
+                        onClick={closeAndReturnToGallery}
+                        className="hover:cursor-pointer focus:outline-none"
+                        aria-label="Close and return to gallery"
                     >
-                        <FontAwesomeIcon className="text-lightSecondary hover:text-lightPrimary" icon={['fas', 'times']} size="2x" />
-                    </Link>
+                        <FontAwesomeIcon className="text-lightSecondary hover:text-lightPrimary transition-colors" icon={['fas', 'times']} size="2x" />
+                    </button>
                 </div>
-                <div className="w-screen h-screen flex flex-col justify-center items-center">
+                <div className={`w-screen h-screen flex flex-col justify-center items-center transition-opacity duration-100 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}>
                 <div style={{width, height}} className="block">
                     {
                         image && <Image
