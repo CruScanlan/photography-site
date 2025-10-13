@@ -34,7 +34,6 @@ const ImageClient: React.FC<Props> = ({ image, collectionSlug, nextImageSlug, pr
     const isNavigatingRef = useRef(false);
     
     const [isFullscreen, setIsFullscreen] = useState(false);
-    const [isTransitioning, setIsTransitioning] = useState(false);
 
     // Restore fullscreen when navigating between images if it was active
     useEffect(() => {
@@ -94,25 +93,15 @@ const ImageClient: React.FC<Props> = ({ image, collectionSlug, nextImageSlug, pr
         }
     };
 
-    // Navigation handlers with fade transition
+    // Navigation handlers
     const navigateToNext = () => {
-        setIsTransitioning(true);
         isNavigatingRef.current = true;
-        
-        // Wait for fade-out animation before navigating
-        setTimeout(() => {
-            router.push(`/image/${nextImageSlug}?collection=${collectionSlug}`);
-        }, 75);
+        router.push(`/image/${nextImageSlug}?collection=${collectionSlug}`);
     };
 
     const navigateToPrevious = () => {
-        setIsTransitioning(true);
         isNavigatingRef.current = true;
-        
-        // Wait for fade-out animation before navigating
-        setTimeout(() => {
-            router.push(`/image/${previousImageSlug}?collection=${collectionSlug}`);
-        }, 75);
+        router.push(`/image/${previousImageSlug}?collection=${collectionSlug}`);
     };
 
     const closeAndReturnToGallery = async () => {
@@ -137,11 +126,6 @@ const ImageClient: React.FC<Props> = ({ image, collectionSlug, nextImageSlug, pr
         router.prefetch(`/image/${nextImageSlug}?collection=${collectionSlug}`);
         router.prefetch(`/image/${previousImageSlug}?collection=${collectionSlug}`);
     }, [nextImageSlug, previousImageSlug, collectionSlug, router]);
-
-    // Reset transition state when image changes (fade in)
-    useEffect(() => {
-        setIsTransitioning(false);
-    }, [image.slug]);
 
     // Keyboard navigation
     useEffect(() => {
@@ -233,7 +217,7 @@ const ImageClient: React.FC<Props> = ({ image, collectionSlug, nextImageSlug, pr
                         <FontAwesomeIcon className="text-lightSecondary hover:text-lightPrimary transition-colors" icon={['fas', 'times']} size="2x" />
                     </button>
                 </div>
-                <div className={`w-screen h-screen flex flex-col justify-center items-center transition-opacity duration-100 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}>
+                <div className="w-screen h-screen flex flex-col justify-center items-center">
                 <div style={{width, height}} className="block">
                     {
                         image && <Image
