@@ -33,6 +33,11 @@ yarn-error.log*
 # vercel
 .vercel
 
+# devenv
+.devenv*
+devenv.local.nix
+.direnv
+
 old/
 
 .env.development
@@ -41,3 +46,5 @@ old/
 
 public/productImages/
 stripe.exe
+
+.env

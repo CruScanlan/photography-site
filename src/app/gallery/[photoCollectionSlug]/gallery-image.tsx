@@ -18,13 +18,14 @@ type IRenderGalleryImageProps = {
         alt: string;
         title?: string;
         style: React.CSSProperties;
+        sizes?: string;
     } & React.HTMLAttributes<HTMLImageElement>;
     wrapperProps?: React.HTMLAttributes<HTMLDivElement>;
 };
 
 const GalleryImage = ({ photo, imageProps, wrapperProps }: IRenderGalleryImageProps): React.ReactElement => {
     const { width, height, imageSlug, collectionSlug, base64 } = photo;
-    const { src, alt, title, style } = imageProps;
+    const { src, alt, title, style, sizes } = imageProps;
     const { style: wrapperStyle, ...restWrapperProps } = wrapperProps ?? {};
 
     // Ensure src is a string for Next.js Image component
@@ -48,11 +49,11 @@ const GalleryImage = ({ photo, imageProps, wrapperProps }: IRenderGalleryImagePr
                 </div>
             </Link>
             <Image 
-                quality={92}
-                src={imageSrc} 
+                quality={90}
+                src={imageSrc}
                 width={width} 
                 height={height} 
-                sizes="(max-width: 320px) 320px, (max-width: 640px) 640px, (max-width: 750px) 750px, (max-width: 828px) 828px, (max-width: 1080px) 1080px, (max-width: 1200px) 1200px, (max-width: 1920px) 1920px, (max-width: 2048px) 2048px, 3840px"
+                sizes={sizes ?? '100vw'}
                 alt={alt}
                 placeholder="blur"
                 blurDataURL={base64}
