@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useRef, useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Image from "next/image";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import useComponentSize from '@rehooks/component-size';
@@ -11,16 +11,30 @@ import ClientLayout from 'components/ClientLayout';
 
 type IImageDimensions = {width: number; height: number};
 
-interface Props {
-    image: any;
-    collectionSlug: string;
+interface NavEntry {
     nextImageSlug: string;
     previousImageSlug: string;
     nextImage: any;
     previousImage: any;
 }
 
-const ImageClient: React.FC<Props> = ({ image, collectionSlug, nextImageSlug, previousImageSlug, nextImage, previousImage }) => {
+interface Props {
+    image: any;
+    base64: string;
+    navByCollection: Record<string, NavEntry>;
+    defaultCollectionSlug: string;
+}
+
+const ImageClient: React.FC<Props> = ({ image, base64, navByCollection, defaultCollectionSlug }) => {
+
+    // Resolve the active collection from ?collection= on the client. The static
+    // page is keyed by image slug only; this fills in the collection-specific
+    // next/previous navigation without any request-time data fetching.
+    const searchParams = useSearchParams();
+    const collectionParam = searchParams.get('collection');
+    const collectionSlug = collectionParam && navByCollection[collectionParam] ? collectionParam : defaultCollectionSlug;
+    const nav = navByCollection[collectionSlug] ?? navByCollection[defaultCollectionSlug] ?? Object.values(navByCollection)[0];
+    const { nextImageSlug, previousImageSlug, nextImage, previousImage } = nav;
 
     const imageDimensionsPrimary: IImageDimensions = image.fullResImage.fields.file.details.image;
     const imageDimensionsNext: IImageDimensions = nextImage.fullResImage.fields.file.details.image;
@@ -227,10 +241,10 @@ const ImageClient: React.FC<Props> = ({ image, collectionSlug, nextImageSlug, pr
                             src={`https:${imageFile.url}`} 
                             width={imageFile.details.image.width} 
                             height={imageFile.details.image.height} 
-                            sizes="(max-width: 320px) 320px, (max-width: 640px) 640px, (max-width: 750px) 750px, (max-width: 828px) 828px, (max-width: 1080px) 1080px, (max-width: 1200px) 1200px, (max-width: 1920px) 1920px, (max-width: 2048px) 2048px, 3840px"
+                            sizes="(max-width: 1024px) 87vw, 92vw"
                             alt={`${image.title} | ${location} | Cru Scanlan Photography`}
-                            //placeholder="blur"
-                            //blurDataURL={imageFile.base64}
+                            placeholder="blur"
+                            blurDataURL={base64}
                             style={{
                                 objectFit: 'contain'
                             }}
@@ -248,7 +262,7 @@ const ImageClient: React.FC<Props> = ({ image, collectionSlug, nextImageSlug, pr
                             src={`https:${nextImageFile.url}`} 
                             width={nextImageFile.details.image.width} 
                             height={nextImageFile.details.image.height}
-                            sizes="(max-width: 320px) 320px, (max-width: 640px) 640px, (max-width: 750px) 750px, (max-width: 828px) 828px, (max-width: 1080px) 1080px, (max-width: 1200px) 1200px, (max-width: 1920px) 1920px, (max-width: 2048px) 2048px, 3840px"
+                            sizes="(max-width: 1024px) 87vw, 92vw"
                             alt=""
                             style={{
                                 width: '100%',
@@ -266,7 +280,7 @@ const ImageClient: React.FC<Props> = ({ image, collectionSlug, nextImageSlug, pr
                             src={`https:${previousImageFile.url}`} 
                             width={previousImageFile.details.image.width} 
                             height={previousImageFile.details.image.height}
-                            sizes="(max-width: 320px) 320px, (max-width: 640px) 640px, (max-width: 750px) 750px, (max-width: 828px) 828px, (max-width: 1080px) 1080px, (max-width: 1200px) 1200px, (max-width: 1920px) 1920px, (max-width: 2048px) 2048px, 3840px"
+                            sizes="(max-width: 1024px) 87vw, 92vw"
                             alt=""
                             style={{
                                 width: '100%',
