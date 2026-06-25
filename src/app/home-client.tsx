@@ -54,7 +54,7 @@ const HomeClient: React.FC<Props> = ({ homePageHero }) => {
                 <Image
                     src={homePageHero.img.src}
                     fill
-                    quality={98}
+                    quality={95}
                     loading="eager"
                     priority
                     placeholder="blur"

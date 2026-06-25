@@ -42,7 +42,7 @@ const Store = (props) => {
                     className="w-full h-[45vh] !fixed z-[0] overflow-hidden"
                     alt="Image" 
                     loading="eager"
-                    quality={98}
+                    quality={95}
                     priority
                     placeholder='blur'
                     blurDataURL={props.banner.base64}
@@ -116,6 +116,7 @@ const Store = (props) => {
                                                     width={landscapeImage.productImage.width}
                                                     height={landscapeImage.productImage.height}
                                                     quality={90}
+                                                    sizes="(min-width: 1536px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                                                     style={{
                                                         width: '100%',
                                                         height: 'auto'
